@@ -1,4 +1,4 @@
-# AI-CogWalk (MVP 1.0)
+# AI-CogWalk (MVP 1.1)
 
 Percurso cognitivo (Q1–Q4) apoiado por LLM para antecipar dificuldades de usuários iniciantes em interfaces web.
 Protótipo de pesquisa (PPGTI/IFPB). Os alertas são suspeitas, não problemas confirmados.
@@ -15,6 +15,22 @@ Protótipo de pesquisa (PPGTI/IFPB). Os alertas são suspeitas, não problemas c
 - Revisão humana por alerta (procedente, improcedente, inconclusivo), com o tempo gasto.
 - Relatórios em HTML (telas embutidas), Markdown, JSON e ZIP com tudo.
 
+## Modo NAV (AI-CogWalk-NAV)
+Prevê a distribuição do **primeiro clique** de iniciantes, P(a | tela, tarefa), e a compara com escolhas humanas.
+O preditor recebe só a tarefa, a tela e as opções visíveis: nunca a rota correta, o alvo ou dados humanos.
+- **Métodos:** UNIFORM (referência); B0 (similaridade MiniLM tarefa × rótulo, softmax com τ ajustado no DEV, sem LLM);
+  B1 (LLM, distribuição direta); B1-CW (B1 + Q1–Q3 do percurso cognitivo; Q4 não se aplica ao primeiro clique);
+  B1-S e B1-CW-S (N participantes simulados, chamadas independentes).
+- **Dados:** importador do dataset de Kuric et al. (2025, CC BY-NC 4.0), com 60 estados (6 variantes × 10 tarefas).
+  As tarefas pares formam o DEV e as ímpares o TEST. As telas dos protótipos são renderizadas com relógio simulado, para saírem idênticas a cada importação.
+  Também há captura independente da página inicial de uma tarefa do modo CW (estado de piloto, sem dados humanos).
+- **Métricas:** JSD (principal), cobertura, top-1, opções omitidas, entropias, log-loss e Brier, com IC por bootstrap de tarefas.
+- **Previsões congeladas:** cada rodada guarda prompts, respostas, tokens, custo estimado e um hash SHA-256 das
+  entradas e distribuições. O painel fica em `/nav`, com exportação JSON e CSV.
+- **Conferência independente em Python:** `analysis/verify_b0_metrics.py` (B0 e métricas) e
+  `analysis/nav_kuric_analysis.py` (diferença pareada e referência entre variantes).
+  As exportações das rodadas de 13/11/2026 estão em `analysis/resultados-2026-11-13/`.
+
 ## Rodar localmente
 ```bash
 cp .env.example .env            # opcional: ANTHROPIC_API_KEY e AICOGWALK_EVALUATOR=claude
@@ -30,11 +46,12 @@ Testes: `cd backend && ./gradlew test`. O teste de ponta a ponta usa H2 e o port
 3. Crie o serviço **backend** a partir do repositório, com Root Directory `backend` (usa `backend/Dockerfile` e `railway.json`).
    - Variáveis: `PORT=8080`, `PGHOST=${{Postgres.PGHOST}}`, `PGPORT=${{Postgres.PGPORT}}`, `PGDATABASE=${{Postgres.PGDATABASE}}`,
      `PGUSER=${{Postgres.PGUSER}}`, `PGPASSWORD=${{Postgres.PGPASSWORD}}`.
-   - Opcionais: `ANTHROPIC_API_KEY` e `AICOGWALK_EVALUATOR=claude`.
+   - Opcionais: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` (modo NAV com GPT) e `AICOGWALK_EVALUATOR=claude`.
    - Anexe um **Volume** montado em `/data`, onde ficam as capturas e o cache. Sem ele, as capturas somem a cada deploy.
 4. Crie o serviço **frontend** com Root Directory `frontend`.
    - Variável: `BACKEND_URL=http://${{backend.RAILWAY_PRIVATE_DOMAIN}}:${{backend.PORT}}`.
    - Gere um domínio público só para o frontend. O backend fica privado.
+   - Defina `AICOGWALK_PANEL_PASSWORD` para exigir senha no painel (HTTP Basic, qualquer usuário) antes de cadastrar chaves pagas.
 
 ## Variáveis principais
 | Variável | Padrão | Uso |
@@ -45,6 +62,13 @@ Testes: `cd backend && ./gradlew test`. O teste de ponta a ponta usa H2 e o port
 | `AICOGWALK_STEP_DELAY_MS` | `2500` | intervalo entre ações no site |
 | `AICOGWALK_STORAGE_DIR` | `./data` (`/data` no Docker) | capturas e cache |
 | `AICOGWALK_SEED` | `true` | cadastra o portal fictício e o caso do IFPB num banco vazio |
+| `AICOGWALK_PANEL_PASSWORD` (frontend) | vazio | senha do painel; vazio = aberto (uso local) |
+| `OPENAI_API_KEY` | vazio | modelos `gpt-*` no modo NAV |
+| `AICOGWALK_NAV_SAMPLES` | `30` | participantes simulados por estado (B1-S) |
+| `AICOGWALK_NAV_EFFORT` | `medium` | esforço das chamadas do modo NAV |
+| `AICOGWALK_NAV_MAX_CALLS` | `2500` | teto de chamadas pagas por rodada |
+| `AICOGWALK_NAV_PARALLEL` | `6` | chamadas simultâneas |
+| `AICOGWALK_KURIC_DIR` | vazio | cópia local do dataset Kuric; vazio = baixa a revisão fixada do GitHub |
 
 ## Limites éticos
 Navegue apenas em páginas públicas, com autorização, sem cadastro, sem envio de formulários e sem alterar dados.

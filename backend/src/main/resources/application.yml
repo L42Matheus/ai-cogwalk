@@ -57,3 +57,15 @@ aicogwalk:
   few-shot:
     bank: ${AICOGWALK_FEWSHOT_BANK:classpath:prompt-examples/exemplos.json}
     k: 3
+  nav:
+    kuric-revision: ${AICOGWALK_KURIC_REVISION:6cc9130493d6aae7a4430bdece44b3d9ddacc47c}
+    kuric-archive-url: ${AICOGWALK_KURIC_URL:https://github.com/treetest-research/information-architecture-validation/archive/6cc9130493d6aae7a4430bdece44b3d9ddacc47c.zip}
+    kuric-local-dir: ${AICOGWALK_KURIC_DIR:}
+    embeddings-url: ${AICOGWALK_EMBEDDINGS_URL:https://chroma-onnx-models.s3.amazonaws.com/all-MiniLM-L6-v2/onnx.tar.gz}
+    embeddings-sha256: ${AICOGWALK_EMBEDDINGS_SHA256:913d7300ceae3b2dbc2c50d1de4baacab4be7b9380491c27fab7418616a16ec3}
+    samples: ${AICOGWALK_NAV_SAMPLES:30}
+    coverage-tau: 0.05
+    effort: ${AICOGWALK_NAV_EFFORT:medium}
+    max-tokens: 8000
+    parallel: ${AICOGWALK_NAV_PARALLEL:6}
+    max-calls: ${AICOGWALK_NAV_MAX_CALLS:2500}

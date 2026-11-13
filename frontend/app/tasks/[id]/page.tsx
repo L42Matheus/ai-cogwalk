@@ -18,6 +18,7 @@ export default function TaskPage() {
   const [strategy, setStrategy] = useState<Strategy>("ZERO_SHOT");
   const [evaluator, setEvaluator] = useState("");
   const [busy, setBusy] = useState(false);
+  const [capturing, setCapturing] = useState(false);
 
   const load = () => Promise.all([api<Task>(`/api/tasks/${id}`), api<RunSummary[]>(`/api/tasks/${id}/runs`), api<Status>("/api/status")])
     .then(([t, r, s]) => { setTask(t); setRuns(r); setStatus(s); setEvaluator((e) => e || (s.claudeConfigured ? "claude" : "offline")); })
@@ -35,6 +36,14 @@ export default function TaskPage() {
       const r = await api<RunSummary>(`/api/tasks/${id}/runs`, { method: "POST", json: { condition, promptStrategy: strategy, evaluator } });
       router.push(`/runs/${r.id}`);
     } catch (e) { setError((e as Error).message); setBusy(false); }
+  }
+
+  async function captureNav() {
+    setCapturing(true); setError(null);
+    try {
+      const r = await api<{ datasetId: number }>(`/api/nav/tasks/${id}/capture`, { method: "POST" });
+      router.push(`/nav/datasets/${r.datasetId}`);
+    } catch (e) { setError((e as Error).message); setCapturing(false); }
   }
 
   if (!task) return <ErrorBox error={error} />;
@@ -61,7 +70,17 @@ export default function TaskPage() {
         </div>
       )}
 
-      <h2>Nova execução</h2>
+      <h2>Modo NAV · previsão do primeiro clique</h2>
+      <div className="card">
+        <p className="small">
+          Captura só a página inicial da tarefa, sem seguir a rota cadastrada, e cria um estado no conjunto
+          “tarefa-{task.id}”. Lá você congela previsões (B0, B1…) antes de qualquer coleta com pessoas.
+          O preditor recebe o objetivo, a tela e as opções visíveis; nunca os passos acima.
+        </p>
+        <button className="ghost" onClick={captureNav} disabled={capturing}>{capturing ? "Capturando…" : "Capturar página inicial para o NAV"}</button>
+      </div>
+
+      <h2>Nova execução (modo CW)</h2>
       <div className="card">
         <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))" }}>
           <div><label>Condição</label>

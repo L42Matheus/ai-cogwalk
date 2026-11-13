@@ -13,7 +13,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="top">
           <div className="in">
-            <Link href="/" className="brand">AI-CogWalk<span>MVP 1.0 · percurso cognitivo com IA</span></Link>
+            <Link href="/" className="brand">AI-CogWalk<span>MVP · percurso cognitivo e previsão de navegação com IA</span></Link>
+            <nav className="nav-links" aria-label="Módulos">
+              <Link href="/">Modo CW</Link>
+              <Link href="/nav">Modo NAV</Link>
+            </nav>
           </div>
         </div>
         <main>{children}</main>
