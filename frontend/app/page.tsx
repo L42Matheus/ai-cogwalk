@@ -31,18 +31,12 @@ export default function Dashboard() {
 
   return (
     <>
-      <h1>Painel</h1>
+      <h1>Projetos e tarefas</h1>
+      <p className="muted">
+        Cadastre o portal e as tarefas de navegação. Em cada tarefa, use “Capturar página inicial para o NAV” para congelar
+        previsões do primeiro clique no <Link href="/nav">modo NAV</Link>.
+      </p>
       <ErrorBox error={error} />
-      {status && (
-        <div className="card row small">
-          <span>Avaliador padrão: <b>{status.defaultEvaluator}</b></span>
-          <span className={`chip ${status.claudeConfigured ? "ok" : "warn"}`}>
-            {status.claudeConfigured ? `Claude configurado (${status.model}, esforço ${status.effort})` : "ANTHROPIC_API_KEY ausente: só o avaliador offline"}
-          </span>
-          <span className="muted">Cache de respostas: {status.cacheMode}</span>
-          <span className="muted">Banco few-shot: {status.exampleBank.version}{status.exampleBank.illustrative ? " (ilustrativo)" : ""}</span>
-        </div>
-      )}
 
       <div className="row"><h2>Projetos</h2><span className="spacer" />
         <button className="ghost" onClick={() => setOpen(!open)}>{open ? "Cancelar" : "Novo projeto"}</button></div>
@@ -69,7 +63,19 @@ export default function Dashboard() {
         {projects.length === 0 && !error && <p className="muted">Nenhum projeto ainda.</p>}
       </div>
 
-      <h2>Execuções recentes</h2>
+      <details className="secondary" style={{ marginTop: 28 }}>
+        <summary><h2 style={{ display: "inline" }}>Avaliação por percurso cognitivo (versão anterior)</h2></summary>
+      {status && (
+        <div className="card row small">
+          <span>Avaliador padrão: <b>{status.defaultEvaluator}</b></span>
+          <span className={`chip ${status.claudeConfigured ? "ok" : "warn"}`}>
+            {status.claudeConfigured ? `Claude configurado (${status.model}, esforço ${status.effort})` : "ANTHROPIC_API_KEY ausente: só o avaliador offline"}
+          </span>
+          <span className="muted">Cache de respostas: {status.cacheMode}</span>
+          <span className="muted">Banco few-shot: {status.exampleBank.version}{status.exampleBank.illustrative ? " (ilustrativo)" : ""}</span>
+        </div>
+      )}
+      <h3>Execuções recentes</h3>
       <div className="card" style={{ overflowX: "auto" }}>
         <table>
           <thead><tr><th>#</th><th>Tarefa</th><th>Condição</th><th>Prompt</th><th>Avaliador</th><th>Status</th><th>Alertas</th><th>Criada</th></tr></thead>
@@ -90,6 +96,7 @@ export default function Dashboard() {
           </tbody>
         </table>
       </div>
+      </details>
     </>
   );
 }

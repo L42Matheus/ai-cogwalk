@@ -57,7 +57,7 @@ export default function NavHome() {
           </Link>
         ))}
         {datasets.length === 0 && !error && (
-          <p className="muted">Nenhum conjunto. Importe o dataset Kuric 2025 ou capture a página inicial de uma tarefa (modo CW → tarefa → “Capturar para o NAV”).</p>
+          <p className="muted">Nenhum conjunto. Importe o dataset Kuric 2025 ou capture a página inicial de uma tarefa (Tarefas → projeto → tarefa → “Capturar página inicial para o NAV”).</p>
         )}
       </div>
 

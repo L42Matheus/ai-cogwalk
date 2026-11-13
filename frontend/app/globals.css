@@ -67,3 +67,6 @@ pre{white-space:pre-wrap;word-break:break-word;background:var(--neutral-bg);padd
 .legend i.lg{border:none;height:8px;width:14px;border-radius:2px}
 .legend i.lg.human{background:var(--fg);opacity:.75}.legend i.lg.pred{background:var(--accent)}
 .box.pred{border:2px solid var(--cited);background:rgba(234,88,12,.35);border-radius:3px}
+details.secondary>summary{cursor:pointer;color:var(--muted,#6b7280);list-style:revert}
+details.secondary>summary h2{font-size:1.05rem}
+details.secondary[open]>summary{margin-bottom:8px}

@@ -33,7 +33,7 @@ export default function RunPage() {
 
   return (
     <>
-      <div className="small"><Link href="/">Painel</Link> › <Link href={`/projects/${s.projectId}`}>{s.projectName}</Link> › <Link href={`/tasks/${s.taskId}`}>{s.taskTitle}</Link> › execução #{s.id}</div>
+      <div className="small"><Link href="/">Tarefas</Link> › <Link href={`/projects/${s.projectId}`}>{s.projectName}</Link> › <Link href={`/tasks/${s.taskId}`}>{s.taskTitle}</Link> › execução #{s.id}</div>
       <div className="row"><h1>Execução #{s.id}</h1><StatusChip status={s.status} /></div>
       <ErrorBox error={error} />
       {s.error && <div className="error">Falha: {s.error}</div>}

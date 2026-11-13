@@ -27,7 +27,7 @@ export default function ProjectPage() {
   if (!project) return <ErrorBox error={error} />;
   return (
     <>
-      <div className="small"><Link href="/">Painel</Link> › {project.name}</div>
+      <div className="small"><Link href="/">Tarefas</Link> › {project.name}</div>
       <h1>{project.name}</h1>
       <ErrorBox error={error} />
       <div className="card kv">

@@ -49,7 +49,7 @@ export default function TaskPage() {
   if (!task) return <ErrorBox error={error} />;
   return (
     <>
-      <div className="small"><Link href="/">Painel</Link> › <Link href={`/projects/${task.projectId}`}>{task.projectName}</Link> › tarefa</div>
+      <div className="small"><Link href="/">Tarefas</Link> › <Link href={`/projects/${task.projectId}`}>{task.projectName}</Link> › tarefa</div>
       <h1>{task.title}</h1>
       <ErrorBox error={error} />
       {editing ? (
@@ -80,7 +80,13 @@ export default function TaskPage() {
         <button className="ghost" onClick={captureNav} disabled={capturing}>{capturing ? "Capturando…" : "Capturar página inicial para o NAV"}</button>
       </div>
 
-      <h2>Nova execução (modo CW)</h2>
+      <details className="secondary" style={{ marginTop: 28 }}>
+        <summary><h2 style={{ display: "inline" }}>Avaliação por percurso cognitivo (versão anterior)</h2></summary>
+        <p className="small muted">
+          Fluxo da primeira versão do protótipo: a IA percorre a rota cadastrada e aplica as perguntas do percurso cognitivo
+          a cada passo. Continua disponível para consulta, mas não faz parte do experimento atual, que é o modo NAV.
+        </p>
+      <h3>Nova execução</h3>
       <div className="card">
         <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))" }}>
           <div><label>Condição</label>
@@ -104,7 +110,7 @@ export default function TaskPage() {
         <button onClick={start} disabled={busy} style={{ marginTop: 10 }}>{busy ? "Iniciando…" : "Executar percurso"}</button>
       </div>
 
-      <h2>Execuções desta tarefa</h2>
+      <h3>Execuções desta tarefa</h3>
       <div className="card" style={{ overflowX: "auto" }}>
         <table>
           <thead><tr><th>#</th><th>Condição</th><th>Prompt</th><th>Avaliador</th><th>Status</th><th>Alertas</th><th>Tokens</th><th>Criada</th></tr></thead>
@@ -122,6 +128,7 @@ export default function TaskPage() {
           </tbody>
         </table>
       </div>
+      </details>
     </>
   );
 }
