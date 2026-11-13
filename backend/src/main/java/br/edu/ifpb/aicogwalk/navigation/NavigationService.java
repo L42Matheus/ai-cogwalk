@@ -197,7 +197,13 @@ public class NavigationService {
 
     private static String firstLine(String s) {
         if (s == null) return "erro desconhecido";
-        int i = s.indexOf('\n');
-        return i < 0 ? s : s.substring(0, i);
+        // Mensagens do Playwright vêm como "Error {\n  message='net::ERR_...'"; preferimos a linha útil.
+        for (String line : s.split("\n")) {
+            String t = line.trim();
+            if (t.startsWith("message='")) return t.substring(9).replaceAll("'$", "");
+        }
+        String t = s.trim();
+        int i = t.indexOf('\n');
+        return i < 0 ? t : t.substring(0, i);
     }
 }
