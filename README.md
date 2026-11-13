@@ -28,7 +28,7 @@ Testes: `cd backend && ./gradlew test`. O teste de ponta a ponta usa H2 e o port
 1. Suba este repositório no GitHub e crie um projeto no Railway.
 2. Adicione um banco **PostgreSQL**.
 3. Crie o serviço **backend** a partir do repositório, com Root Directory `backend` (usa `backend/Dockerfile` e `railway.json`).
-   - Variáveis: `PGHOST=${{Postgres.PGHOST}}`, `PGPORT=${{Postgres.PGPORT}}`, `PGDATABASE=${{Postgres.PGDATABASE}}`,
+   - Variáveis: `PORT=8080`, `PGHOST=${{Postgres.PGHOST}}`, `PGPORT=${{Postgres.PGPORT}}`, `PGDATABASE=${{Postgres.PGDATABASE}}`,
      `PGUSER=${{Postgres.PGUSER}}`, `PGPASSWORD=${{Postgres.PGPASSWORD}}`.
    - Opcionais: `ANTHROPIC_API_KEY` e `AICOGWALK_EVALUATOR=claude`.
    - Anexe um **Volume** montado em `/data`, onde ficam as capturas e o cache. Sem ele, as capturas somem a cada deploy.
