@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: aicogwalk
+      POSTGRES_USER: aicogwalk
+      POSTGRES_PASSWORD: aicogwalk
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aicogwalk"]
+      interval: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    depends_on:
+      postgres: { condition: service_healthy }
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: aicogwalk
+      PGUSER: aicogwalk
+      PGPASSWORD: aicogwalk
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      AICOGWALK_EVALUATOR: ${AICOGWALK_EVALUATOR:-offline}
+    volumes: [capturas:/data]
+    ports: ["8080:8080"]
+
+  frontend:
+    build: ./frontend
+    depends_on: [backend]
+    environment:
+      BACKEND_URL: http://backend:8080
+    ports: ["3000:3000"]
+
+volumes:
+  pgdata:
+  capturas:

@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:aicogwalk;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+aicogwalk:
+  storage-dir: build/test-data
+  seed: false
+  browser:
+    executable-path: ${AICOGWALK_CHROMIUM_PATH:/opt/pw-browsers/chromium-1243/chrome-linux64/chrome}
+    step-delay-ms: 50
+  llm:
+    provider: offline
+    cache-dir: build/test-data/llm-cache
+  demo-portal:
+    enabled: true
+    path: classpath:portal-exemplo/

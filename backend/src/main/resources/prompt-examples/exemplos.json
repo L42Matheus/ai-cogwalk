@@ -1,0 +1,58 @@
+{
+  "version": "exemplos-ilustrativos-0.1",
+  "note": "Casos ILUSTRATIVOS, escritos só para testar o pipeline de few-shot. NÃO são observações de participantes e não devem ser usados em resultados. Substituir por casos OBSERVADOS (sessões com iniciantes em outros sistemas, após aprovação do CEP) e trocar a versão.",
+  "examples": [
+    {
+      "id": "IL-01",
+      "sourceSystem": "Portal acadêmico fictício A",
+      "sourceHost": "academico-a.example",
+      "origin": "ILUSTRATIVO",
+      "taskGoal": "Emitir a declaração de matrícula",
+      "action": "clicar em \"Documentos institucionais\"",
+      "criterion": "Q3",
+      "problem": true,
+      "screenEvidence": "O menu tem \"Documentos institucionais\" e \"Meus documentos\"; o rótulo correto não menciona declaração nem matrícula.",
+      "observedBehavior": "Hipótese ilustrativa: o iniciante escolhe \"Meus documentos\", que parece pessoal, e não encontra a declaração.",
+      "lesson": "Quando o rótulo correto usa vocabulário da instituição e um concorrente usa vocabulário do usuário, a associação ação-objetivo (Q3) tende a falhar."
+    },
+    {
+      "id": "IL-02",
+      "sourceSystem": "Portal acadêmico fictício A",
+      "sourceHost": "academico-a.example",
+      "origin": "ILUSTRATIVO",
+      "taskGoal": "Consultar o calendário acadêmico",
+      "action": "clicar em \"Calendário acadêmico\"",
+      "criterion": "Q2",
+      "problem": false,
+      "screenEvidence": "O link \"Calendário acadêmico\" aparece no menu principal, visível sem rolar, com o mesmo termo do objetivo.",
+      "observedBehavior": "Hipótese ilustrativa: o iniciante clica direto no link.",
+      "lesson": "Um rótulo visível e igual ao termo da tarefa não justifica alerta. Responda SIM e não gere alerta."
+    },
+    {
+      "id": "IL-03",
+      "sourceSystem": "Prefeitura fictícia B",
+      "sourceHost": "servicos-b.example",
+      "origin": "ILUSTRATIVO",
+      "taskGoal": "Encontrar o edital de um concurso de 2025",
+      "action": "clicar em \"Arquivo 2025\"",
+      "criterion": "Q2",
+      "problem": true,
+      "screenEvidence": "A lista principal mostra só os 10 editais mais recentes; os links por ano ficam no rodapé, fora da área visível sem rolar.",
+      "observedBehavior": "Hipótese ilustrativa: o iniciante percorre a lista principal e conclui que o edital não existe.",
+      "lesson": "Quando a ação correta só aparece após rolar e a área visível sugere completude, a visibilidade da ação (Q2) tende a falhar."
+    },
+    {
+      "id": "IL-04",
+      "sourceSystem": "Prefeitura fictícia B",
+      "sourceHost": "servicos-b.example",
+      "origin": "ILUSTRATIVO",
+      "taskGoal": "Baixar o comprovante de inscrição",
+      "action": "clicar em \"Gerar\"",
+      "criterion": "Q4",
+      "problem": true,
+      "screenEvidence": "Após o clique, a página recarrega sem mensagem nem mudança de título; o arquivo é baixado em segundo plano.",
+      "observedBehavior": "Hipótese ilustrativa: o iniciante clica de novo várias vezes por não perceber o resultado.",
+      "lesson": "Sem mudança visível na tela resultante, o progresso percebido (Q4) tende a falhar."
+    }
+  ]
+}

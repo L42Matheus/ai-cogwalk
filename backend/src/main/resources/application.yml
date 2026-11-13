@@ -1,0 +1,59 @@
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
+  compression:
+    enabled: true
+
+spring:
+  application:
+    name: ai-cogwalk
+  datasource:
+    # Railway: defina DATABASE_URL como jdbc:postgresql://${{Postgres.PGHOST}}:${{Postgres.PGPORT}}/${{Postgres.PGDATABASE}}
+    # ou deixe as variáveis PG* do plugin Postgres serem referenciadas abaixo.
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:aicogwalk}}
+    username: ${PGUSER:aicogwalk}
+    password: ${PGPASSWORD:aicogwalk}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+aicogwalk:
+  storage-dir: ${AICOGWALK_STORAGE_DIR:./data}
+  seed: ${AICOGWALK_SEED:true}
+  browser:
+    executable-path: ${AICOGWALK_CHROMIUM_PATH:}
+    headless: true
+    viewport-width: 1366
+    viewport-height: 768
+    step-delay-ms: ${AICOGWALK_STEP_DELAY_MS:2500}
+    timeout-ms: 30000
+    max-steps: 15
+    max-elements: 120
+    user-agent: "AI-CogWalk/0.1 (pesquisa academica PPGTI-IFPB; navegacao somente leitura)"
+  llm:
+    provider: ${AICOGWALK_EVALUATOR:offline}
+    model: ${AICOGWALK_MODEL:claude-opus-5-5}
+    effort: ${AICOGWALK_EFFORT:high}
+    max-tokens: 16000
+    cache-dir: ${AICOGWALK_STORAGE_DIR:./data}/llm-cache
+    cache-mode: ${AICOGWALK_LLM_CACHE:read-write}
+  demo-portal:
+    enabled: ${AICOGWALK_DEMO_PORTAL:true}
+    path: ${AICOGWALK_DEMO_PORTAL_PATH:classpath:portal-exemplo/}
+  few-shot:
+    bank: ${AICOGWALK_FEWSHOT_BANK:classpath:prompt-examples/exemplos.json}
+    k: 3
