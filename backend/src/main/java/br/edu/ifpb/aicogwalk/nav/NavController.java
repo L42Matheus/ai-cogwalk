@@ -32,7 +32,7 @@ public class NavController {
         Map<String, Object> m = new LinkedHashMap<>();
         m.put("importStatus", service.importStatus());
         m.put("methods", Arrays.stream(NavMethod.values()).map(x -> Map.of("id", x.name(), "llm", x.llm,
-                "sampled", x.sampled, "cognitive", x.cognitive, "description", x.description)).toList());
+                "sampled", x.sampled, "cognitive", x.cognitive, "perOption", x.perOption, "description", x.description)).toList());
         m.put("anthropicConfigured", NavLlmClient.configured("claude"));
         m.put("openaiConfigured", NavLlmClient.configured("gpt-4.1"));
         m.put("promptVersion", NavPrompts.VERSION);
@@ -63,7 +63,7 @@ public class NavController {
     @PostMapping("/datasets/{id}/runs")
     @ResponseStatus(HttpStatus.CREATED)
     public Map<String, Object> start(@PathVariable Long id, @RequestBody StartRunRequest req) {
-        if (req.method() == null) throw new IllegalArgumentException("Informe o método (B0, B1, B1_CW, B1_S, B1_CW_S, UNIFORM).");
+        if (req.method() == null) throw new IllegalArgumentException("Informe o método (B0, B1, B1_CW, B1_R, B1_S, B1_CW_S, UNIFORM).");
         NavRun r = service.start(id, req.method(), req.model(), req.effort(), req.samples(), req.variants(), req.splits(), req.tau(), req.stateKeys());
         return Map.of("id", r.getId());
     }

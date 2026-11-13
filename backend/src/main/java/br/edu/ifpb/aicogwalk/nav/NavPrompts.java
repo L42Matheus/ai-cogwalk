@@ -33,6 +33,16 @@ public final class NavPrompts {
         Base the distribution on these answers.
         """;
 
+    /**
+     * Controle do B1-CW (B1-R): a mesma deliberação por opção, com tamanho de resposta parecido, mas sem
+     * mencionar o percurso cognitivo, iniciantes que aprendem explorando, objetivo, visibilidade ou associação.
+     */
+    public static final String SYSTEM_DIRECT_R = SYSTEM_DIRECT + """
+        Before estimating, write a brief analysis of every option: in one short sentence, what a visitor would
+        expect to find under it and how it relates to the task.
+        Base the distribution on this analysis.
+        """;
+
     public static final String SYSTEM_SAMPLE = """
         You are a participant in a usability study: %s.
         You will receive a task and the options visible on the screen. Choose the option you would click first,
@@ -49,6 +59,7 @@ public final class NavPrompts {
         return switch (m) {
             case B1 -> SYSTEM_DIRECT;
             case B1_CW -> SYSTEM_DIRECT_CW;
+            case B1_R -> SYSTEM_DIRECT_R;
             case B1_S -> SYSTEM_SAMPLE;
             case B1_CW_S -> SYSTEM_SAMPLE_CW;
             default -> throw new IllegalArgumentException("Método sem prompt de LLM: " + m);
@@ -94,6 +105,10 @@ public final class NavPrompts {
         Map<String, Object> distItem = obj(o("optionId", optionId, "probability", o("type", "number")));
         Map<String, Object> dist = o("type", "array", "items", distItem);
         if (m.cognitive) return obj(o("walkthrough", cw, "distribution", dist, "rationale", o("type", "string")));
+        if (m.perOption) {
+            Map<String, Object> noteItem = obj(o("optionId", optionId, "note", o("type", "string")));
+            return obj(o("analysis", o("type", "array", "items", noteItem), "distribution", dist, "rationale", o("type", "string")));
+        }
         return obj(o("distribution", dist, "rationale", o("type", "string")));
     }
 

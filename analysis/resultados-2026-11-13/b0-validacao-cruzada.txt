@@ -1,0 +1,9 @@
+tau0 da rodada = 0.060912; tau ajustado em DEV = 0.060912; tau ajustado em TEST = 0.045125
+10 tarefas, B0 (validação cruzada): JSD = 0.288 [0.239; 0.345]
+10 tarefas, UNIFORM: JSD = 0.375 [0.330; 0.420]
+10 tarefas, B0 - UNIFORM: -0.087 [-0.145; -0.017]
+tarefas em que o B0 ficou abaixo do UNIFORM: 8 de 10
+teste exato de sinais (bilateral), 10 tarefas: p = 0.0410
+teste exato de sinais (bilateral), só as 5 do TEST: p = 0.2500 (mínimo possível com 5 tarefas: 0.0625)
+DEV (temperatura da outra parte), B0 - UNIFORM: -0.085 [-0.153; 0.000]
+TEST (temperatura da outra parte), B0 - UNIFORM: -0.088 [-0.172; 0.029]

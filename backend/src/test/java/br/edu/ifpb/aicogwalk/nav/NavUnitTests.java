@@ -134,6 +134,18 @@ class NavUnitTests {
     }
 
     @Test
+    void controlConditionAnalysesEachOptionWithoutCognitiveWalkthroughVocabulary() {
+        String schema = br.edu.ifpb.aicogwalk.config.JsonSupport.write(NavPrompts.schema(NavMethod.B1_R, List.of("1", "2")));
+        assertThat(schema).contains("\"required\":[\"analysis\",\"distribution\",\"rationale\"]").doesNotContain("q1");
+        String extra = NavPrompts.system(NavMethod.B1_R).substring(NavPrompts.SYSTEM_DIRECT.length()).toLowerCase();
+        for (String w : List.of("walkthrough", "q1", "q2", "q3", "goal", "visib", "noticeable", "associat", "vocabulary")) {
+            assertThat(extra).doesNotContain(w);
+        }
+        assertThat(NavPrompts.system(NavMethod.B1_R)).startsWith(NavPrompts.SYSTEM_DIRECT);
+        assertThat(NavPrompts.system(NavMethod.B1_CW)).startsWith(NavPrompts.SYSTEM_DIRECT);
+    }
+
+    @Test
     void schemasSerializeInAStableOrderSoCacheKeysAndPromptHashesAreReproducible() {
         String a = br.edu.ifpb.aicogwalk.config.JsonSupport.write(NavPrompts.schema(NavMethod.B1_S, List.of("1", "2")));
         assertThat(a).isEqualTo("{\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"reason\",\"choice\"],"

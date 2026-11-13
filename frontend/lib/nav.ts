@@ -1,6 +1,6 @@
 // Tipos e utilitários do modo NAV (predição de escolhas de navegação).
 
-export type NavMethod = "UNIFORM" | "B0" | "B1" | "B1_CW" | "B1_S" | "B1_CW_S";
+export type NavMethod = "UNIFORM" | "B0" | "B1" | "B1_CW" | "B1_R" | "B1_S" | "B1_CW_S";
 export type NavRunStatus = "PENDENTE" | "NAVEGANDO" | "AVALIANDO" | "CONCLUIDA" | "FALHOU";
 
 export interface NavStatus {
@@ -55,6 +55,7 @@ export const methodLabel: Record<NavMethod, string> = {
   B0: "B0 · similaridade semântica",
   B1: "B1 · LLM, distribuição direta",
   B1_CW: "B1-CW · LLM + Q1–Q3",
+  B1_R: "B1-R · LLM + análise livre (controle)",
   B1_S: "B1-S · participantes simulados",
   B1_CW_S: "B1-CW-S · simulados + Q1–Q3",
 };
