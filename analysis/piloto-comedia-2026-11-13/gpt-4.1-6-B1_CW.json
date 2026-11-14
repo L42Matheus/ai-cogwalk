@@ -1,0 +1,540 @@
+{
+  "id": 6,
+  "datasetId": 1,
+  "method": "B1_CW",
+  "model": "gpt-4.1",
+  "status": "CONCLUIDA",
+  "error": null,
+  "statesTotal": 1,
+  "statesDone": 1,
+  "frozenHash": "e22d373fd572b339abf452d8dc387bd3de1801924fba1abc43370982f14263e3",
+  "inputTokens": 501,
+  "outputTokens": 413,
+  "llmCalls": 1,
+  "createdAt": "2026-11-14T00:09:44.395258Z",
+  "finishedAt": "2026-11-14T00:09:53.527992Z",
+  "headline": {
+    "jsd": {
+      "states": 1,
+      "clusters": 1,
+      "mean": 0.19849342393106698,
+      "lo": "NaN",
+      "hi": "NaN"
+    },
+    "coverage": {
+      "states": 1,
+      "clusters": 1,
+      "mean": 0.9666666666666667,
+      "lo": "NaN",
+      "hi": "NaN"
+    },
+    "top1": {
+      "states": 1,
+      "clusters": 1,
+      "mean": 1.0,
+      "lo": "NaN",
+      "hi": "NaN"
+    },
+    "omitted": {
+      "states": 1,
+      "clusters": 1,
+      "mean": 0.0,
+      "lo": "NaN",
+      "hi": "NaN"
+    },
+    "entropyPred": {
+      "states": 1,
+      "clusters": 1,
+      "mean": 0.5839939213490958,
+      "lo": "NaN",
+      "hi": "NaN"
+    },
+    "entropyHuman": {
+      "states": 1,
+      "clusters": 1,
+      "mean": 0.22489330771581875,
+      "lo": "NaN",
+      "hi": "NaN"
+    },
+    "logLoss": {
+      "states": 1,
+      "clusters": 1,
+      "mean": 1.2949133148748486,
+      "lo": "NaN",
+      "hi": "NaN"
+    },
+    "brier": {
+      "states": 1,
+      "clusters": 1,
+      "mean": 0.36153333333333326,
+      "lo": "NaN",
+      "hi": "NaN"
+    },
+    "samplingFloorJsd": {
+      "states": 1,
+      "clusters": 1,
+      "mean": 0.01417419256973123,
+      "lo": "NaN",
+      "hi": "NaN"
+    }
+  },
+  "datasetName": "Kuric, Demcak e Krajcovic (2025) — tree testing e protótipos web",
+  "datasetCode": "kuric2025-ia",
+  "config": {
+    "method": "B1_CW",
+    "model": "gpt-4.1",
+    "effort": "medium",
+    "samples": 1,
+    "parallel": 6,
+    "maxCalls": 2500,
+    "coverageTau": 0.05,
+    "tau": null,
+    "variants": [],
+    "splits": [
+      "DEV"
+    ],
+    "promptVersion": "nav-1.1",
+    "cacheMode": "read-write",
+    "datasetRevision": "6cc9130493d6aae7a4430bdece44b3d9ddacc47c",
+    "stateKeys": [
+      "TP-t2-raiz"
+    ]
+  },
+  "summary": {
+    "groups": {
+      "DEV|ALL": {
+        "jsd": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.19849342393106698,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "coverage": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.9666666666666667,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "top1": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 1.0,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "omitted": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.0,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "entropyPred": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.5839939213490958,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "entropyHuman": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.22489330771581875,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "logLoss": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 1.2949133148748486,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "brier": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.36153333333333326,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "samplingFloorJsd": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.01417419256973123,
+          "lo": "NaN",
+          "hi": "NaN"
+        }
+      },
+      "DEV|TEXT": {
+        "jsd": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.19849342393106698,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "coverage": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.9666666666666667,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "top1": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 1.0,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "omitted": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.0,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "entropyPred": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.5839939213490958,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "entropyHuman": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.22489330771581875,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "logLoss": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 1.2949133148748486,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "brier": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.36153333333333326,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "samplingFloorJsd": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.01417419256973123,
+          "lo": "NaN",
+          "hi": "NaN"
+        }
+      },
+      "ALL|ALL": {
+        "jsd": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.19849342393106698,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "coverage": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.9666666666666667,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "top1": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 1.0,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "omitted": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.0,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "entropyPred": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.5839939213490958,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "entropyHuman": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.22489330771581875,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "logLoss": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 1.2949133148748486,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "brier": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.36153333333333326,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "samplingFloorJsd": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.01417419256973123,
+          "lo": "NaN",
+          "hi": "NaN"
+        }
+      },
+      "ALL|TEXT": {
+        "jsd": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.19849342393106698,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "coverage": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.9666666666666667,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "top1": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 1.0,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "omitted": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.0,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "entropyPred": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.5839939213490958,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "entropyHuman": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.22489330771581875,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "logLoss": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 1.2949133148748486,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "brier": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.36153333333333326,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "samplingFloorJsd": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.01417419256973123,
+          "lo": "NaN",
+          "hi": "NaN"
+        }
+      }
+    },
+    "byVariant": {
+      "TP": {
+        "jsd": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.19849342393106698,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "coverage": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.9666666666666667,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "top1": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 1.0,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "omitted": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.0,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "entropyPred": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.5839939213490958,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "entropyHuman": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.22489330771581875,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "logLoss": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 1.2949133148748486,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "brier": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.36153333333333326,
+          "lo": "NaN",
+          "hi": "NaN"
+        },
+        "samplingFloorJsd": {
+          "states": 1,
+          "clusters": 1,
+          "mean": 0.01417419256973123,
+          "lo": "NaN",
+          "hi": "NaN"
+        }
+      }
+    },
+    "statesWithHumans": 1,
+    "statesWithoutHumans": 0,
+    "statesWithoutPrediction": 0,
+    "plannedCalls": 1,
+    "invalidResponses": 0,
+    "refusals": 0,
+    "truncated": 0,
+    "attemptsPerSample": 3,
+    "pricePerMTokUsd": {
+      "input": 2.0,
+      "output": 8.0
+    },
+    "estimatedCostUsd": 0.004306,
+    "priceNote": "Estimativa por preço de tabela (claude-opus-5-5: 4/20; gpt-4.1: 2/8 US$ por MTok, a conferir). O custo real é o do painel de faturamento do provedor.",
+    "provider": "openai"
+  },
+  "predictions": [
+    {
+      "id": 6,
+      "state": {
+        "id": 1,
+        "key": "TP-t2-raiz",
+        "variant": "TP",
+        "modality": "TEXT",
+        "task": "2",
+        "taskText": "You are having friends over for a movie night and you would like to watch something with a lot of jokes. Where would you look for the right movie recommendation?",
+        "split": "DEV",
+        "options": [
+          {
+            "id": "0",
+            "label": "Trending"
+          },
+          {
+            "id": "1",
+            "label": "Entertainment"
+          },
+          {
+            "id": "2",
+            "label": "Hobbies"
+          },
+          {
+            "id": "3",
+            "label": "Culture"
+          },
+          {
+            "id": "4",
+            "label": "Science"
+          },
+          {
+            "id": "5",
+            "label": "Society"
+          },
+          {
+            "id": "6",
+            "label": "Lifestyle"
+          },
+          {
+            "id": "7",
+            "label": "About us"
+          }
+        ],
+        "humanCounts": {
+          "0": 0,
+          "1": 26,
+          "2": 1,
+          "3": 3,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0
+        },
+        "humanN": 30,
+        "screenshot": null,
+        "viewport": null,
+        "inputHash": "c83ae28b9b114169f0c8ebbafa7f0b9a8e5c93242e860cd36ace32b4cb4d2cf3"
+      },
+      "distribution": {
+        "0": 0.18,
+        "1": 0.6,
+        "2": 0.01,
+        "3": 0.05,
+        "4": 0.01,
+        "5": 0.01,
+        "6": 0.13,
+        "7": 0.01
+      },
+      "samples": null,
+      "metrics": {
+        "humanN": 30,
+        "top1": 1.0,
+        "jsd": 0.19849342393106698,
+        "coverage": 0.9666666666666667,
+        "omitted": 0,
+        "entropyPred": 0.5839939213490958,
+        "entropyHuman": 0.22489330771581875,
+        "logLoss": 1.2949133148748486,
+        "brier": 0.36153333333333326,
+        "samplingFloorJsd": 0.01417419256973123
+      },
+      "promptSha": "1d08715f0d6369caad8e94e7ef2ad579ec497807a2f3364298a3d33e7474f9f6",
+      "inputTokens": 501,
+      "outputTokens": 413,
+      "cacheHits": 0,
+      "error": null
+    }
+  ],
+  "description": "Previsões congeladas do AI-CogWalk-NAV. O hash cobre, por estado, a chave, o hash da entrada e a distribuição prevista, além da configuração da rodada."
+}

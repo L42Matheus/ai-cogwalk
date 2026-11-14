@@ -8,7 +8,8 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 ESTADO = "TP-t2-raiz"
-MODELO = "gpt-4.1"
+MODELOS = {"gpt-4.1": ("openaiConfigured", "OPENAI_API_KEY"),
+           "claude-opus-5-5": ("anthropicConfigured", "ANTHROPIC_API_KEY")}
 GRAVADAS = Path(__file__).parent / "resultados-2026-11-13"
 
 
@@ -31,7 +32,7 @@ def comparar(rodadas, estado):
         for opcao in tela["options"]:
             codigo = opcao["id"]
             votos = tela["humanCounts"].get(codigo, 0)
-            print(f"  {opcao['label']:18} GPT {previsao['distribution'][codigo]:6.1%}   "
+            print(f"  {opcao['label']:18} modelo {previsao['distribution'][codigo]:6.1%}   "
                   f"pessoas {votos:2}/{tela['humanN']}")
 
 
@@ -59,8 +60,9 @@ def importar(base):
 
 
 def testar(args):
-    if not requisitar(args.backend, "/status")["openaiConfigured"]:
-        raise ValueError("Configure OPENAI_API_KEY no .env e recrie o backend com docker compose up -d backend.")
+    campo, chave = MODELOS[args.modelo]
+    if not requisitar(args.backend, "/status")[campo]:
+        raise ValueError(f"Configure {chave} no .env e recrie o backend com docker compose up -d backend.")
     conjunto = importar(args.backend)
     estados = requisitar(args.backend, f"/datasets/{conjunto}")["stateList"]
     if not any(s["key"] == ESTADO and s["split"] == "DEV" for s in estados):
@@ -70,7 +72,7 @@ def testar(args):
     if args.amostras:
         metodos.append("B1_S")
     for metodo in metodos:
-        pedido = {"method": metodo, "model": MODELO, "stateKeys": [ESTADO], "splits": ["DEV"]}
+        pedido = {"method": metodo, "model": args.modelo, "stateKeys": [ESTADO], "splits": ["DEV"]}
         if metodo == "B1_S":
             pedido["samples"] = args.amostras
         numero = requisitar(args.backend, f"/datasets/{conjunto}/runs", pedido)["id"]
@@ -82,7 +84,7 @@ def testar(args):
                 raise ValueError(f"Rodada {numero}: {rodada['error']}")
             if rodada["status"] == "CONCLUIDA":
                 exportacao = requisitar(args.backend, f"/runs/{numero}/export.json")
-                caminho = args.saida / f"gpt-{numero}-{metodo}.json"
+                caminho = args.saida / f"{args.modelo}-{numero}-{metodo}.json"
                 caminho.write_text(json.dumps(exportacao, ensure_ascii=False, indent=2), encoding="utf-8")
                 print(f"Exportação: {caminho}")
                 comparar([exportacao], ESTADO)
@@ -95,12 +97,15 @@ def testar(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--executar", action="store_true", help="Inicia rodadas com o GPT pelo backend.")
+    parser.add_argument("--modelo", choices=tuple(MODELOS), default="gpt-4.1", help="Modelo para --executar.")
     parser.add_argument("--backend", default="http://localhost:8080")
     parser.add_argument("--saida", type=Path, default=Path("resultados-gpt"))
     parser.add_argument("--amostras", type=int, help="Acrescenta B1-S com N visitantes simulados (30 no protocolo).")
     args = parser.parse_args()
     if args.amostras is not None and (not args.executar or args.amostras < 1):
         parser.error("--amostras exige --executar e um inteiro positivo.")
+    if not args.executar and args.modelo != "gpt-4.1":
+        parser.error("Para escolher outro modelo, use --executar.")
     if args.executar:
         testar(args)
     else:

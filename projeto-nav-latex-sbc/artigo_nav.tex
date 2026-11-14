@@ -45,9 +45,9 @@ A Tabela~\ref{tab:metodo} apresenta as condições experimentais. Cada estado co
 Condição & Como produz a previsão & Evidência disponível \\ \midrule
 UNIFORM & Distribui a probabilidade igualmente entre as opções & 60 estados \\
 B0 & Converte a similaridade entre os embeddings da tarefa e dos rótulos em probabilidades por softmax & 60 estados e avaliação cruzada por tarefa \\
-B1 & Declara diretamente a distribuição esperada de visitantes & Piloto de quatro estados em dois modelos \\
-B1-CW & Responde às três perguntas para cada opção e declara a distribuição & Mesmos quatro estados e modelos \\
-B1-R & Analisa livremente cada opção antes de declarar a distribuição & Controle implementado após o piloto, comparação planejada \\
+B1 & Declara diretamente a distribuição esperada de visitantes & Piloto de quatro estados em dois modelos e repetição de um estado \\
+B1-CW & Responde às três perguntas para cada opção e declara a distribuição & Mesmos estados e modelos de B1 \\
+B1-R & Analisa livremente cada opção antes de declarar a distribuição & Teste adicional em um estado nos dois modelos \\
 B1-S e B1-CW-S & Agrega escolhas individuais simuladas, sem ou com as perguntas & Comparação com 30 escolhas por entrada planejada. B1-S teve testes de funcionamento com 3 ou 5 amostras \\\bottomrule\end{tabularx}\end{table}
 
 \section{Desenho da avaliação}
@@ -99,6 +99,20 @@ A Tabela~\ref{tab:piloto} resume os quatro estados de desenvolvimento, que corre
 Na tarefa de recomendar uma comédia (TP-t2), 26 de 30 pessoas clicaram em \emph{Entertainment}. O GPT-4.1 atribuiu a essa opção 60\% na resposta direta e 70\% com as perguntas do percurso cognitivo. Nos dois casos, reservou 20\% para \emph{Trending}, opção sem cliques nesse grupo. A JSD passou de 0,187 para 0,173. O exemplo ilustra por que avaliamos a distribuição completa mesmo quando o modelo acerta a categoria mais popular.\par
 
 Os quatro estados geraram 16 previsões nas duas condições e nos dois modelos. A mudança de direção motiva estimar o efeito por modelo. Como exemplo, no estado móvel da tarefa de compra de notebook, a JSD passou de 0,170 para 0,261 no GPT-4.1 e de 0,148 para 0,118 no Claude. Ainda falta observar se esse padrão persiste em outras tarefas e quanto da diferença permanece diante de um controle que também exige examinar cada opção.
+
+\subsection{Teste adicional em uma tarefa com GPT e Claude}
+Repetimos a tarefa textual de recomendação de comédia, desta vez incluindo a análise livre (B1-R). Cada modelo gerou uma previsão por condição. As seis respostas vieram de novas chamadas, sem uso do cache. A Tabela~\ref{tab:comedia} apresenta a probabilidade atribuída a \emph{Entertainment}, escolhida por 26 de 30 pessoas (86,7\%), e a distância entre a previsão completa e as oito proporções humanas.
+
+\begin{table}[!htb]\centering\small\caption{Teste adicional em TP-t2. Porcentagem prevista para \emph{Entertainment} e JSD das oito opções.}\label{tab:comedia}
+\begin{tabular}{lrrrr}\toprule
+ & \multicolumn{2}{c}{GPT-4.1} & \multicolumn{2}{c}{Claude Opus 5.5} \\
+Condição & Previsão & JSD & Previsão & JSD \\ \midrule
+Direta & 62\% & 0,164 & 72\% & 0,088 \\
+Percurso cognitivo & 60\% & 0,198 & 72\% & 0,086 \\
+Análise livre por opção & 55\% & 0,186 & 75\% & 0,069 \\
+\bottomrule\end{tabular}\end{table}
+
+No GPT, a resposta direta ficou mais próxima das escolhas humanas nesta execução. No Claude, a menor JSD ocorreu após a análise livre por opção. O estado já havia sido usado no desenvolvimento. Uma previsão por condição permite verificar a execução e ilustrar como ler as diferenças. Estimar a vantagem de cada estratégia requer a comparação em várias tarefas.
 
 \section{Discussão e limites}
 
