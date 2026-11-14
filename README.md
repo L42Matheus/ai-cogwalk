@@ -74,3 +74,16 @@ Testes: `cd backend && ./gradlew test`. O teste de ponta a ponta usa H2 e o port
 Navegue apenas em páginas públicas, com autorização, sem cadastro, sem envio de formulários e sem alterar dados.
 A coleta com participantes só começa após aprovação do CEP.
 O banco de exemplos few-shot atual é **ilustrativo**: substitua-o por casos observados antes de usar few-shot em resultados.
+
+## Testar a pergunta do artigo com GPT-4.1
+
+Na raiz do projeto, execute `python3 analysis/piloto_gpt.py` para ver um exemplo já registrado: a tarefa da recomendação de comédia, os cliques humanos e o que o GPT previu em cada opção. Esse comando funciona sem chave e sem Docker.
+
+Para gerar previsões com sua conta:
+
+1. Copie `.env.example` para `.env` se ainda não existir e preencha `OPENAI_API_KEY` no arquivo local.
+2. Execute `docker compose up -d --build backend`. O Docker inicia também o PostgreSQL. Aguarde o backend em `http://localhost:8080/api/nav/status`.
+3. Execute `python3 analysis/piloto_gpt.py --executar`. O script importa o benchmark se necessário e testa a mesma tarefa de desenvolvimento em três condições: resposta direta (B1), perguntas do percurso cognitivo (B1-CW) e análise livre de cada opção (B1-R). São três previsões planejadas. O backend pode reutilizar o cache ou repetir chamadas após falhas.
+4. Leia as porcentagens no terminal. Cada JSON da rodada fica em `resultados-gpt/`. A coluna GPT é a probabilidade prevista. A coluna pessoas mostra quantos dos 30 participantes clicaram ali. A JSD resume a distância entre as duas distribuições.
+
+Para incluir a simulação individual, use `python3 analysis/piloto_gpt.py --executar --amostras 30`. Essa opção acrescenta uma rodada B1-S com 30 escolhas planejadas. Para acompanhar pelo painel, inicie também o frontend com `docker compose up -d --build frontend` e abra `http://localhost:3000/nav`.
