@@ -22,6 +22,10 @@
 \usepackage[most]{tcolorbox}
 \usepackage{listings}
 \usepackage{caption}
+\usepackage[hidelinks,unicode,bookmarksnumbered]{hyperref}
+\hypersetup{pdftitle={AI-CogWalk-NAV: previsão da distribuição de primeiras escolhas},pdfauthor={Lucas Matheus Silva}}
+\setcounter{tocdepth}{2}
+\pagestyle{plain}
 \usetikzlibrary{arrows.meta, positioning, shapes.geometric, fit, backgrounds, calc}
 \makeatletter
 \providecommand\normalsfcodes{%
@@ -58,7 +62,7 @@
 \address{Instituto Federal da Paraíba (IFPB)\\Programa de Pós-Graduação em Tecnologia da Informação (PPGTI)}
 
 \begin{document}
-\maketitle
+\maketitle\thispagestyle{plain}\raggedbottom
 \sloppy
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -71,21 +75,9 @@ No benchmark estudado, a opção mais popular de uma tela recebe, em média, 58\
 \end{resumo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Como ler este documento}
-
-Este documento é, ao mesmo tempo, o projeto de pesquisa e o registro do que já foi construído e medido. Para que nenhum número planejado seja confundido com um resultado, usamos duas caixas:
-
-\begin{real}
-Conteúdo verde: medido no protótipo, com dados reais, e reprodutível pelos comandos do Apêndice~\ref{ap:repro}.
-\end{real}
-
-\begin{planejado}
-Conteúdo laranja: desenho do que ainda será feito. Não contém resultados. As rodadas completas com LLMs dependem de aprovação do orçamento.
-\end{planejado}
-
-A Seção~\ref{sec:intro} apresenta o problema e as perguntas. As Seções~\ref{sec:justificativa} a~\ref{sec:relacionados} justificam o trabalho e o situam na literatura. As Seções~\ref{sec:formal} a~\ref{sec:passos} formalizam o problema, descrevem o método, a arquitetura e o passo a passo. As Seções~\ref{sec:validacao} e~\ref{sec:resultados} trazem os resultados reais. As Seções~\ref{sec:ifpb} a~\ref{sec:cronograma} tratam do que está planejado.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\tableofcontents
+\clearpage
 \section{Introdução}
 \label{sec:intro}
 
@@ -218,7 +210,7 @@ Um \textbf{estado} $s$ é uma tela vista por um participante no início de uma t
 \begin{equation}
 \Ph(a \mid s,t) = \frac{c_s(a)}{n_s}.
 \end{equation}
-Um preditor $M$ recebe $(t, s, A(s))$ e devolve uma distribuição $\Pp_M(a \mid s,t)$ com $\sum_a \Pp_M(a)=1$. Para métodos que devolvem valores não normalizados (por exemplo, probabilidades declaradas pelo LLM que não somam 1), a distribuição é renormalizada. Se nada válido for devolvido, o estado é marcado como sem previsão e excluído das métricas, com contagem explícita.
+Um preditor $M$ recebe $(t, s, A(s))$ e devolve uma distribuição $\Pp_M(a \mid s,t)$ com $\sum_a \Pp_M(a)=1$. Para métodos que devolvem valores não normalizados (por exemplo, probabilidades declaradas pelo LLM que não somam 1), a distribuição é renormalizada. O protótipo registra falhas e contabiliza os estados sem previsão utilizável. A normalização pode devolver uma distribuição uniforme se a soma dos pesos válidos for zero; por isso, a auditoria deve considerar também a resposta registrada.
 
 \subsection{Métricas}
 \label{sec:metricas}
@@ -329,7 +321,7 @@ O protótipo registra esforço configurado como \code{medium}; no GPT-4.1, o cli
 \begin{description}[leftmargin=0.9cm,style=nextline]
 \item[H1 (principal)] Para cada modelo, a diferença pareada $\JSD_{\text{B1-CW}}-\JSD_{\text{B1}}$ nas 10 tarefas tem intervalo de 95\% que exclui zero e $p<0{,}05$ no teste exato de troca de sinal. O teste é bilateral: a direção não é presumida.
 \item[H1a (atribuição)] Se H1 se confirmar, o mesmo critério é aplicado a $\JSD_{\text{B1-CW}}-\JSD_{\text{B1-R}}$. Esse contraste estima a mudança associada a substituir a análise livre pelas perguntas estruturadas. Um resultado inconclusivo deixa em aberto a explicação da diferença.
-\item[H2] O mesmo critério de H1 para $\JSD_{\text{B1-S}}-\JSD_{\text{B1}}$, acompanhado da diferença de entropia normalizada. Como a distribuição do B1-S vem de só 30 amostras, ela carrega um ruído amostral que, sozinho, aumenta a JSD (da ordem do piso amostral, 0,027). Para uma comparação justa, relatamos também o \textbf{B1 reamostrado}: 30 escolhas sorteadas da própria distribuição do B1, sem novas chamadas, que tem o mesmo ruído do B1-S. Se o B1-S só perde para o B1, mas não para o B1 reamostrado, a diferença é ruído e não comportamento.
+\item[H2] O mesmo critério de H1 para $\JSD_{\text{B1-S}}-\JSD_{\text{B1}}$, acompanhado da diferença de entropia normalizada. Como a distribuição do B1-S vem de 30 amostras, ela carrega um ruído amostral que, sozinho, aumenta a JSD (da ordem do piso amostral, 0,027). Para uma comparação justa, relatamos também o \textbf{B1 reamostrado}: 30 escolhas sorteadas da própria distribuição do B1, sem novas chamadas, que tem o mesmo ruído do B1-S. Se a diferença diminuir diante do B1 reamostrado, o tamanho finito da amostra será uma explicação plausível a investigar.
 \item[H3] As condições B1 têm JSD menor que a do B0 (com $\tau$ em validação cruzada).
 \item[H4 (exploratória)] Os efeitos de H1 e H2 diferem entre as variantes textuais e visuais.
 \end{description}
@@ -507,12 +499,22 @@ Testes automatizados & JUnit (19 testes) & Todos passando \\
 \section{Resultados preliminares}
 \label{sec:resultados}
 
-\subsection{O que os dados humanos mostram}
+\begin{table}[htbp]
+\centering\small
+\caption{Escopo dos resultados apresentados nesta seção. Um estado combina uma tarefa e uma apresentação do menu.}
+\begin{tabularx}{\linewidth}{@{}p{3.3cm}p{3.3cm}Y@{}}\toprule
+Avaliação & Alcance & Comparação realizada \\ \midrule
+Referências & 10 tarefas, 60 estados & Semelhança tarefa--rótulo (B0) e distribuição uniforme diante de 1.796 cliques humanos. \\
+Piloto inicial & 4 estados de desenvolvimento & Duas condições em dois modelos, totalizando 16 previsões. Duas apresentações correspondem à mesma tarefa. \\
+Dois casos textuais & 2 estados já incluídos no piloto & Três condições em dois modelos, totalizando 12 novas previsões. As contagens humanas são as mesmas do benchmark. \\
+\bottomrule\end{tabularx}\end{table}
+
+\subsection{Distribuição das escolhas humanas}
 
 \begin{real}
 Nos 60 estados, a opção mais escolhida reúne em média 58\% das pessoas, e em 28\% dos estados nenhuma opção chega a 50\%. Há em média 2,6 opções escolhidas por pelo menos 10\% das pessoas (mínimo 1, máximo 4). A entropia normalizada humana média é 0,51 no TEST. O piso amostral da JSD, com 30 pessoas por estado, é 0,027 [0,024; 0,030] no TEST.
 
-A referência humana entre variantes (a distribuição da mesma tarefa nas outras cinco variantes) tem JSD de 0,043 [0,040; 0,047] no TEST: 0,039 nas variantes textuais e 0,048 nas visuais. Ou seja, a distribuição depende muito mais da tarefa e da arquitetura do que da apresentação, e a meta realista de um bom preditor fica entre o piso (0,027) e essa referência (0,043).
+A referência humana entre variantes (a distribuição da mesma tarefa nas outras cinco variantes) tem JSD de 0,043 [0,040; 0,047] no TEST: 0,039 nas variantes textuais e 0,048 nas visuais. Os dois valores caracterizam comparações distintas: a primeira mantém a distribuição empírica como referência de reamostragem; a segunda incorpora diferenças entre apresentações da mesma tarefa. O estudo utiliza uma única arquitetura de informação.
 \end{real}
 
 \subsection{B0 e UNIFORM}
@@ -550,6 +552,22 @@ DEV, todos & B0 & 0,281 [0,202; 0,344] & 0,927 & 0,400 & 0,27 & 0,814 \\
 \begin{real}
 \textbf{B0 com validação cruzada, nas 10 tarefas.} Ajustando $\tau$ nas tarefas pares ($\tau=0{,}0609$, o mesmo da rodada) e aplicando às ímpares, e ajustando nas ímpares ($\tau=0{,}0451$) e aplicando às pares, a JSD do B0 nas 10 tarefas é 0,288 [0,239; 0,345], contra 0,375 [0,330; 0,420] do UNIFORM. A diferença pareada é $-0{,}087$ [$-0{,}145$; $-0{,}017$]; o B0 fica abaixo do UNIFORM em 8 das 10 tarefas, com $p=0{,}041$ no teste exato de troca de sinal. Só com as 5 tarefas ímpares, o mesmo teste dá $p=0{,}25$, e nunca poderia ficar abaixo de 0,0625. Ou seja, o efeito do B0 já era o mesmo ($-0{,}088$ só nas ímpares); o que mudou foi a capacidade de detectá-lo. Cálculo em \code{analysis/nav\_b0\_crossfit.py}, sem chamadas a LLMs.
 \end{real}
+
+A Tabela~\ref{tab:por-tarefa} mostra onde se concentra a diferença média. A referência semântica se afastou mais dos cliques humanos que a distribuição uniforme nas tarefas sobre a Idade Média e a compra de notebook. Na tarefa sobre cinema próximo, apresentou sua maior redução de divergência.
+
+\begin{table}[!htb]\centering\small\caption{JSD média por tarefa, com temperatura do B0 ajustada na outra metade.}\label{tab:por-tarefa}\begin{tabularx}{\linewidth}{@{}Xrrr@{}}\toprule
+Tarefa & B0 & Uniforme & Diferença B0 $-$ uniforme \\ \midrule
+2. Recomendação de comédia & 0,377 & 0,526 & $-$0,149 \\
+3. Cinema próximo & 0,198 & 0,411 & $-$0,214 \\
+4. Resultado de boxe & 0,322 & 0,365 & $-$0,043 \\
+5. Receita mesoamericana & 0,209 & 0,353 & $-$0,145 \\
+6. Moda da estação & 0,154 & 0,287 & $-$0,133 \\
+7. Vida na Idade Média & 0,484 & 0,347 & +0,137 \\
+8. Compra de notebook & 0,311 & 0,246 & +0,065 \\
+9. Espécies de aves & 0,270 & 0,367 & $-$0,097 \\
+10. Informações sobre doenças & 0,271 & 0,437 & $-$0,166 \\
+11. Cuidados com filhos & 0,287 & 0,409 & $-$0,122 \\
+\textbf{Média} & \textbf{0,288} & \textbf{0,375} & \textbf{$-$0,087} \\\bottomrule\end{tabularx}\end{table}
 
 A Figura~\ref{fig:variantes} mostra a JSD por variante. Como o B0 só usa texto, ele prevê a mesma distribuição para as seis variantes de uma tarefa; as diferenças entre variantes vêm só dos humanos.
 
@@ -664,6 +682,60 @@ Análise livre por opção & 40\% & 0,131 & 35\% & 0,154 \\
 
 Considerando as oito opções, o GPT teve menor JSD com a resposta direta na comédia e com a análise livre no notebook. Para o Claude, a menor JSD ocorreu com a análise livre na comédia e com o percurso cognitivo no notebook. Uma execução por condição em dois estados já conhecidos permite descrever essa variação. Avaliar sua estabilidade exige repetir as chamadas e comparar os métodos nas demais tarefas.
 
+\section{Discussão dos resultados}
+\label{sec:discussao}
+\subsection{Fidelidade no primeiro clique}
+Na tarefa da comédia, ambos os modelos identificaram a categoria mais escolhida. Mesmo assim, o GPT reservou, no piloto inicial, 20\% a uma opção em que ninguém clicou. Para quem projeta o menu, esse erro é relevante: a previsão sugeriria um concorrente que os 30 visitantes observados não escolheram. No notebook, os participantes dividiram os cliques entre cinco categorias. A previsão precisa representar tanto a opção principal quanto essas alternativas para orientar uma revisão dos rótulos.
+
+\subsection{O que os pilotos respondem}
+Os casos demonstram como comparar B1, B1-CW e B1-R na mesma entrada. A ordenação das estratégias pela JSD mudou de uma tarefa para a outra em ambos os modelos. Uma chamada por combinação não permite separar a influência da tarefa da variação entre execuções. A comparação entre as dez tarefas, prevista no protocolo, ampliará a cobertura de objetivos. Repetições da mesma condição seriam necessárias para estimar diretamente a estabilidade das probabilidades declaradas.
+
+\subsection{Implicações para o agente}
+O agente proposto retornaria a distribuição por opção e permitiria à equipe inspecionar onde se concentram as escolhas previstas. Para interpretar um clique como desvio, seria necessário conhecer as opções que de fato conduzem ao destino. Se um estudante consegue obter o calendário por dois caminhos, a divisão de cliques entre eles pode ser compatível com uma navegação bem-sucedida. A avaliação prospectiva examinará essa distinção em tarefas do portal.
+
+\section{Ameaças à validade}
+\label{sec:ameacas}
+
+\textbf{Validade interna.}
+\begin{itemize}[leftmargin=*,itemsep=0pt]
+\item \textit{Vazamento de respostas.} Mitigado pelo isolamento estrutural das entradas, pela captura independente e pela auditoria dos prompts.
+\item \textit{Ajuste no conjunto de avaliação.} A temperatura do B0 é ajustada em validação cruzada, e nenhum estado é avaliado com um $\tau$ ajustado nele. Os prompts B1 e B1-CW foram avaliados inicialmente em quatro estados DEV. O controle B1-R foi acrescentado depois desse piloto e executado em dois desses estados; uma eventual revisão gera nova versão e é relatada. Cada condição roda uma única vez.
+\item \textit{Deliberação como confusão.} Pedir Q1--Q3 também faz o modelo escrever mais. O controle B1-R permite estimar quanto muda quando se substitui a análise livre pelas três perguntas. A estrutura e o tamanho das respostas também podem variar.
+\item \textit{Contaminação do modelo.} O repositório do \textit{benchmark} é público desde 2025, e um LLM pode ter visto os dados. O isolamento das entradas controla as informações fornecidas na execução. O histórico de treinamento dos modelos permanece desconhecido. No IFPB, as escolhas humanas serão registradas depois de congelar as previsões.
+\item \textit{Não determinismo.} As respostas das APIs variam entre chamadas. Todas as respostas ficam armazenadas, e a análise usa as respostas registradas; a variação entre chamadas é medida no B1-S.
+\end{itemize}
+
+\textbf{Validade de construto.}
+\begin{itemize}[leftmargin=*,itemsep=0pt]
+\item O primeiro clique numa categoria do primeiro nível é só o início da navegação. Erros mais profundos e recuperações não são previstos nesta fase.
+\item Os participantes do \textit{benchmark} são adultos recrutados \textit{online} e não necessariamente iniciantes no sentido de ingressantes de uma instituição. O \textit{site} é fictício e não é familiar a ninguém, o que aproxima a situação de um primeiro acesso.
+\item A JSD resume a distância entre distribuições, mas não diz se o erro está nas opções populares ou nas raras; por isso cobertura e omissões são relatadas junto.
+\end{itemize}
+
+\textbf{Validade de conclusão.} Mesmo com 10 tarefas, a amostra de tarefas é pequena e os intervalos por \textit{bootstrap} são largos; com 10 grupos o \textit{bootstrap} ainda pode subestimar a incerteza, por isso o teste exato de troca de sinal é exigido junto. Diferenças pequenas não serão detectáveis; isso será declarado, e os tamanhos de efeito serão relatados com intervalo. O B1-S tem ruído amostral próprio, tratado pela comparação com o B1 reamostrado.
+
+\textbf{Validade externa.} Um \textit{site} de revista em inglês não é um portal institucional em português. O piloto no IFPB testa justamente essa transferência, mas com poucas tarefas. Resultados com dois modelos de 2026 podem não valer para versões futuras.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Plano do experimento completo}
+\label{sec:plano}
+
+\begin{planejado}
+\textbf{Escopo.} As cinco condições com LLM (B1, B1-CW, B1-R, B1-S e B1-CW-S) em Claude Opus~5.5 e GPT-4.1, uma única vez, nos 60 estados, depois de uma verificação curta em poucos estados. Como as três variantes textuais dão ao modelo a mesma entrada, há 40 entradas distintas (10 textuais e 30 visuais); estados com a mesma entrada recebem a mesma previsão, servida pelo \textit{cache}.
+
+\textbf{Custo estimado.} A partir dos \textit{tokens} medidos no piloto e nos testes de funcionamento: cerca de US\$~29 no Claude e US\$~9 no GPT-4.1 para as cinco condições em todos os estados, dominados pelas condições amostradas ($N=30$, cerca de 1.200 chamadas por condição e modelo). O controle B1-R acrescenta cerca de US\$~1 no total (40 chamadas por modelo). São estimativas, não orçamentos: o valor real será medido e o experimento só roda com aprovação.
+
+\textbf{Pontos a decidir antes de rodar:}
+\begin{enumerate}[leftmargin=*,itemsep=0pt]
+\item \textit{Decidido:} avaliar as hipóteses nas 10 tarefas, com $\tau$ do B0 em validação cruzada, e incluir o controle B1-R.
+\item Manter as três variantes textuais na média (a dependência já é tratada pelo \textit{bootstrap} por tarefa) e relatar à parte a variação humana entre elas.
+\item Manter a condição B1-S conforme o protocolo descrito e relatar o colapso, se confirmado, como resultado. Variar a \textit{persona} seria uma nova condição (B1-P), para depois.
+\item Confirmar o preço vigente do GPT-4.1 e decidir se o GPT-5.2 entra como terceiro modelo.
+\item Fixar a versão dos prompts (\code{nav-1.1} ou uma revisão feita só no DEV).
+\end{enumerate}
+\end{planejado}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Piloto no portal do IFPB}
 \label{sec:ifpb}
 
@@ -698,56 +770,13 @@ A captura independente já foi executada no portal fictício que acompanha o pro
 \textbf{Cuidados éticos.} A navegação automatizada só faz requisições GET em páginas públicas, sem cadastro, sem formulários e com intervalo entre ações. A coleta com pessoas só começa após aprovação do CEP \cite{cns2016res510}, com consentimento, anonimização e tratamento conforme a LGPD \cite{brasil2018lgpd}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Plano do experimento completo}
-\label{sec:plano}
-
-\begin{planejado}
-\textbf{Escopo.} As cinco condições com LLM (B1, B1-CW, B1-R, B1-S e B1-CW-S) em Claude Opus~5.5 e GPT-4.1, uma única vez, nos 60 estados, depois de uma verificação curta em poucos estados. Como as três variantes textuais dão ao modelo a mesma entrada, há 40 entradas distintas (10 textuais e 30 visuais); estados com a mesma entrada recebem a mesma previsão, servida pelo \textit{cache}.
-
-\textbf{Custo estimado.} A partir dos \textit{tokens} medidos no piloto e nos testes de funcionamento: cerca de US\$~29 no Claude e US\$~9 no GPT-4.1 para as cinco condições em todos os estados, dominados pelas condições amostradas ($N=30$, cerca de 1.200 chamadas por condição e modelo). O controle B1-R acrescenta cerca de US\$~1 no total (40 chamadas por modelo). São estimativas, não orçamentos: o valor real será medido e o experimento só roda com aprovação.
-
-\textbf{Pontos a decidir antes de rodar:}
-\begin{enumerate}[leftmargin=*,itemsep=0pt]
-\item \textit{Decidido:} avaliar as hipóteses nas 10 tarefas, com $\tau$ do B0 em validação cruzada, e incluir o controle B1-R.
-\item Manter as três variantes textuais na média (a dependência já é tratada pelo \textit{bootstrap} por tarefa) e relatar à parte a variação humana entre elas.
-\item Manter o B1-S como pré-registrado e relatar o colapso, se confirmado, como resultado. Variar a \textit{persona} seria uma nova condição (B1-P), para depois.
-\item Confirmar o preço vigente do GPT-4.1 e decidir se o GPT-5.2 entra como terceiro modelo.
-\item Fixar a versão dos prompts (\code{nav-1.1} ou uma revisão feita só no DEV).
-\end{enumerate}
-\end{planejado}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Ameaças à validade}
-\label{sec:ameacas}
-
-\textbf{Validade interna.}
-\begin{itemize}[leftmargin=*,itemsep=0pt]
-\item \textit{Vazamento de respostas.} Mitigado pelo isolamento estrutural das entradas, pela captura independente e pela auditoria dos prompts.
-\item \textit{Ajuste no conjunto de avaliação.} A temperatura do B0 é ajustada em validação cruzada, e nenhum estado é avaliado com um $\tau$ ajustado nele. Os prompts B1 e B1-CW foram avaliados inicialmente em quatro estados DEV. O controle B1-R foi acrescentado depois desse piloto e executado em dois desses estados; uma eventual revisão gera nova versão e é relatada. Cada condição roda uma única vez.
-\item \textit{Deliberação como confusão.} Pedir Q1--Q3 também faz o modelo escrever mais. O controle B1-R separa os dois efeitos.
-\item \textit{Contaminação do modelo.} O repositório do \textit{benchmark} é público desde 2025, e um LLM pode ter visto os dados. O risco é menor porque o modelo nunca recebe os rótulos da árvore completa nem as contagens, e será medido comparando o desempenho com o do piloto prospectivo no IFPB, cujos dados ainda não existem.
-\item \textit{Não determinismo.} As respostas das APIs variam entre chamadas. Todas as respostas ficam armazenadas, e a análise usa as respostas registradas; a variação entre chamadas é medida no B1-S.
-\end{itemize}
-
-\textbf{Validade de construto.}
-\begin{itemize}[leftmargin=*,itemsep=0pt]
-\item O primeiro clique numa categoria do primeiro nível é só o início da navegação. Erros mais profundos e recuperações não são previstos nesta fase.
-\item Os participantes do \textit{benchmark} são adultos recrutados \textit{online} e não necessariamente iniciantes no sentido de ingressantes de uma instituição. O \textit{site} é fictício e não é familiar a ninguém, o que aproxima a situação de um primeiro acesso.
-\item A JSD resume a distância entre distribuições, mas não diz se o erro está nas opções populares ou nas raras; por isso cobertura e omissões são relatadas junto.
-\end{itemize}
-
-\textbf{Validade de conclusão.} Mesmo com 10 tarefas, a amostra de tarefas é pequena e os intervalos por \textit{bootstrap} são largos; com 10 grupos o \textit{bootstrap} ainda pode subestimar a incerteza, por isso o teste exato de troca de sinal é exigido junto. Diferenças pequenas não serão detectáveis; isso será declarado, e os tamanhos de efeito serão relatados com intervalo. O B1-S tem ruído amostral próprio, tratado pela comparação com o B1 reamostrado.
-
-\textbf{Validade externa.} Um \textit{site} de revista em inglês não é um portal institucional em português. O piloto no IFPB testa justamente essa transferência, mas com poucas tarefas. Resultados com dois modelos de 2026 podem não valer para versões futuras.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cronograma}
 \label{sec:cronograma}
 
 \begin{figure}[ht]
 \centering
 \begin{ganttchart}[
-  hgrid, vgrid, x unit=0.62cm, y unit chart=0.5cm,
+  hgrid, vgrid, x unit=0.60cm, y unit chart=0.5cm,
   title label font=\scriptsize, bar label font=\scriptsize, group label font=\scriptsize\bfseries,
   bar/.append style={fill=blue!35}, group/.append style={fill=gray!60},
   milestone label font=\scriptsize\itshape
@@ -779,11 +808,14 @@ O AI-CogWalk-NAV prevê a distribuição dos primeiros cliques a partir de uma t
 
 Nos testes adicionais, a estratégia com menor JSD para o GPT foi a resposta direta na comédia e a análise livre no notebook. Para o Claude, foi a análise livre na comédia e o percurso cognitivo no notebook. Os dois casos pertencem ao desenvolvimento e tiveram uma chamada por condição e modelo. O experimento planejado com todas as tarefas avaliará se essas diferenças persistem. A etapa seguinte investigará se o agente ajuda a antecipar as escolhas de ingressantes no portal do IFPB, confrontando as previsões congeladas com os cliques registrados em português.
 
+\clearpage
+\phantomsection\addcontentsline{toc}{section}{Referências}
+\makeatletter\renewcommand{\@biblabel}[1]{}\makeatother
 \bibliographystyle{sbc}
 \bibliography{references}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\appendix
+\clearpage\appendix
 
 \section{Prompts (versão \code{nav-1.1})}
 \label{ap:prompts}
@@ -849,29 +881,61 @@ Options (id: label @ x,y,width,height):
 \section{Como reproduzir}
 \label{ap:repro}
 
+\subsection{Conferir os resultados publicados}
+A partir da raiz do repositório, os comandos a seguir usam as exportações existentes e não geram novas chamadas aos modelos.
 \begin{lstlisting}
-# 1. Backend e banco (PostgreSQL 16), sem chaves de API para B0/UNIFORM
-cd backend && ./gradlew bootJar
-java -jar build/libs/aicogwalk-backend-0.1.0.jar        # porta 8080
-
-# 2. Importar o benchmark (revisão fixada) e rodar as referências
-curl -X POST localhost:8080/api/nav/datasets/kuric2025
-curl -X POST localhost:8080/api/nav/datasets/1/runs -H 'Content-Type: application/json' -d '{"method":"UNIFORM"}'
-curl -X POST localhost:8080/api/nav/datasets/1/runs -H 'Content-Type: application/json' -d '{"method":"B0"}'
-
-# 3. Piloto (requer ANTHROPIC_API_KEY e OPENAI_API_KEY)
-curl -X POST localhost:8080/api/nav/datasets/1/runs -H 'Content-Type: application/json' \
-  -d '{"method":"B1_CW","model":"gpt-4.1","stateKeys":["TP-t2-raiz","TP-t8-raiz","WTC-t4-raiz","WM-t8-raiz"]}'
-
-# 4. Exportar e conferir em Python
-curl localhost:8080/api/nav/runs/2/export.json > b0.json
-python3 analysis/verify_b0_metrics.py <dir do modelo> b0.json uniform.json
-python3 analysis/nav_kuric_analysis.py uniform.json b0.json
-python3 analysis/nav_b0_crossfit.py b0.json
+cd analysis
+D=resultados-2026-11-13
+python3 nav_kuric_analysis.py "$D/kuric-uniform.json" "$D/kuric-b0.json"
+python3 nav_b0_crossfit.py "$D/kuric-b0.json"
+python3 piloto_gpt.py
 \end{lstlisting}
+
+\subsection{Gerar previsões pelo protótipo}
+Na raiz do repositório, configurar a chave do fornecedor no arquivo local \path{.env} e iniciar o backend. O script importa o benchmark quando necessário, seleciona o estado textual da comédia e exporta as rodadas. Os identificadores de rodada são atribuídos pelo backend.
+\begin{lstlisting}
+docker compose up -d --build backend
+python3 analysis/piloto_gpt.py --executar --modelo gpt-4.1
+python3 analysis/piloto_gpt.py --executar --modelo claude-opus-5-5
+\end{lstlisting}
+Para repetir o caso do notebook, usar o endpoint \path{/api/nav/datasets/<id>/runs} com o identificador do conjunto Kuric importado. Em cada chamada POST, informar um dos métodos \code{B1}, \code{B1\_CW} ou \code{B1\_R}, o modelo e o filtro de estado. Exemplo de corpo JSON:
+\begin{lstlisting}
+{"method":"B1_R","model":"gpt-4.1",
+ "splits":["DEV"],"stateKeys":["TP-t8-raiz"]}
+\end{lstlisting}
+Acompanhar o identificador retornado em \path{/api/nav/runs/<id>} e, após a conclusão, obter \path{/api/nav/runs/<id>/export.json}. O campo \code{cacheHits} da previsão informa se houve reutilização.
+
 
 Os \textit{hashes} esperados para a revisão \code{6cc9130} e os prompts \code{nav-1.1}: UNIFORM \code{7763c4455b95e91d\ldots}, B0 \code{55de6c0fc7fe4083\ldots}. As exportações das rodadas de 13/11/2026 estão em \code{analysis/resultados-2026-11-13/}.
 
 \paragraph{Conferência dos casos adicionais.} No repositório \url{https://github.com/L42Matheus/ai-cogwalk}, os diretórios \path{analysis/piloto-comedia-2026-11-13/} e \path{analysis/piloto-notebook-2026-11-13/} contêm seis exportações cada. Para cada arquivo, a previsão está em \code{distribution}, as contagens observadas em \code{humanCounts} e a divergência em \code{metrics.jsd}. A comparação usa os oito identificadores da mesma tela. Os resultados do piloto inicial permanecem no diretório indicado acima.
+
+\clearpage
+\section{Distribuições completas dos dois casos}
+As tabelas apresentam as oito opções na ordem do menu. A coluna humana mostra o número de cliques entre 30 participantes. As demais colunas mostram as porcentagens previstas nas chamadas adicionais. B1 corresponde à resposta direta, CW às perguntas do percurso cognitivo e R à análise livre por opção.
+
+\begin{table}[!ht]\centering\small\caption{Recomendação de comédia. Percentuais por modelo e condição.}\begin{tabular}{lrrrrrrr}\toprule
+ & & \multicolumn{3}{c}{GPT-4.1 (\%)} & \multicolumn{3}{c}{Claude Opus 5.5 (\%)} \\ Opção & Cliques & B1 & CW & R & B1 & CW & R \\ \midrule
+Trending & 0 & 19,0 & 18,0 & 20,0 & 8,0 & 7,0 & 5,0 \\
+Entertainment & 26 & 62,0 & 60,0 & 55,0 & 72,0 & 72,0 & 75,0 \\
+Hobbies & 1 & 3,0 & 1,0 & 3,0 & 5,0 & 4,0 & 4,0 \\
+Culture & 3 & 6,0 & 5,0 & 10,0 & 7,0 & 8,0 & 8,0 \\
+Science & 0 & 1,0 & 1,0 & 1,0 & 0,5 & 1,0 & 0,5 \\
+Society & 0 & 1,0 & 1,0 & 3,0 & 1,0 & 1,0 & 1,0 \\
+Lifestyle & 0 & 8,0 & 13,0 & 7,0 & 6,0 & 6,0 & 6,0 \\
+About us & 0 & 0,0 & 1,0 & 1,0 & 0,5 & 1,0 & 0,5 \\
+\bottomrule\end{tabular}\end{table}
+
+\begin{table}[!ht]\centering\small\caption{Compra de notebook. Percentuais por modelo e condição.}\begin{tabular}{lrrrrrrr}\toprule
+ & & \multicolumn{3}{c}{GPT-4.1 (\%)} & \multicolumn{3}{c}{Claude Opus 5.5 (\%)} \\ Opção & Cliques & B1 & CW & R & B1 & CW & R \\ \midrule
+Trending & 2 & 50,0 & 28,0 & 25,0 & 12,0 & 12,0 & 8,0 \\
+Entertainment & 5 & 5,0 & 1,0 & 3,0 & 4,0 & 6,0 & 3,0 \\
+Hobbies & 7 & 4,0 & 1,0 & 18,0 & 7,0 & 7,0 & 7,0 \\
+Culture & 0 & 3,0 & 1,0 & 3,0 & 2,0 & 2,0 & 2,0 \\
+Science & 4 & 10,0 & 13,0 & 6,0 & 40,0 & 40,0 & 42,0 \\
+Society & 0 & 5,0 & 1,0 & 3,0 & 3,0 & 2,0 & 2,0 \\
+Lifestyle & 12 & 20,0 & 55,0 & 40,0 & 30,0 & 29,0 & 35,0 \\
+About us & 0 & 3,0 & 0,0 & 2,0 & 2,0 & 2,0 & 1,0 \\
+\bottomrule\end{tabular}\end{table}
 
 \end{document}
