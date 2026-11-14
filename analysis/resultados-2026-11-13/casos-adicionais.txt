@@ -1,0 +1,59 @@
+== 1. Previsões adicionais (uma chamada por combinação) ==
+
+comédia (TP-t2): cliques humanos Trending 0, Entertainment 26, Hobbies 1, Culture 3, Science 0, Society 0, Lifestyle 0, About us 0
+  claude-opus-5-5  B1     JSD 0.0880  tokens 655/223  US$ 0.00708  | 8.0 72.0 5.0 7.0 0.5 1.0 6.0 0.5
+  claude-opus-5-5  B1-CW  JSD 0.0859  tokens 1145/499  US$ 0.01456  | 7.0 72.0 4.0 8.0 1.0 1.0 6.0 1.0
+  claude-opus-5-5  B1-R   JSD 0.0691  tokens 889/489  US$ 0.01334  | 5.0 75.0 4.0 8.0 0.5 1.0 6.0 0.5
+  gpt-4.1          B1     JSD 0.1635  tokens 287/201  US$ 0.00218  | 19.0 62.0 3.0 6.0 1.0 1.0 8.0 0.0
+  gpt-4.1          B1-CW  JSD 0.1985  tokens 501/413  US$ 0.00431  | 18.0 60.0 1.0 5.0 1.0 1.0 13.0 1.0
+  gpt-4.1          B1-R   JSD 0.1858  tokens 376/380  US$ 0.00379  | 20.0 55.0 3.0 10.0 1.0 3.0 7.0 1.0
+
+notebook (TP-t8): cliques humanos Trending 2, Entertainment 5, Hobbies 7, Culture 0, Science 4, Society 0, Lifestyle 12, About us 0
+  claude-opus-5-5  B1     JSD 0.1596  tokens 658/215  US$ 0.00693  | 12.0 4.0 7.0 2.0 40.0 3.0 30.0 2.0
+  claude-opus-5-5  B1-CW  JSD 0.1446  tokens 1148/510  US$ 0.01479  | 12.0 6.0 7.0 2.0 40.0 2.0 29.0 2.0
+  claude-opus-5-5  B1-R   JSD 0.1541  tokens 892/534  US$ 0.01425  | 8.0 3.0 7.0 2.0 42.0 2.0 35.0 1.0
+  gpt-4.1          B1     JSD 0.2950  tokens 291/256  US$ 0.00263  | 50.0 5.0 4.0 3.0 10.0 5.0 20.0 3.0
+  gpt-4.1          B1-CW  JSD 0.2217  tokens 505/431  US$ 0.00446  | 28.0 1.0 1.0 1.0 13.0 1.0 55.0 0.0
+  gpt-4.1          B1-R   JSD 0.1313  tokens 380/376  US$ 0.00377  | 25.0 3.0 18.0 3.0 6.0 3.0 40.0 2.0
+
+Todas as 12 JSDs recalculadas coincidem com as exportadas; nenhuma veio do cache.
+
+== 2. Mesma entrada e mesmo prompt, duas chamadas (piloto inicial x adicional) ==
+  gpt-4.1          TP-t2-raiz B1     JSD 0.1866 -> 0.1635  |dif| 0.0231  variação total entre as duas previsões 0.040
+  gpt-4.1          TP-t2-raiz B1-CW  JSD 0.1734 -> 0.1985  |dif| 0.0250  variação total entre as duas previsões 0.130
+      contraste B1-CW - B1: inicial -0.0132, adicional +0.0350
+  gpt-4.1          TP-t8-raiz B1     JSD 0.1807 -> 0.2950  |dif| 0.1143  variação total entre as duas previsões 0.150
+  gpt-4.1          TP-t8-raiz B1-CW  JSD 0.1985 -> 0.2217  |dif| 0.0232  variação total entre as duas previsões 0.060
+      contraste B1-CW - B1: inicial +0.0177, adicional -0.0733
+  claude-opus-5-5  TP-t2-raiz B1     JSD 0.0819 -> 0.0880  |dif| 0.0061  variação total entre as duas previsões 0.010
+  claude-opus-5-5  TP-t2-raiz B1-CW  JSD 0.0746 -> 0.0859  |dif| 0.0113  variação total entre as duas previsões 0.020
+      contraste B1-CW - B1: inicial -0.0073, adicional -0.0021
+  claude-opus-5-5  TP-t8-raiz B1     JSD 0.1487 -> 0.1596  |dif| 0.0109  variação total entre as duas previsões 0.030
+  claude-opus-5-5  TP-t8-raiz B1-CW  JSD 0.1596 -> 0.1446  |dif| 0.0151  variação total entre as duas previsões 0.020
+      contraste B1-CW - B1: inicial +0.0109, adicional -0.0151
+  Direção do contraste mudou em 3 de 4 combinações.
+  gpt-4.1: |dif. de JSD| entre chamadas, média 0.0464, mín. 0.0231, máx. 0.1143 (4 pares)
+  claude-opus-5-5: |dif. de JSD| entre chamadas, média 0.0108, mín. 0.0061, máx. 0.0151 (4 pares)
+
+== 3. Contrastes dentro da rodada adicional ==
+  gpt-4.1          TP-t2-raiz  CW-B1 +0.0350  CW-R +0.0127  R-B1 +0.0223  menor JSD: B1
+  gpt-4.1          TP-t8-raiz  CW-B1 -0.0733  CW-R +0.0904  R-B1 -0.1637  menor JSD: B1-R
+  claude-opus-5-5  TP-t2-raiz  CW-B1 -0.0021  CW-R +0.0169  R-B1 -0.0190  menor JSD: B1-R
+  claude-opus-5-5  TP-t8-raiz  CW-B1 -0.0151  CW-R -0.0096  R-B1 -0.0055  menor JSD: B1-CW
+
+== 4. Custo estimado (US$) ==
+  Piloto inicial       16 chamadas  GPT-4.1 0.03432  Claude 0.10384  total 0.13816
+  comédia (TP-t2)       6 chamadas  GPT-4.1 0.01028  Claude 0.03498  total 0.04526
+  notebook (TP-t8)      6 chamadas  GPT-4.1 0.01086  Claude 0.03597  total 0.04683
+  Total documentado    28 chamadas  GPT-4.1 0.05546  Claude 0.17478  total 0.23024
+
+== 5. Referência de popularidade (10 tarefas) ==
+  popularidade ajustada em DEV: 0.043 0.349 0.106 0.070 0.118 0.034 0.279 0.001
+  popularidade ajustada em TEST: 0.013 0.159 0.146 0.219 0.141 0.096 0.222 0.004
+  JSD popularidade             +0.3343 [+0.2706; +0.3992]
+  JSD B0 (val. cruzada)        +0.2882 [+0.2385; +0.3454]
+  JSD UNIFORM                  +0.3748 [+0.3303; +0.4205]
+  popularidade - UNIFORM       -0.0405 [-0.0906; +0.0145]  tarefas com diferença < 0: 8/10  troca de sinal p = 0.182
+  B0 - popularidade            -0.0461 [-0.0887; +0.0065]  tarefas com diferença < 0: 8/10  troca de sinal p = 0.109
+  B0 - UNIFORM                 -0.0866 [-0.1449; -0.0167]  tarefas com diferença < 0: 8/10  troca de sinal p = 0.041
+  por tarefa (popularidade | B0 | UNIFORM): t2 0.470|0.377|0.526  t3 0.220|0.198|0.411  t4 0.313|0.322|0.365  t5 0.310|0.209|0.353  t6 0.214|0.154|0.287  t7 0.495|0.484|0.347  t8 0.162|0.311|0.246  t9 0.417|0.270|0.367  t10 0.355|0.271|0.437  t11 0.385|0.287|0.409

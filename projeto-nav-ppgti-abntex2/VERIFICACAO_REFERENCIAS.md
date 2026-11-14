@@ -1,12 +1,12 @@
 # Verificação das referências do AI-CogWalk-NAV (versão no modelo do PPGTI)
 
-Situação em 14/11/2026. As referências novas foram abertas na fonte em 13/11/2026 (página da editora, arXiv, ACL Anthology, PMLR, repositório institucional ou repositório do código).
+Situação em 14/11/2026. As referências novas foram abertas na fonte em 13/11/2026 e 14/11/2026 (página da editora, Crossref, arXiv, ACL Anthology, PMLR, repositório institucional ou repositório do código).
 
 ## Corrigidas nesta revisão
 
 - `jin2026scent`: os autores são Xiaofu Jin, Yunpeng Bai e Antti Oulasvirta. O arquivo anterior trazia "Xiaofei Jin" e "Yu Bai".
 - `lu2025uxagent`: lista completa de autores e DOI 10.1145/3706599.3719729.
-- `hu2025uitransition`: continua sendo versão preliminar; URL acrescentada.
+- `hu2025uitransition`: publicado. International Journal of Human-Computer Studies, v. 206, artigo 103661, 2025, DOI 10.1016/j.ijhcs.2025.103661 (conferido no Crossref em 14/11/2026). A entrada deixou de ser versão preliminar.
 - Duas chaves `}` sobrando no arquivo `.bib` foram removidas.
 - `cns2016res510` e `brasil2018lgpd`: autor institucional em maiúsculas, como pede a ABNT.
 
@@ -47,6 +47,18 @@ kuric2026wwgc, kuric2025ia, kuric2025dataset, kuric2025cardsorting, fu2007snifac
 | rigutti2015webparty | PeerJ 3:e828. Texto. **Prenomes dos coautores não conferidos na página.** | Só para a pergunta Q2 (visibilidade). O artigo não trata do significado dos rótulos. |
 | brumby2008strategies | Human-Computer Interaction 23(1), p. 1–46, DOI conferido. **O resumo do artigo não abriu.** A afirmação usada (pessoas não examinam todas as opções; depende da relevância dos concorrentes) foi conferida em dois textos dos mesmos autores sobre os mesmos experimentos: a tese de Brumby (Cardiff, 2005) e Brumby e Howes (ICCM 2004). | Justificativa do controle B1-R. Vale abrir o artigo antes de uma submissão. |
 
+## Acrescentadas em 14/11/2026 (vindas do ramo `artigo-piloto-gpt`), conferidas na fonte
+
+| Chave | O que foi conferido | Como é usada no texto |
+|---|---|---|
+| mcfadden1974 | Registro bibliográfico: Frontiers in Econometrics, ed. P. Zarembka, Academic Press, Nova York, 1974, p. 105–142. **Só os metadados.** Algumas fontes datam o livro de 1973. | Antecedente clássico: logit condicional. O B0 tem essa forma com um atributo. |
+| costa2022ufam | Página do repositório da UFAM: dissertação de Mestrado em Design, 2022, 151 f. Resumo: entrevistas com 12 professores e 12 estudantes, teste de árvore com 130 respondentes, teste de usabilidade com 18; confirma problemas de encontrabilidade. **A página principal exigiu JavaScript; os dados vieram do espelho de homologação do mesmo repositório.** | Contexto brasileiro: encontrabilidade em portal de universidade federal. |
+| lin2024showui | arXiv:2411.17465, 26 nov. 2024. Resumo. | Extensão futura: modelo especializado em interfaces. |
+| lu2024omniparser | arXiv:2408.00203, 1 ago. 2024. Resumo. | Extensão futura: estruturação de elementos da tela. |
+| lewis2020rag | arXiv:2005.11401. Metadados. | Extensão futura: recuperação de evidências. |
+
+Também conferido em 14/11/2026: *What Would GPT Click* (arXiv:2605.18302) relata a **distância** de Jensen–Shannon (Tabela 2 e Seções 4.1 e 4.2). O nosso texto relata a divergência e diz que os valores dos dois estudos não são comparáveis. As chaves `brumby2008`, `meister2025` e `gneiting2007` do ramo correspondem a `brumby2008strategies`, `meister2025distributional` e `gneiting2007proper` deste arquivo.
+
 ## Pontos de atenção
 
 - `kharchenko2026early`: metadados conferem, mas a fonte é pouco confiável. Aparece só na tabela de trabalhos relacionados e não sustenta nenhum argumento.
@@ -58,4 +70,4 @@ kuric2026wwgc, kuric2025ia, kuric2025dataset, kuric2025cardsorting, fu2007snifac
 
 - O B1 é descrito como "inspirado" no protocolo do What Would GPT Click, nunca como reprodução.
 - Os dados do Kuric 2025 e os do What Would GPT Click não são misturados.
-- Nenhum número foi inventado: todo valor de resultado vem das exportações em `analysis/resultados-2026-11-13/`.
+- Nenhum número foi inventado: todo valor de resultado vem das exportações em `analysis/resultados-2026-11-13/`, `analysis/piloto-comedia-2026-11-13/` e `analysis/piloto-notebook-2026-11-13/`.
