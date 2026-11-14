@@ -682,6 +682,23 @@ Análise livre por opção & 40\% & 0,131 & 35\% & 0,154 \\
 
 Considerando as oito opções, o GPT teve menor JSD com a resposta direta na comédia e com a análise livre no notebook. Para o Claude, a menor JSD ocorreu com a análise livre na comédia e com o percurso cognitivo no notebook. Uma execução por condição em dois estados já conhecidos permite descrever essa variação. Avaliar sua estabilidade exige repetir as chamadas e comparar os métodos nas demais tarefas.
 
+\subsection{Quanto custaram as chamadas aos modelos?}
+\label{sec:custos}
+O protótipo registra os tokens enviados (instruções, tarefa e opções) e os tokens recebidos (resposta do modelo). Os fornecedores podem atribuir preços diferentes à entrada e à saída. Para cada rodada, multiplicamos a quantidade de tokens de cada tipo pela respectiva tarifa e somamos as duas parcelas. Usamos as tarifas registradas no protótipo na data das execuções (Tabela~\ref{tab:piloto}). Os valores representam uso estimado das APIs em dólares, sem incluir infraestrutura, horas da equipe ou coleta com pessoas.
+
+\begin{table}[!htb]\centering\small\caption{Custo estimado das chamadas documentadas nos arquivos de resultados (US\$). Totais calculados antes do arredondamento.}\label{tab:custos}
+\begin{tabular}{lrrrr}\toprule
+Etapa & Chamadas & GPT-4.1 & Claude Opus 5.5 & Total \\ \midrule
+Piloto inicial & 16 & 0,03432 & 0,10384 & 0,13816 \\
+Caso da comédia & 6 & 0,01028 & 0,03498 & 0,04526 \\
+Caso do notebook & 6 & 0,01086 & 0,03597 & 0,04683 \\
+\textbf{Total documentado} & 28 & 0,05546 & 0,17478 & 0,23024 \\
+\bottomrule\end{tabular}\end{table}
+
+No caso do notebook, a resposta direta do GPT usou 291 tokens de entrada e 256 de saída, com custo estimado de US\$~0,00263. Ao analisar livremente as opções, o mesmo modelo usou 380 tokens de entrada e 376 de saída, com custo de US\$~0,00377. Foram duas chamadas individuais: o segundo valor aumentou porque a entrada e a resposta ficaram maiores. B0 e UNIFORM são calculados localmente e registraram zero chamadas às APIs.
+
+O manuscrito também registra cerca de US\$~0,60 em testes de funcionamento anteriores. Esse valor tem precisão menor e não dispõe do mesmo detalhamento por rodada nas exportações utilizadas nesta tabela. Somando essa estimativa ao total documentado, o histórico descrito fica em aproximadamente US\$~0,83. A cobrança efetiva depende da fatura de cada fornecedor.
+
 \section{Discussão dos resultados}
 \label{sec:discussao}
 \subsection{Fidelidade no primeiro clique}
@@ -723,7 +740,7 @@ O agente proposto retornaria a distribuição por opção e permitiria à equipe
 \begin{planejado}
 \textbf{Escopo.} As cinco condições com LLM (B1, B1-CW, B1-R, B1-S e B1-CW-S) em Claude Opus~5.5 e GPT-4.1, uma única vez, nos 60 estados, depois de uma verificação curta em poucos estados. Como as três variantes textuais dão ao modelo a mesma entrada, há 40 entradas distintas (10 textuais e 30 visuais); estados com a mesma entrada recebem a mesma previsão, servida pelo \textit{cache}.
 
-\textbf{Custo estimado.} A partir dos \textit{tokens} medidos no piloto e nos testes de funcionamento: cerca de US\$~29 no Claude e US\$~9 no GPT-4.1 para as cinco condições em todos os estados, dominados pelas condições amostradas ($N=30$, cerca de 1.200 chamadas por condição e modelo). O controle B1-R acrescenta cerca de US\$~1 no total (40 chamadas por modelo). São estimativas, não orçamentos: o valor real será medido e o experimento só roda com aprovação.
+\textbf{Orçamento da próxima etapa.} A projeção do protocolo, baseada nos tokens dos pilotos, é de cerca de US\$~9 para o GPT-4.1 e US\$~29 para o Claude, totalizando US\$~38 para as cinco condições. O valor já inclui B1-R. Com reutilização das entradas repetidas, há 40 entradas distintas por modelo. B1, B1-CW e B1-R exigem uma previsão por entrada ($3\times40=120$); B1-S e B1-CW-S simulam 30 escolhas cada ($2\times40\times30=2.400$). Assim, o plano prevê 2.520 chamadas por modelo, 5.040 nos dois. O total efetivo varia com reaproveitamento de respostas já armazenadas, novas tentativas, comprimento das respostas e tarifas aplicadas. A execução depende da aprovação do orçamento.
 
 \textbf{Pontos a decidir antes de rodar:}
 \begin{enumerate}[leftmargin=*,itemsep=0pt]
