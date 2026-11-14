@@ -63,11 +63,11 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
-When novices look for information in an institutional website, some of them take a wrong first step, and how many do so depends on the labels, the layout and the task. This paper presents \textit{\proj}, a method and a prototype that predict, before any user is observed, the \emph{distribution} of first navigation choices of novices, $P_H(a \mid s, t)$, from the task and the options visible on one screen, and compare it with choices observed in people. The study asks whether the controlled incorporation of cognitive walkthrough principles applicable to the first choice (goal, visibility and label association) and of sampling strategies changes the fidelity of distributions predicted by large language models (LLMs), compared with a conventional semantic baseline; a control condition separates the effect of the walkthrough questions from that of simply deliberating about each option. The protocol uses frozen predictions, a public benchmark with 1{,}796 first clicks in six presentation variants \cite{kuric2025ia}, two-fold cross-validation by task and the Jensen--Shannon divergence as primary metric, with task-level bootstrap intervals and exact sign-flip tests. We report what is already real: the implementation was verified independently, the semantic baseline (B0) and a uniform reference were run end to end with reproducible hashes, and a four-state pilot with GPT-4.1 and Claude Opus~5.5 checked prompts, storage, input isolation and actual costs. The full LLM experiment and the pilot in the IFPB portal are planned and described step by step.
+Predicting where first-time visitors will click requires estimating how choices are distributed across visible options. We present AI-CogWalk-NAV, a method that adapts three cognitive walkthrough questions to each option and compares predicted distributions with observed first clicks. Across 1,796 clicks, ten tasks and six interface variants, a semantic baseline achieved a mean Jensen--Shannon divergence of 0.288, compared with 0.375 for a uniform distribution. The semantic baseline was closer to human choices on eight tasks. In a four-state pilot, adding walkthrough questions lowered mean divergence for one language model and raised it for the other. In follow-up tests on two text menus, the prompt closest to human choices varied by task within each model. A prospective study at IFPB will evaluate the method as a basis for a first-click prediction agent.
 \end{abstract}
 
 \begin{resumo}
-Quando iniciantes procuram uma informação num portal institucional, parte deles dá um primeiro passo errado, e a proporção depende dos rótulos, do leiaute e da tarefa. Este trabalho apresenta o \textit{\proj}, um método e um protótipo que preveem, antes de observar qualquer usuário, a \emph{distribuição} das primeiras escolhas de navegação de iniciantes, $P_H(a \mid s, t)$, a partir da tarefa e das opções visíveis numa tela, e a comparam com escolhas observadas em pessoas. O estudo investiga se a incorporação controlada de princípios do percurso cognitivo aplicáveis à primeira escolha (objetivo, visibilidade e associação do rótulo) e de estratégias de amostragem modifica a fidelidade das distribuições previstas por modelos de linguagem de grande escala (LLMs), em comparação com uma \textit{baseline} semântica convencional; uma condição de controle separa o efeito das perguntas do percurso cognitivo do efeito de apenas deliberar sobre cada opção. O protocolo usa previsões congeladas, um \textit{benchmark} público com 1.796 primeiros cliques em seis variantes de apresentação \cite{kuric2025ia}, validação cruzada em duas partes por tarefa e a divergência de Jensen--Shannon como métrica principal, com intervalos por \textit{bootstrap} de tarefas e testes exatos de troca de sinal. Relatamos o que já é real: a implementação foi conferida de forma independente, a \textit{baseline} semântica (B0) e uma referência uniforme foram executadas de ponta a ponta com \textit{hashes} reprodutíveis, e um piloto de quatro estados com GPT-4.1 e Claude Opus~5.5 verificou prompts, armazenamento, isolamento das entradas e custos reais. O experimento completo com LLMs e o piloto no portal do IFPB estão planejados e descritos passo a passo.
+No benchmark estudado, a opção mais popular de uma tela recebe, em média, 58\% dos primeiros cliques. Prever como as escolhas restantes se distribuem pode ajudar a identificar rótulos que competem pela atenção do visitante. Apresentamos o AI-CogWalk-NAV, método para estimar a distribuição dessas escolhas a partir da tarefa e das opções disponíveis no primeiro acesso. O método adapta três perguntas do percurso cognitivo a cada opção visível e permite comparar as previsões com escolhas humanas. Em um benchmark com 1.796 primeiros cliques, dez tarefas e seis variantes de apresentação, uma baseline baseada na semelhança entre tarefa e rótulo obteve divergência média de Jensen–Shannon de 0,288, frente a 0,375 da referência uniforme. A baseline teve menor divergência em oito tarefas. Em um piloto com quatro estados, acrescentar as perguntas do percurso cognitivo reduziu a divergência média em um modelo e a elevou no outro. Em testes adicionais com dois menus textuais, a estratégia mais próxima das escolhas humanas variou entre tarefas em cada modelo. A avaliação prospectiva no IFPB investigará a aplicação do método em um agente de previsão do primeiro clique.
 \end{resumo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -102,6 +102,8 @@ Esse é o ponto de partida do \proj. Não basta acertar a opção mais provável
 em que $s$ é o estado da interface (a tela), $t$ é a tarefa e $A(s)$ é o conjunto de opções visíveis. O preditor recebe apenas o que o iniciante tem no momento da decisão (a tarefa, a tela e as opções) e nunca o caminho correto, o destino ou dados humanos do estado avaliado.
 
 \subsection{Pergunta central e hipótese}
+
+\textbf{Objetivo geral.} Avaliar com que fidelidade modelos de linguagem preveem a distribuição dos primeiros cliques de visitantes em uma interface desconhecida e em que condições o uso de perguntas do percurso cognitivo melhora essa previsão. O produto tecnológico pretendido é um agente de apoio à avaliação de navegação. O benchmark fornece as escolhas humanas para testar o método; o estudo no IFPB avaliará sua aplicação em um portal real, com previsões registradas antes da coleta.
 
 \begin{nota}[Hipótese central]
 A incorporação controlada de princípios cognitivos e de estratégias de amostragem modifica a fidelidade das distribuições de escolhas previstas por LLMs em relação às escolhas humanas de primeiro clique, quando comparada a uma \textit{baseline} semântica convencional.
@@ -140,7 +142,9 @@ Não é o primeiro a usar LLMs para prever o primeiro clique \cite{kuric2026wwgc
 
 \textbf{Por que testar princípios cognitivos.} O percurso cognitivo foi desenhado para iniciantes que aprendem explorando \cite{polson1992cw,wharton1994cw}. Suas perguntas descrevem exatamente o mecanismo da primeira escolha: a pessoa forma uma intenção (Q1), procura o controle (Q2) e julga se o rótulo combina com o que tem em mente (Q3). Se pedir ao LLM que raciocine por essas perguntas aproxima a distribuição prevista da humana, há um ganho metodológico concreto. Se afasta, por exemplo tornando o modelo mais ``confiante'', isso também é um resultado útil, porque mostra que estrutura de raciocínio de especialista não equivale a comportamento de iniciante.
 
-\textbf{Por que testar amostragem.} LLMs tendem a responder como ``super-usuários'': escolhem o caminho mais racional e variam pouco \cite{kuric2026wwgc,zhong2025syntheticcw}. Há duas formas naturais de obter uma distribuição: pedir a distribuição diretamente ou simular participantes independentes e contar as escolhas. Não se sabe qual delas é mais fiel, e a escolha afeta custo e dispersão.
+Em experimentos de busca em menus, participantes examinaram mais alternativas quando vários rótulos eram plausíveis para a tarefa \cite{brumby2008}. Por isso, o controle B1-R pede uma análise livre de cada opção: ele permite comparar duas instruções que exigem atenção ao conjunto inteiro do menu.
+
+\textbf{Por que testar amostragem.} LLMs tendem a responder como ``super-usuários'': escolhem o caminho mais racional e variam pouco \cite{kuric2026wwgc,zhong2025syntheticcw}. Há duas formas naturais de obter uma distribuição: pedir a distribuição diretamente ou simular participantes independentes e contar as escolhas. Em pesquisas de opinião, os modelos descreveram distribuições de respostas com maior fidelidade do que as reproduziram por simulação individual \cite{meister2025}. O contraste B1 versus B1-S investiga se o resultado se estende à previsão de uma ação observada em uma interface.
 
 \textbf{Por que um \textit{benchmark} público antes do portal.} Avaliar previsões exige dados humanos. O conjunto de Kuric et al. \cite{kuric2025ia} é público, tem 30 pessoas por estado e mostra a \emph{mesma} arquitetura de informação em seis apresentações (três de \textit{tree testing}, em texto, e três protótipos visuais). Isso permite desenvolver e validar o método sem coleta própria e sem submissão ao comitê de ética nesta fase. O portal do IFPB entra depois, como piloto prospectivo, com as previsões congeladas antes da coleta.
 
@@ -318,13 +322,13 @@ A regra mais importante do método é que o preditor nunca recebe o caminho corr
 Os prompts do sistema estão em inglês, como as tarefas do \textit{benchmark}, e são versionados (\code{nav-1.1}; o prompt do B1-R foi acrescentado depois do piloto sem alterar os demais). O texto completo está no Apêndice~\ref{ap:prompts}. A resposta é obrigatoriamente um JSON validado por esquema (\textit{structured outputs}), com a lista de opções restrita aos identificadores válidos. Os esquemas são serializados sempre na mesma ordem, o que mantém estáveis a chave de \textit{cache} e o \textit{hash} do prompt.
 
 \subsection{Parâmetros}
-Os parâmetros abaixo valem para todas as rodadas e entram no \textit{hash} de cada rodada: esforço de raciocínio \code{medium}; até 8.000 \textit{tokens} de saída; temperatura padrão de cada API (o Claude Opus~5.5 não aceita ajuste de temperatura); $N=30$ nas condições amostradas; $\tau_c=0{,}05$; limiar de relevância de 10\%; 1\% de mistura uniforme na \textit{log-loss}; semente 20261113. Uma resposta recusada ou truncada é repetida até três vezes; se continuar inválida, a amostra é descartada e contada.
+O protótipo registra esforço configurado como \code{medium}; no GPT-4.1, o cliente não envia esse parâmetro. O limite de 8.000 \textit{tokens} é usado no cliente Claude. Os demais parâmetros do protocolo são: temperatura padrão de cada API (o Claude Opus~5.5 não aceita ajuste de temperatura); $N=30$ nas condições amostradas; $\tau_c=0{,}05$; limiar de relevância de 10\%; 1\% de mistura uniforme na \textit{log-loss}; semente 20261113. Uma resposta recusada ou truncada é repetida até três vezes; se continuar inválida, a amostra é descartada e contada.
 
 \subsection{Hipóteses operacionais e critério de decisão}
 
 \begin{description}[leftmargin=0.9cm,style=nextline]
 \item[H1 (principal)] Para cada modelo, a diferença pareada $\JSD_{\text{B1-CW}}-\JSD_{\text{B1}}$ nas 10 tarefas tem intervalo de 95\% que exclui zero e $p<0{,}05$ no teste exato de troca de sinal. O teste é bilateral: a direção não é presumida.
-\item[H1a (atribuição)] Se H1 se confirmar, o mesmo critério é aplicado a $\JSD_{\text{B1-CW}}-\JSD_{\text{B1-R}}$. Só então o efeito é atribuído às perguntas do percurso cognitivo; caso contrário, é relatado como efeito de deliberar sobre cada opção.
+\item[H1a (atribuição)] Se H1 se confirmar, o mesmo critério é aplicado a $\JSD_{\text{B1-CW}}-\JSD_{\text{B1-R}}$. Esse contraste estima a mudança associada a substituir a análise livre pelas perguntas estruturadas. Um resultado inconclusivo deixa em aberto a explicação da diferença.
 \item[H2] O mesmo critério de H1 para $\JSD_{\text{B1-S}}-\JSD_{\text{B1}}$, acompanhado da diferença de entropia normalizada. Como a distribuição do B1-S vem de só 30 amostras, ela carrega um ruído amostral que, sozinho, aumenta a JSD (da ordem do piso amostral, 0,027). Para uma comparação justa, relatamos também o \textbf{B1 reamostrado}: 30 escolhas sorteadas da própria distribuição do B1, sem novas chamadas, que tem o mesmo ruído do B1-S. Se o B1-S só perde para o B1, mas não para o B1 reamostrado, a diferença é ruído e não comportamento.
 \item[H3] As condições B1 têm JSD menor que a do B0 (com $\tau$ em validação cruzada).
 \item[H4 (exploratória)] Os efeitos de H1 e H2 diferem entre as variantes textuais e visuais.
@@ -439,7 +443,7 @@ Ao fim de cada rodada, o protótipo calcula um \textit{hash} SHA-256 sobre as li
 \section{Passo a passo do experimento}
 \label{sec:passos}
 
-Esta seção descreve, em ordem, o que é feito em cada etapa e o que cada etapa produz. As etapas 1 a 8 já foram executadas; as demais estão planejadas.
+Esta seção descreve, em ordem, o que é feito em cada etapa e o que cada etapa produz. As etapas 1 a 9 já foram executadas; as demais estão planejadas.
 
 \begin{enumerate}[leftmargin=*,label=\textbf{Passo \arabic*.},itemsep=3pt]
 \item \textbf{Fixar os dados.} Baixar o repositório de Kuric et al. \cite{kuric2025dataset} na revisão \code{6cc9130}. \emph{Produz:} uma cópia imutável dos dados e dos protótipos.
@@ -450,6 +454,7 @@ Esta seção descreve, em ordem, o que é feito em cada etapa e o que cada etapa
 \item \textbf{Rodar as referências.} UNIFORM e B0, com $\tau$ do B0 ajustado só no DEV. \emph{Produz:} previsões, métricas e \textit{hashes} congelados; conferência independente em Python.
 \item \textbf{Piloto pequeno com LLMs.} B1 e B1-CW, em Claude e GPT-4.1, em 4 estados do DEV, para verificar prompts, respostas, armazenamento, isolamento das entradas e custo real. \emph{Produz:} o relatório da Seção~\ref{sec:piloto}.
 \item \textbf{B0 em validação cruzada.} Ajustar $\tau$ em cada metade das tarefas e avaliar na outra (Seção~\ref{sec:resultados}).
+\item \textbf{Comparar três prompts em dois casos de desenvolvimento.} Executar B1, B1-CW e B1-R em TP-t2 e TP-t8 nos dois modelos. As 12 previsões adicionais estão nas Tabelas~\ref{tab:comedia} e~\ref{tab:notebook}.
 \item \textbf{Revisão do método (planejado).} Análise dos resultados preliminares e decisão sobre os pontos em aberto da Seção~\ref{sec:plano}. Ajustes de prompt, se houver, usam só o DEV e geram nova versão.
 \item \textbf{Congelar parâmetros e orçamento (planejado).} Registrar versão dos prompts, modelos, esforço, $N$, limiares e semente; estimar o custo a partir dos \textit{tokens} medidos; obter aprovação.
 \item \textbf{Rodar as condições B1 uma única vez (planejado).} B1, B1-CW, B1-R, B1-S e B1-CW-S nos dois modelos, em todos os 60 estados (40 entradas distintas), com os parâmetros congelados. Uma rodada de verificação em poucos estados vem antes, para confirmar custo e estabilidade.
@@ -634,12 +639,39 @@ WM-t8 & Hobbies 8, Entertainment 7, Science 7, Lifestyle 5 & 0,219 & 0,148 & 0,1
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dois casos no mesmo menu textual}
+Repetimos duas tarefas de desenvolvimento na mesma variante textual de oito categorias: recomendar uma comédia (TP-t2) e escolher um notebook (TP-t8). Mantivemos os modelos e as instruções e incluímos a análise livre por opção (B1-R). Cada combinação de tarefa, modelo e condição gerou uma nova previsão, totalizando 12 chamadas sem reutilização do cache. As frequências humanas do benchmark serviram para avaliar as previsões após sua geração. A Tabela~\ref{tab:comedia} apresenta a probabilidade atribuída a \emph{Entertainment}, escolhida por 26 de 30 pessoas (86,7\%), e a distância entre a previsão completa e as oito proporções humanas.
+
+\begin{table}[!htb]\centering\small\caption{Teste adicional em TP-t2. Porcentagem prevista para \emph{Entertainment} e JSD das oito opções.}\label{tab:comedia}
+\begin{tabular}{lrrrr}\toprule
+ & \multicolumn{2}{c}{GPT-4.1} & \multicolumn{2}{c}{Claude Opus 5.5} \\
+Condição & Previsão & JSD & Previsão & JSD \\ \midrule
+Direta & 62\% & 0,164 & 72\% & 0,088 \\
+Percurso cognitivo & 60\% & 0,198 & 72\% & 0,086 \\
+Análise livre por opção & 55\% & 0,186 & 75\% & 0,069 \\
+\bottomrule\end{tabular}\end{table}
+
+Na tarefa do notebook, os cliques se distribuíram entre \emph{Lifestyle} (12), \emph{Hobbies} (7), \emph{Entertainment} (5), \emph{Science} (4) e \emph{Trending} (2). Com o prompt direto, o GPT atribuiu 50\% a \emph{Trending}, que recebeu apenas 2 de 30 cliques. Com a análise livre, atribuiu 40\% a \emph{Lifestyle}, exatamente a proporção observada, e também aproximou a distribuição completa da humana (Tabela~\ref{tab:notebook}).
+
+\begin{table}[!htb]\centering\small\caption{Notebook (TP-t8). Previsão para \emph{Lifestyle} (40\% dos cliques humanos) e JSD calculada sobre as oito opções.}\label{tab:notebook}
+\begin{tabular}{lrrrr}\toprule
+ & \multicolumn{2}{c}{GPT-4.1} & \multicolumn{2}{c}{Claude Opus 5.5} \\
+Condição & Previsão & JSD & Previsão & JSD \\ \midrule
+Direta & 20\% & 0,295 & 30\% & 0,160 \\
+Percurso cognitivo & 55\% & 0,222 & 29\% & 0,145 \\
+Análise livre por opção & 40\% & 0,131 & 35\% & 0,154 \\
+\bottomrule\end{tabular}\end{table}
+
+Considerando as oito opções, o GPT teve menor JSD com a resposta direta na comédia e com a análise livre no notebook. Para o Claude, a menor JSD ocorreu com a análise livre na comédia e com o percurso cognitivo no notebook. Uma execução por condição em dois estados já conhecidos permite descrever essa variação. Avaliar sua estabilidade exige repetir as chamadas e comparar os métodos nas demais tarefas.
+
 \section{Piloto no portal do IFPB}
 \label{sec:ifpb}
 
 \begin{planejado}
 O portal do IFPB é usado como estudo piloto prospectivo: as previsões são geradas e congeladas \emph{antes} de qualquer coleta com pessoas. Não é um teste cego do método, porque o pesquisador conhece o portal; é uma verificação de que o fluxo funciona num caso real e em português.
 \end{planejado}
+
+\textbf{Agente de apoio à avaliação de navegação.} Para uma tarefa como encontrar o calendário acadêmico, o agente receberia o enunciado e a tela inicial do portal. Sua saída mostraria as opções visíveis e a porcentagem estimada de visitantes que clicaria em cada uma. A equipe de usabilidade poderia priorizar para teste os menus com escolhas divididas. Se dois links levarem ao calendário, ambos podem ser escolhas válidas; o mapeamento das rotas define quais primeiros cliques representam um desvio. O protótipo já executa o fluxo de previsão e comparação no benchmark. A validação dessa aplicação em português requer a coleta prospectiva descrita a seguir.
 
 \textbf{Tarefa inicial.} Localizar o Edital nº 01/2026 de credenciamento do Banco de Especialistas do Polo de Inovação, a partir da página do Polo. A tarefa já está cadastrada no protótipo. Na fase de coleta, outras tarefas típicas de ingressantes serão acrescentadas (por exemplo, emitir uma declaração de matrícula ou achar o calendário acadêmico).
 
@@ -691,7 +723,7 @@ A captura independente já foi executada no portal fictício que acompanha o pro
 \textbf{Validade interna.}
 \begin{itemize}[leftmargin=*,itemsep=0pt]
 \item \textit{Vazamento de respostas.} Mitigado pelo isolamento estrutural das entradas, pela captura independente e pela auditoria dos prompts.
-\item \textit{Ajuste no conjunto de avaliação.} A temperatura do B0 é ajustada em validação cruzada, e nenhum estado é avaliado com um $\tau$ ajustado nele. Os prompts das condições com LLM foram escritos antes de qualquer rodada nos dados e só foram testados em 4 estados das tarefas pares; uma eventual revisão gera nova versão e é relatada. Cada condição roda uma única vez.
+\item \textit{Ajuste no conjunto de avaliação.} A temperatura do B0 é ajustada em validação cruzada, e nenhum estado é avaliado com um $\tau$ ajustado nele. Os prompts B1 e B1-CW foram avaliados inicialmente em quatro estados DEV. O controle B1-R foi acrescentado depois desse piloto e executado em dois desses estados; uma eventual revisão gera nova versão e é relatada. Cada condição roda uma única vez.
 \item \textit{Deliberação como confusão.} Pedir Q1--Q3 também faz o modelo escrever mais. O controle B1-R separa os dois efeitos.
 \item \textit{Contaminação do modelo.} O repositório do \textit{benchmark} é público desde 2025, e um LLM pode ter visto os dados. O risco é menor porque o modelo nunca recebe os rótulos da árvore completa nem as contagens, e será medido comparando o desempenho com o do piloto prospectivo no IFPB, cujos dados ainda não existem.
 \item \textit{Não determinismo.} As respostas das APIs variam entre chamadas. Todas as respostas ficam armazenadas, e a análise usa as respostas registradas; a variação entre chamadas é medida no B1-S.
@@ -743,8 +775,9 @@ A captura independente já foi executada no portal fictício que acompanha o pro
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Considerações finais}
+O AI-CogWalk-NAV prevê a distribuição dos primeiros cliques a partir de uma tarefa e das opções visíveis. No benchmark público, a referência semântica obteve JSD média de 0,288, frente a 0,375 da distribuição uniforme. Em validação cruzada, a diferença pareada foi de $-0{,}087$ nas dez tarefas, com intervalo de 95\% de $-0{,}145$ a $-0{,}017$. A variabilidade por reamostragem das escolhas humanas (0,027 no TEST) e a comparação entre variantes (0,043) fornecem referências descritivas distintas.
 
-O \proj{} trata a previsão de navegação de iniciantes como um problema de distribuição, mensurável contra escolhas humanas, e propõe medir de forma controlada se princípios do percurso cognitivo e estratégias de amostragem tornam as previsões de LLMs mais fiéis. A infraestrutura para isso está construída e foi conferida de forma independente. A \textit{baseline} semântica e a referência uniforme estão medidas, e a meta realista ficou clara: um bom preditor deveria chegar perto de 0,03--0,04 de JSD, onde está a variação natural entre amostras humanas, enquanto o B0 está em 0,29 e o acaso em 0,38. Com $\tau$ em validação cruzada e as 10 tarefas, o B0 fica abaixo do acaso de forma detectável ($-0{,}087$, $p=0{,}041$). O piloto pequeno mostrou que o pipeline com LLMs funciona, que o custo por estado é baixo e que o efeito dos princípios cognitivos pode depender do modelo; o controle B1-R vai dizer se esse efeito vem das perguntas do percurso cognitivo ou apenas de deliberar mais. O próximo passo é o experimento completo, com parâmetros congelados e orçamento aprovado; depois, o piloto prospectivo no portal do IFPB.
+Nos testes adicionais, a estratégia com menor JSD para o GPT foi a resposta direta na comédia e a análise livre no notebook. Para o Claude, foi a análise livre na comédia e o percurso cognitivo no notebook. Os dois casos pertencem ao desenvolvimento e tiveram uma chamada por condição e modelo. O experimento planejado com todas as tarefas avaliará se essas diferenças persistem. A etapa seguinte investigará se o agente ajuda a antecipar as escolhas de ingressantes no portal do IFPB, confrontando as previsões congeladas com os cliques registrados em português.
 
 \bibliographystyle{sbc}
 \bibliography{references}
@@ -838,5 +871,7 @@ python3 analysis/nav_b0_crossfit.py b0.json
 \end{lstlisting}
 
 Os \textit{hashes} esperados para a revisão \code{6cc9130} e os prompts \code{nav-1.1}: UNIFORM \code{7763c4455b95e91d\ldots}, B0 \code{55de6c0fc7fe4083\ldots}. As exportações das rodadas de 13/11/2026 estão em \code{analysis/resultados-2026-11-13/}.
+
+\paragraph{Conferência dos casos adicionais.} No repositório \url{https://github.com/L42Matheus/ai-cogwalk}, os diretórios \path{analysis/piloto-comedia-2026-11-13/} e \path{analysis/piloto-notebook-2026-11-13/} contêm seis exportações cada. Para cada arquivo, a previsão está em \code{distribution}, as contagens observadas em \code{humanCounts} e a divergência em \code{metrics.jsd}. A comparação usa os oito identificadores da mesma tela. Os resultados do piloto inicial permanecem no diretório indicado acima.
 
 \end{document}
