@@ -1,0 +1,17 @@
+AI-CogWalk-NAV no modelo de dissertação do PPGTI/IFPB (abnTeX2)
+
+Arquivos
+  ai_cogwalk_nav_ppgti.tex   texto completo, num único arquivo
+  references.bib             referências (estilo ABNT, autor-ano)
+  figuras/                   imagens e o logotipo do IFPB usado na capa
+
+Como compilar no Overleaf
+  1. New Project > Upload Project > envie o .zip inteiro (não só o .tex).
+  2. Menu > Compiler: pdfLaTeX. O abnTeX2 já vem instalado no Overleaf.
+  3. Recompile. As referências e as listas aparecem depois da primeira compilação completa.
+
+Como compilar no computador
+  pdflatex ai_cogwalk_nav_ppgti && bibtex ai_cogwalk_nav_ppgti && pdflatex ai_cogwalk_nav_ppgti && pdflatex ai_cogwalk_nav_ppgti
+
+O que alterar no início do .tex
+  \autor, \orientador (hoje "A definir"), \tipotrabalho, \tipocapa e \preambulo.

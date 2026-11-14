@@ -1,0 +1,801 @@
+%% Referências do projeto AI-CogWalk
+%% Status de verificação (13/11/2026) anotado em cada entrada:
+%%   [verificada] = título, autores e veículo conferidos na página do artigo/editora
+%%   [conhecida]  = referência clássica, dados conferidos de memória bibliográfica; revisar antes de submeter
+
+%% ---------------- Percurso cognitivo e avaliação de usabilidade ----------------
+
+% [conhecida]
+@article{polson1992cw,
+  author    = {Polson, Peter G. and Lewis, Clayton and Rieman, John and Wharton, Cathleen},
+  title     = {Cognitive Walkthroughs: A Method for Theory-Based Evaluation of User Interfaces},
+  journal   = {International Journal of Man-Machine Studies},
+  volume    = {36},
+  number    = {5},
+  pages     = {741--773},
+  year      = {1992}
+}
+
+% [conhecida]
+@incollection{wharton1994cw,
+  author    = {Wharton, Cathleen and Rieman, John and Lewis, Clayton and Polson, Peter},
+  title     = {The Cognitive Walkthrough Method: A Practitioner's Guide},
+  booktitle = {Usability Inspection Methods},
+  editor    = {Nielsen, Jakob and Mack, Robert L.},
+  publisher = {John Wiley \& Sons},
+  address   = {New York},
+  pages     = {105--140},
+  year      = {1994}
+}
+
+% [conhecida]
+@inproceedings{spencer2000streamlined,
+  author    = {Spencer, Rick},
+  title     = {The Streamlined Cognitive Walkthrough Method, Working Around Social Constraints Encountered in a Software Development Company},
+  booktitle = {Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (CHI '00)},
+  publisher = {ACM},
+  pages     = {353--359},
+  year      = {2000}
+}
+
+% [conhecida] (versão de 2003 da revista; a primeira publicação é de 2001, v. 13, n. 4)
+@article{hartson2003criteria,
+  author    = {Hartson, H. Rex and Andre, Terence S. and Williges, Robert C.},
+  title     = {Criteria for Evaluating Usability Evaluation Methods},
+  journal   = {International Journal of Human-Computer Interaction},
+  volume    = {15},
+  number    = {1},
+  pages     = {145--181},
+  year      = {2003}
+}
+
+% [conhecida]
+@article{hertzum2001evaluator,
+  author    = {Hertzum, Morten and Jacobsen, Niels Ebbe},
+  title     = {The Evaluator Effect: A Chilling Fact About Usability Evaluation Methods},
+  journal   = {International Journal of Human-Computer Interaction},
+  volume    = {13},
+  number    = {4},
+  pages     = {421--443},
+  year      = {2001}
+}
+
+% [conhecida]
+@inproceedings{nielsen1993model,
+  author    = {Nielsen, Jakob and Landauer, Thomas K.},
+  title     = {A Mathematical Model of the Finding of Usability Problems},
+  booktitle = {Proceedings of the INTERACT '93 and CHI '93 Conference on Human Factors in Computing Systems},
+  publisher = {ACM},
+  pages     = {206--213},
+  year      = {1993}
+}
+
+%% ---------------- LLMs na avaliação de usabilidade ----------------
+
+% [verificada] CWGPT. AVI 2024, DOI 10.1145/3656650.3656676 (Crossref, IRIS Sapienza)
+@inproceedings{bisante2024cwgpt,
+  author    = {Bisante, Alba and Datla, Venkata Srikanth Varma and Panizzi, Emanuele and Trasciatti, Gabriella and Zeppieri, Stefano},
+  title     = {Enhancing Interface Design with {AI}: An Exploratory Study on a {ChatGPT-4}-Based Tool for Cognitive Walkthrough Inspired Evaluations},
+  booktitle = {Proceedings of the 2024 International Conference on Advanced Visual Interfaces (AVI '24)},
+  publisher = {ACM},
+  address   = {Arenzano, Genoa, Italy},
+  pages     = {1--5},
+  year      = {2024},
+  note      = {DOI: \url{https://doi.org/10.1145/3656650.3656676}}
+}
+
+% [verificada] Synthetic Cognitive Walkthrough = "Zhong et al." (mesmo trabalho). Preprint, sem veículo informado.
+@misc{zhong2025syntheticcw,
+  author    = {Zhong, Ruican and McDonald, David W. and Hsieh, Gary},
+  title     = {Synthetic Cognitive Walkthrough: Aligning Large Language Model Performance with Human Cognitive Walkthrough},
+  howpublished = {arXiv:2512.03568},
+  year      = {2025},
+  note      = {Disponível em: \url{https://arxiv.org/abs/2512.03568}}
+}
+
+% [verificada pelo título e arXiv id citados em zhong2025syntheticcw e no PerceptUI]
+@misc{zhong2025syntheticheuristic,
+  author    = {Zhong, Ruican and McDonald, David W. and Hsieh, Gary},
+  title     = {Synthetic Heuristic Evaluation: A Comparison between {AI-} and Human-Powered Usability Evaluation},
+  howpublished = {arXiv:2507.02306},
+  year      = {2025},
+  note      = {Disponível em: \url{https://arxiv.org/abs/2507.02306}}
+}
+
+% [verificada] Crossref: INTERACT 2025 (Belo Horizonte), LNCS, Springer, pp. 381-402
+@inproceedings{guerino2025gpt4o,
+  author    = {Guerino, Guilherme and Rodrigues, Luiz and Capeleti, Bruna and Mello, Rafael Ferreira and Freire, Andr{\'e} and Zaina, Luciana},
+  title     = {Can {GPT-4o} Evaluate Usability Like Human Experts? A Comparative Study on Issue Identification in Heuristic Evaluation},
+  booktitle = {Human-Computer Interaction -- INTERACT 2025},
+  series    = {Lecture Notes in Computer Science},
+  publisher = {Springer},
+  address   = {Cham},
+  pages     = {381--402},
+  year      = {2025},
+  note      = {DOI: \url{https://doi.org/10.1007/978-3-032-05005-2_20}}
+}
+
+% [conhecida]
+@inproceedings{duan2024mockups,
+  author    = {Duan, Peitong and Warner, Jeremy and Li, Yang and Hartmann, Bjoern},
+  title     = {Generating Automatic Feedback on {UI} Mockups with Large Language Models},
+  booktitle = {Proceedings of the CHI Conference on Human Factors in Computing Systems (CHI '24)},
+  publisher = {ACM},
+  year      = {2024}
+}
+
+% [verificada] título, arXiv id e aceite como LBW no CHI '25; lista completa de autores a conferir
+@inproceedings{lu2025uxagent,
+  author    = {Lu, Yuxuan and Yao, Bingsheng and Gu, Hansu and Huang, Jing and Wang, Jessie and Li, Yang and Gesi, Jiri and He, Qi and Li, Toby Jia-Jun and Wang, Dakuo},
+  title     = {{UXAgent}: An {LLM} Agent-Based Usability Testing Framework for Web Design},
+  booktitle = {Extended Abstracts of the CHI Conference on Human Factors in Computing Systems (CHI EA '25)},
+  publisher = {ACM},
+  year      = {2025},
+  doi       = {10.1145/3706599.3719729},
+  note      = {arXiv:2502.12561}
+}
+
+% [verificada] arXiv 2604.09581; código Apache-2.0 em github.com/Onflow-AI/Avenir-UX
+@misc{tan2026avenirux,
+  author    = {Tan, Wee Joe and Lim, Zi Rui Lucas and Durgad, Shashank and Obegi, Karim and Li, Aiden Yiliu},
+  title     = {{Avenir-UX}: Automated {UX} Evaluation via Simulated Human Web Interaction with {GUI} Grounding},
+  howpublished = {arXiv:2604.09581},
+  year      = {2026},
+  note      = {Código: \url{https://github.com/Onflow-AI/Avenir-UX}}
+}
+
+% [verificada] UIST '26, DOI 10.1145/3830398.3830609
+@inproceedings{holter2026uxcascade,
+  author    = {Holter, Steffen and Koh, Eunyee and Dogan, Mustafa Doga and Chan, Gromit Yeuk-Yin},
+  title     = {{UXCascade}: Scalable Usability Testing with Simulated User Agents},
+  booktitle = {Proceedings of the 39th Annual ACM Symposium on User Interface Software and Technology (UIST '26)},
+  publisher = {ACM},
+  year      = {2026},
+  note      = {DOI: \url{https://doi.org/10.1145/3830398.3830609}}
+}
+
+% [verificada] ACL Anthology 2026.emnlp-industry.22 (grafia "Narimawa" conforme a Anthology)
+@inproceedings{bougie2026perceptui,
+  author    = {Bougie, Nicolas and Ye, Xiaotong and Marconi, Gian Maria and Watanabe, Narimawa},
+  title     = {{PerceptUI}: {LLM} Agents as Human-Aligned Synthetic Users for {UI/UX} Evaluation},
+  booktitle = {Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing: Industry Track},
+  publisher = {Association for Computational Linguistics},
+  address   = {Budapest, Hungary},
+  pages     = {329--351},
+  year      = {2026}
+}
+
+%% ---------------- Agentes de interface e conjuntos de dados ----------------
+
+% [conhecida]
+@inproceedings{deka2017rico,
+  author    = {Deka, Biplab and Huang, Zifeng and Franzen, Chad and Hibschman, Joshua and Afergan, Daniel and Li, Yang and Nichols, Jeffrey and Kumar, Ranjitha},
+  title     = {Rico: A Mobile App Dataset for Building Data-Driven Design Applications},
+  booktitle = {Proceedings of the 30th Annual ACM Symposium on User Interface Software and Technology (UIST '17)},
+  publisher = {ACM},
+  pages     = {845--854},
+  year      = {2017}
+}
+
+% [verificada] CVPR 2026 (página do projeto e BibTeX oficial); arXiv 2603.25864
+@inproceedings{yang2026guide,
+  author    = {Yang, Saelyne and Yu, Jaesang and Peng, Yi-Hao and Lin, Kevin Qinghong and Cho, Jae Won and Song, Yale and Kim, Juho},
+  title     = {{GUIDE}: A Benchmark for Understanding and Assisting Users in Open-Ended {GUI} Tasks},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2026},
+  note      = {arXiv:2603.25864. Página: \url{https://guide-bench.github.io/}}
+}
+
+% [conhecida]
+@inproceedings{deng2023mind2web,
+  author    = {Deng, Xiang and Gu, Yu and Zheng, Boyuan and Chen, Shijie and Stevens, Samuel and Wang, Boshi and Sun, Huan and Su, Yu},
+  title     = {{Mind2Web}: Towards a Generalist Agent for the Web},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS), Datasets and Benchmarks Track},
+  year      = {2023}
+}
+
+% [conhecida]
+@inproceedings{zhou2024webarena,
+  author    = {Zhou, Shuyan and Xu, Frank F. and Zhu, Hao and Zhou, Xuhui and Lo, Robert and Sridhar, Abishek and Cheng, Xianyi and Ou, Tianyue and Bisk, Yonatan and Fried, Daniel and Alon, Uri and Neubig, Graham},
+  title     = {{WebArena}: A Realistic Web Environment for Building Autonomous Agents},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2024}
+}
+
+%% ---------------- Método, estatística e ética ----------------
+
+@book{wohlin2012experimentation,
+  author     = {Wohlin, Claes and Runeson, Per and H{\"o}st, Martin and Ohlsson, Magnus C. and Regnell, Bj{\"o}rn and Wessl{\'e}n, Anders},
+  title      = {Experimentation in Software Engineering},
+  publisher  = {Springer},
+  address    = {Berlin, Heidelberg},
+  year       = {2012},
+  note       = {DOI: \url{https://doi.org/10.1007/978-3-642-29044-2}}
+}
+
+@techreport{kitchenham2007slr,
+  author     = {Kitchenham, Barbara and Charters, Stuart},
+  title      = {Guidelines for Performing Systematic Literature Reviews in Software Engineering},
+  institution= {Keele University and Durham University},
+  number     = {EBSE-2007-01},
+  year       = {2007}
+}
+
+@article{mcnemar1947,
+  author     = {McNemar, Quinn},
+  title      = {Note on the Sampling Error of the Difference between Correlated Proportions or Percentages},
+  journal    = {Psychometrika},
+  volume     = {12},
+  number     = {2},
+  pages      = {153--157},
+  year       = {1947},
+  note       = {DOI: \url{https://doi.org/10.1007/BF02295996}}
+}
+
+@book{efron1993bootstrap,
+  author     = {Efron, Bradley and Tibshirani, Robert J.},
+  title      = {An Introduction to the Bootstrap},
+  publisher  = {Chapman \& Hall},
+  address    = {New York},
+  year       = {1993}
+}
+
+% [conhecida]
+@article{cohen1960kappa,
+  author    = {Cohen, Jacob},
+  title     = {A Coefficient of Agreement for Nominal Scales},
+  journal   = {Educational and Psychological Measurement},
+  volume    = {20},
+  number    = {1},
+  pages     = {37--46},
+  year      = {1960}
+}
+
+% [verificada] texto e data no portal do CNS e cópias institucionais
+@misc{cns2016res510,
+  author    = {{CONSELHO NACIONAL DE SAÚDE}},
+  title     = {Resolução nº 510, de 7 de abril de 2016: dispõe sobre as normas aplicáveis a pesquisas em Ciências Humanas e Sociais},
+  howpublished = {Diário Oficial da União, Brasília, DF, 24 maio 2016, Seção 1, p. 44--46},
+  year      = {2016}
+}
+
+% [conhecida]
+@misc{brasil2018lgpd,
+  author    = {{BRASIL}},
+  title     = {Lei nº 13.709, de 14 de agosto de 2018: Lei Geral de Proteção de Dados Pessoais ({LGPD})},
+  howpublished = {Diário Oficial da União, Brasília, DF, 15 ago. 2018},
+  year      = {2018}
+}
+
+@inproceedings{brown2020fewshot,
+  author    = {Brown, Tom B. and Mann, Benjamin and Ryder, Nick and Subbiah, Melanie and Kaplan, Jared and Dhariwal, Prafulla and others},
+  title     = {Language Models are Few-Shot Learners},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {33},
+  pages     = {1877--1901},
+  year      = {2020}
+}
+
+@inproceedings{wei2022cot,
+  author    = {Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten and Ichter, Brian and Xia, Fei and Chi, Ed H. and Le, Quoc V. and Zhou, Denny},
+  title     = {Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {35},
+  pages     = {24824--24837},
+  year      = {2022}
+}
+
+% ---------------------------------------------------------------- AI-CogWalk-NAV
+@misc{kuric2026wwgc,
+  author = {Kuric, Eduard and Demcak, Peter and Krajcovic, Matus},
+  title = {What Would {GPT} Click: Practical Effects of Human-{AI} Behavioral Misalignment and the Cost of Synthetic Participants in User Experience},
+  year = {2026},
+  howpublished = {arXiv:2605.18302 [cs.HC]},
+  note = {Preprint}
+}
+
+@article{kuric2025ia,
+  author = {Kuric, Eduard and Demcak, Peter and Krajcovic, Matus},
+  title = {Validation of Information Architecture: Cross-Methodological Comparison of Tree Testing Variants and Prototype User Testing},
+  journal = {Information and Software Technology},
+  volume = {183},
+  pages = {107740},
+  year = {2025},
+  doi = {10.1016/j.infsof.2025.107740}
+}
+
+@misc{kuric2025dataset,
+  author = {Kuric, Eduard and Demcak, Peter and Krajcovic, Matus},
+  title = {information-architecture-validation: dados e prot{\'o}tipos do estudo de valida{\c{c}}{\~a}o de arquitetura da informa{\c{c}}{\~a}o},
+  year = {2025},
+  howpublished = {\url{https://github.com/treetest-research/information-architecture-validation}, revis{\~a}o 6cc9130},
+  note = {Licen{\c{c}}a CC BY-NC 4.0}
+}
+
+@misc{kuric2025cardsorting,
+  author = {Kuric, Eduard and Demcak, Peter and Krajcovic, Matus},
+  title = {Card Sorting Simulator: Augmenting Design of Logical Information Architectures with Large Language Models},
+  year = {2025},
+  howpublished = {arXiv:2505.09478},
+  note = {Preprint}
+}
+
+@article{fu2007snifact,
+  author = {Fu, Wai-Tat and Pirolli, Peter},
+  title = {{SNIF-ACT}: A Cognitive Model of User Navigation on the World Wide Web},
+  journal = {Human-Computer Interaction},
+  volume = {22},
+  number = {4},
+  pages = {355--412},
+  year = {2007},
+  doi = {10.1080/07370020701638806}
+}
+
+@inproceedings{blackmon2002cww,
+  author = {Blackmon, Marilyn Hughes and Polson, Peter G. and Kitajima, Muneo and Lewis, Clayton},
+  title = {Cognitive Walkthrough for the Web},
+  booktitle = {Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (CHI)},
+  year = {2002},
+  doi = {10.1145/503376.503459}
+}
+
+@inproceedings{blackmon2005autocww,
+  author = {Blackmon, Marilyn Hughes and Kitajima, Muneo and Polson, Peter G.},
+  title = {Tool for Accurately Predicting Website Navigation Problems, Non-Problems, Problem Severity, and Effectiveness of Repairs},
+  booktitle = {Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (CHI)},
+  pages = {31--40},
+  year = {2005},
+  doi = {10.1145/1054972.1054978}
+}
+
+@misc{jin2026scent,
+  author = {Jin, Xiaofu and Bai, Yunpeng and Oulasvirta, Antti},
+  title = {Modeling Trial-and-Error Navigation With a Sequential Decision Model of Information Scent},
+  year = {2026},
+  howpublished = {arXiv:2603.11759},
+  note = {Preprint}
+}
+
+@misc{hu2025uitransition,
+  author = {Hu, Xiaozhu and Mo, Xiaoyu and Jin, Xiaofu and Chai, Yuan and Hu, Yongquan and Fan, Mingming and Braud, Tristan},
+  title = {Toward {AI}-driven {UI} Transition Intuitiveness Inspection for Smartphone Apps},
+  year = {2025},
+  note = {Preprint submetido ao International Journal of Human-Computer Studies, vers{\~a}o de 16 out. 2025},
+  url = {https://xrim.hkust.edu.hk/static/publications/uitransitions/UTP_IJHCS_minor_revision_cleanversion_submit.pdf}
+}
+
+@inproceedings{tong2026mango,
+  author = {Tong, Weixi and Di, Yifeng and Zhang, Tianyi},
+  title = {Mango: Multi-Agent Web Navigation via Global-View Optimization},
+  booktitle = {Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (ACL)},
+  pages = {14209--14223},
+  year = {2026},
+  doi = {10.18653/v1/2026.acl-long.646}
+}
+
+@inproceedings{li2026webtraveler,
+  author = {Li, Rongchang and Shen, Yang and Tang, Gan and Zhang, Zizhao and Zhang, Shuai and Wu, Haipang and Li, Xi},
+  title = {{WebTraveler}: A Multi-Agent Framework for Continuous Exploration in Website Traversal},
+  booktitle = {Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  pages = {20800--20820},
+  year = {2026},
+  doi = {10.18653/v1/2026.emnlp-main.903}
+}
+
+@misc{chowdhury2026amuser,
+  author = {Chowdhury, Anu and Wu, Bin and Rahmani, Hossein A. and Yilmaz, Emine},
+  title = {Automatic Multimodal {UX} Improvement Recommendations from {LLM} Agent User Simulations},
+  year = {2026},
+  howpublished = {arXiv:2609.22971},
+  note = {Preprint}
+}
+
+@article{kharchenko2026early,
+  author = {Kharchenko, R. and Chauhan, R. and Maseleno, A.},
+  title = {Task-Conditioned Early Prediction of Navigation Failure in Information Architecture Evaluation},
+  journal = {Journal of Cognitive Human-Computer Interaction},
+  volume = {11},
+  number = {1},
+  pages = {1--5},
+  year = {2026},
+  doi = {10.54216/jchci.110101}
+}
+
+@article{lin1991jsd,
+  author = {Lin, Jianhua},
+  title = {Divergence Measures Based on the {Shannon} Entropy},
+  journal = {IEEE Transactions on Information Theory},
+  volume = {37},
+  number = {1},
+  pages = {145--151},
+  year = {1991},
+  doi = {10.1109/18.61115}
+}
+
+@article{pirolli1999foraging,
+  author = {Pirolli, Peter and Card, Stuart},
+  title = {Information Foraging},
+  journal = {Psychological Review},
+  volume = {106},
+  number = {4},
+  pages = {643--675},
+  year = {1999},
+  doi = {10.1037/0033-295X.106.4.643}
+}
+
+@inproceedings{reimers2019sbert,
+  author = {Reimers, Nils and Gurevych, Iryna},
+  title = {Sentence-{BERT}: Sentence Embeddings using {Siamese} {BERT}-Networks},
+  booktitle = {Proceedings of EMNLP-IJCNLP 2019},
+  pages = {3982--3992},
+  year = {2019},
+  doi = {10.18653/v1/D19-1410}
+}
+
+@inproceedings{wang2020minilm,
+  author = {Wang, Wenhui and Wei, Furu and Dong, Li and Bao, Hangbo and Yang, Nan and Zhou, Ming},
+  title = {{MiniLM}: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers},
+  booktitle = {Advances in Neural Information Processing Systems 33 (NeurIPS 2020)},
+  year = {2020}
+}
+
+@article{brier1950,
+  author = {Brier, Glenn W.},
+  title = {Verification of Forecasts Expressed in Terms of Probability},
+  journal = {Monthly Weather Review},
+  volume = {78},
+  number = {1},
+  pages = {1--3},
+  year = {1950},
+  doi = {10.1175/1520-0493(1950)078<0001:VOFEIT>2.0.CO;2}
+}
+
+% ===== Referências acrescentadas na revisão de 13-14/11/2026 (todas conferidas na fonte; ver VERIFICACAO_REFERENCIAS.md) =====
+
+@inproceedings{meister2025distributional,
+  author    = {Meister, Nicole and Guestrin, Carlos and Hashimoto, Tatsunori},
+  title     = {Benchmarking Distributional Alignment of Large Language Models},
+  booktitle = {Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)},
+  address   = {Albuquerque, New Mexico},
+  publisher = {Association for Computational Linguistics},
+  pages     = {24--49},
+  year      = {2025},
+  doi       = {10.18653/v1/2025.naacl-long.2}
+}
+
+@misc{jang2026cannotsample,
+  author       = {Jang, Chaemin and Lee, Dongman and Kim, Jihee},
+  title        = {Instruction-Tuned Language Models Cannot Sample from Distributions They Can Describe},
+  year         = {2026},
+  howpublished = {arXiv:2607.25292},
+  note         = {Preprint, vers{\~a}o 3 de 10 out. 2026}
+}
+
+@article{argyle2023outofone,
+  author  = {Argyle, Lisa P. and Busby, Ethan C. and Fulda, Nancy and Gubler, Joshua R. and Rytting, Christopher and Wingate, David},
+  title   = {Out of One, Many: Using Language Models to Simulate Human Samples},
+  journal = {Political Analysis},
+  volume  = {31},
+  number  = {3},
+  pages   = {337--351},
+  year    = {2023},
+  doi     = {10.1017/pan.2023.2}
+}
+
+@inproceedings{aher2023turing,
+  author    = {Aher, Gati V. and Arriaga, Rosa I. and Kalai, Adam Tauman},
+  title     = {Using Large Language Models to Simulate Multiple Humans and Replicate Human Subject Studies},
+  booktitle = {Proceedings of the 40th International Conference on Machine Learning},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {202},
+  pages     = {337--371},
+  year      = {2023}
+}
+
+@article{dillion2023replace,
+  author  = {Dillion, Danica and Tandon, Niket and Gu, Yuling and Gray, Kurt},
+  title   = {Can {AI} Language Models Replace Human Participants?},
+  journal = {Trends in Cognitive Sciences},
+  volume  = {27},
+  number  = {7},
+  pages   = {597--600},
+  year    = {2023},
+  doi     = {10.1016/j.tics.2023.04.008}
+}
+
+@article{bisbee2024synthetic,
+  author  = {Bisbee, James and Clinton, Joshua D. and Dorff, Cassy and Kenkel, Brenton and Larson, Jennifer M.},
+  title   = {Synthetic Replacements for Human Survey Data? The Perils of Large Language Models},
+  journal = {Political Analysis},
+  volume  = {32},
+  number  = {4},
+  pages   = {401--416},
+  year    = {2024},
+  doi     = {10.1017/pan.2024.5}
+}
+
+@article{park2024diminished,
+  author  = {Park, Peter S. and Schoenegger, Philipp and Zhu, Chongyang},
+  title   = {Diminished Diversity-of-Thought in a Standard Large Language Model},
+  journal = {Behavior Research Methods},
+  year    = {2024},
+  doi     = {10.3758/s13428-023-02307-x}
+}
+
+@inproceedings{santurkar2023whose,
+  author    = {Santurkar, Shibani and Durmus, Esin and Ladhak, Faisal and Lee, Cinoo and Liang, Percy and Hashimoto, Tatsunori},
+  title     = {Whose Opinions Do Language Models Reflect?},
+  booktitle = {Proceedings of the 40th International Conference on Machine Learning},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {202},
+  pages     = {29971--30004},
+  year      = {2023}
+}
+
+@misc{durmus2023globalopinions,
+  author       = {Durmus, Esin and Nguyen, Karina and Liao, Thomas I. and Schiefer, Nicholas and Askell, Amanda and Bakhtin, Anton and Chen, Carol and Hatfield-Dodds, Zac and Hernandez, Danny and Joseph, Nicholas and Lovitt, Liane and McCandlish, Sam and Sikder, Orowa and Tamkin, Alex and Thamkul, Janel and Kaplan, Jared and Clark, Jack and Ganguli, Deep},
+  title        = {Towards Measuring the Representation of Subjective Global Opinions in Language Models},
+  year         = {2023},
+  howpublished = {arXiv:2306.16388},
+  note         = {Preprint}
+}
+
+@inproceedings{sorensen2024pluralistic,
+  author    = {Sorensen, Taylor and Moore, Jared and Fisher, Jillian and Gordon, Mitchell L. and Mireshghallah, Niloofar and Rytting, Christopher Michael and Ye, Andre and Jiang, Liwei and Lu, Ximing and Dziri, Nouha and Althoff, Tim and Choi, Yejin},
+  title     = {Position: A Roadmap to Pluralistic Alignment},
+  booktitle = {Proceedings of the 41st International Conference on Machine Learning},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {235},
+  pages     = {46280--46302},
+  year      = {2024}
+}
+
+@inproceedings{tian2023justask,
+  author    = {Tian, Katherine and Mitchell, Eric and Zhou, Allan and Sharma, Archit and Rafailov, Rafael and Yao, Huaxiu and Finn, Chelsea and Manning, Christopher},
+  title     = {Just Ask for Calibration: Strategies for Eliciting Calibrated Confidence Scores from Language Models Fine-Tuned with Human Feedback},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing},
+  address   = {Singapore},
+  publisher = {Association for Computational Linguistics},
+  pages     = {5433--5442},
+  year      = {2023},
+  doi       = {10.18653/v1/2023.emnlp-main.330}
+}
+
+@inproceedings{xiong2024uncertainty,
+  author    = {Xiong, Miao and Hu, Zhiyuan and Lu, Xinyang and Li, Yifei and Fu, Jie and He, Junxian and Hooi, Bryan},
+  title     = {Can {LLMs} Express Their Uncertainty? An Empirical Evaluation of Confidence Elicitation in {LLMs}},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2024}
+}
+
+@misc{zhang2025verbalizedsampling,
+  author       = {Zhang, Jiayi and Yu, Simon and Chong, Derek and Sicilia, Anthony and Tomz, Michael R. and Manning, Christopher D. and Shi, Weiyan},
+  title        = {Verbalized Sampling: How to Mitigate Mode Collapse and Unlock {LLM} Diversity},
+  year         = {2025},
+  howpublished = {arXiv:2510.01171},
+  note         = {Preprint}
+}
+
+@article{lin2025sixfallacies,
+  author  = {Lin, Zhicheng},
+  title   = {Six Fallacies in Substituting Large Language Models for Human Participants},
+  journal = {Advances in Methods and Practices in Psychological Science},
+  year    = {2025},
+  doi     = {10.1177/25152459251357566},
+  note    = {arXiv:2402.04470}
+}
+
+@misc{lu2025agentab,
+  author       = {Lu, Yuxuan and Hsu, Ting-Yao and Gu, Hansu and Cui, Limeng and Xie, Yaochen and Headden, William and Yao, Bingsheng and Veeragouni, Akash and Liu, Jiapeng and Nag, Sreyashi and Wang, Jessie and Wang, Dakuo},
+  title        = {{AgentA/B}: Automated and Scalable Web {A/B} Testing with Interactive {LLM} Agents},
+  year         = {2025},
+  howpublished = {arXiv:2504.09723},
+  note         = {Preprint, vers{\~a}o 4 de 10 mar. 2026}
+}
+
+@inproceedings{chi2001scent,
+  author    = {Chi, Ed H. and Pirolli, Peter and Chen, Kim and Pitkow, James},
+  title     = {Using Information Scent to Model User Information Needs and Actions and the {Web}},
+  booktitle = {Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (CHI '01)},
+  publisher = {ACM},
+  pages     = {490--497},
+  year      = {2001},
+  doi       = {10.1145/365024.365325}
+}
+
+@inproceedings{chi2003bloodhound,
+  author    = {Chi, Ed H. and Rosien, Adam and Supattanasiri, Gesara and Williams, Amanda and Royer, Christiaan and Chow, Celia and Robles, Erica and Dalal, Brinda and Chen, Julie and Cousins, Steve},
+  title     = {The {Bloodhound} Project: Automating Discovery of Web Usability Issues Using the {InfoScent} Simulator},
+  booktitle = {Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (CHI '03)},
+  publisher = {ACM},
+  pages     = {505--512},
+  year      = {2003},
+  doi       = {10.1145/642611.642699}
+}
+
+@inproceedings{teo2012cogtoolexplorer,
+  author    = {Teo, Leong-Hwee and John, Bonnie E. and Blackmon, Marilyn Hughes},
+  title     = {{CogTool-Explorer}: A Model of Goal-Directed User Exploration that Considers Information Layout},
+  booktitle = {Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (CHI '12)},
+  publisher = {ACM},
+  year      = {2012},
+  doi       = {10.1145/2207676.2208414}
+}
+
+@article{miller2004navigation,
+  author  = {Miller, Craig S. and Remington, Roger W.},
+  title   = {Modeling Information Navigation: Implications for Information Architecture},
+  journal = {Human-Computer Interaction},
+  volume  = {19},
+  number  = {3},
+  pages   = {225--271},
+  year    = {2004},
+  doi     = {10.1207/s15327051hci1903_2}
+}
+
+@inproceedings{bailey2009firstclick,
+  author    = {Bailey, Robert W. and Wolfson, Cari A. and Nall, Janice and Koyani, Sanjay},
+  title     = {Performance-Based Usability Testing: Metrics That Have the Greatest Impact for Improving a System's Usability},
+  booktitle = {Human Centered Design (HCII 2009)},
+  editor    = {Kurosu, Masaaki},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {5619},
+  publisher = {Springer},
+  address   = {Berlin, Heidelberg},
+  pages     = {3--12},
+  year      = {2009},
+  doi       = {10.1007/978-3-642-02806-9_1}
+}
+
+@misc{obrien2009treetesting,
+  author       = {O'Brien, Dave},
+  title        = {Tree Testing},
+  year         = {2009},
+  howpublished = {Boxes and Arrows, 5 dez. 2009. \url{https://boxesandarrows.com/tree-testing/}}
+}
+
+@article{cameron2008bootstrap,
+  author  = {Cameron, A. Colin and Gelbach, Jonah B. and Miller, Douglas L.},
+  title   = {Bootstrap-Based Improvements for Inference with Clustered Errors},
+  journal = {The Review of Economics and Statistics},
+  volume  = {90},
+  number  = {3},
+  pages   = {414--427},
+  year    = {2008},
+  doi     = {10.1162/rest.90.3.414}
+}
+
+@article{mackinnon2017wild,
+  author  = {MacKinnon, James G. and Webb, Matthew D.},
+  title   = {Wild Bootstrap Inference for Wildly Different Cluster Sizes},
+  journal = {Journal of Applied Econometrics},
+  volume  = {32},
+  number  = {2},
+  pages   = {233--254},
+  year    = {2017},
+  doi     = {10.1002/jae.2508}
+}
+
+@article{mackinnon2023guide,
+  author  = {MacKinnon, James G. and Nielsen, Morten {\O}rregaard and Webb, Matthew D.},
+  title   = {Cluster-Robust Inference: A Guide to Empirical Practice},
+  journal = {Journal of Econometrics},
+  volume  = {232},
+  number  = {2},
+  pages   = {272--299},
+  year    = {2023},
+  doi     = {10.1016/j.jeconom.2022.04.001}
+}
+
+@article{canay2017randomization,
+  author  = {Canay, Ivan A. and Romano, Joseph P. and Shaikh, Azeem M.},
+  title   = {Randomization Tests Under an Approximate Symmetry Assumption},
+  journal = {Econometrica},
+  volume  = {85},
+  number  = {3},
+  pages   = {1013--1030},
+  year    = {2017},
+  doi     = {10.3982/ECTA13081}
+}
+
+@article{esarey2019clustered,
+  author  = {Esarey, Justin and Menger, Andrew},
+  title   = {Practical and Effective Approaches to Dealing With Clustered Data},
+  journal = {Political Science Research and Methods},
+  volume  = {7},
+  number  = {3},
+  pages   = {541--559},
+  year    = {2019}
+}
+
+@book{good2005permutation,
+  author    = {Good, Phillip},
+  title     = {Permutation, Parametric, and Bootstrap Tests of Hypotheses},
+  edition   = {3},
+  series    = {Springer Series in Statistics},
+  publisher = {Springer},
+  address   = {New York},
+  year      = {2005},
+  doi       = {10.1007/b138696}
+}
+
+@article{holm1979sequentially,
+  author  = {Holm, Sture},
+  title   = {A Simple Sequentially Rejective Multiple Test Procedure},
+  journal = {Scandinavian Journal of Statistics},
+  volume  = {6},
+  number  = {2},
+  pages   = {65--70},
+  year    = {1979}
+}
+
+@article{endres2003metric,
+  author  = {Endres, Dominik Maria and Schindelin, Johannes E.},
+  title   = {A New Metric for Probability Distributions},
+  journal = {IEEE Transactions on Information Theory},
+  volume  = {49},
+  number  = {7},
+  pages   = {1858--1860},
+  year    = {2003},
+  doi     = {10.1109/TIT.2003.813506}
+}
+
+@article{gneiting2007proper,
+  author  = {Gneiting, Tilmann and Raftery, Adrian E.},
+  title   = {Strictly Proper Scoring Rules, Prediction, and Estimation},
+  journal = {Journal of the American Statistical Association},
+  volume  = {102},
+  number  = {477},
+  pages   = {359--378},
+  year    = {2007},
+  doi     = {10.1198/016214506000001437}
+}
+
+@inproceedings{sainz2023contamination,
+  author    = {Sainz, Oscar and Campos, Jon Ander and Garc{\'i}a-Ferrero, Iker and Etxaniz, Julen and Lopez de Lacalle, Oier and Agirre, Eneko},
+  title     = {{NLP} Evaluation in Trouble: On the Need to Measure {LLM} Data Contamination for each Benchmark},
+  booktitle = {Findings of the Association for Computational Linguistics: EMNLP 2023},
+  publisher = {Association for Computational Linguistics},
+  pages     = {10776--10787},
+  year      = {2023},
+  doi       = {10.18653/v1/2023.findings-emnlp.722}
+}
+
+@inproceedings{golchin2024timetravel,
+  author    = {Golchin, Shahriar and Surdeanu, Mihai},
+  title     = {Time Travel in {LLMs}: Tracing Data Contamination in Large Language Models},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2024}
+}
+
+@article{brumby2008strategies,
+  author  = {Brumby, Duncan P. and Howes, Andrew},
+  title   = {Strategies for Guiding Interactive Search: An Empirical Investigation Into the Consequences of Label Relevance for Assessment and Selection},
+  journal = {Human-Computer Interaction},
+  volume  = {23},
+  number  = {1},
+  pages   = {1--46},
+  year    = {2008},
+  doi     = {10.1080/07370020701851078}
+}
+
+@article{rigutti2015webparty,
+  author  = {Rigutti, Sara and Fantoni, Carlo and Gerbino, Walter},
+  title   = {Web Party Effect: A Cocktail Party Effect in the Web Environment},
+  journal = {PeerJ},
+  volume  = {3},
+  pages   = {e828},
+  year    = {2015},
+  doi     = {10.7717/peerj.828}
+}
+
+@inproceedings{lee2023dissenting,
+  author    = {Lee, Noah and An, Na Min and Thorne, James},
+  title     = {Can Large Language Models Capture Dissenting Human Voices?},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing},
+  address   = {Singapore},
+  publisher = {Association for Computational Linguistics},
+  pages     = {4569--4585},
+  year      = {2023},
+  doi       = {10.18653/v1/2023.emnlp-main.278}
+}

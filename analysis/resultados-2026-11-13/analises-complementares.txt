@@ -1,0 +1,70 @@
+== 1. B0 em validação cruzada, 10 tarefas ==
+tau ajustado nas pares = 0.060912; nas ímpares = 0.045125
+B0: JSD 0.288 [0.239; 0.345] | cobertura 0.882 [0.785; 0.954] | omitidas 0.483 [0.167; 0.900] | top-1 0.417 [0.117; 0.717] | entropia prevista 0.792 [0.695; 0.872]
+UNIFORM: JSD 0.375 [0.330; 0.420]
+piso amostral: 0.028 [0.024; 0.031] | entropia humana: 0.515 [0.441; 0.585]
+texto: B0 0.308 [0.248; 0.376] | UNIFORM 0.401 [0.350; 0.457] | diferença -0.093 [-0.149; -0.026]
+visual: B0 0.269 [0.224; 0.320] | UNIFORM 0.349 [0.306; 0.391] | diferença -0.080 [-0.140; -0.008]
+  TP: UNIFORM 0.374  B0 0.290
+  TC: UNIFORM 0.410  B0 0.304
+  TO: UNIFORM 0.419  B0 0.329
+  WTC: UNIFORM 0.345  B0 0.260
+  WTCI: UNIFORM 0.365  B0 0.293
+  WM: UNIFORM 0.336  B0 0.254
+médias por tarefa (B0 - UNIFORM): {2: -0.149, 3: -0.214, 4: -0.043, 5: -0.145, 6: -0.133, 7: 0.137, 8: 0.065, 9: -0.097, 10: -0.166, 11: -0.122}
+média -0.087; dp entre tarefas 0.109; IC t (gl=9) [-0.165; -0.008]; troca de sinal p = 0.0410
+tau escolhido deixando a tarefa de fora: média -0.073; p = 0.1270; negativas 8/10
+tau fixo 0.0300: média -0.070; p = 0.2832; negativas 8/10
+tau fixo 0.0451: média -0.088; p = 0.0801; negativas 8/10
+tau fixo 0.0609: média -0.090; p = 0.0312; negativas 8/10
+tau fixo 0.0800: média -0.084; p = 0.0137; negativas 8/10
+tau fixo 0.1000: média -0.077; p = 0.0117; negativas 8/10
+tau fixo 0.1500: média -0.060; p = 0.0059; negativas 9/10
+dois preditores quase iguais (B0 com as duas temperaturas): dp entre tarefas da diferença = 0.039
+
+== 2. Poder do teste de troca de sinal e cobertura do bootstrap, 10 tarefas (simulação normal) ==
+efeito padronizado 0.5: poder com alfa 0,05 = 0.29; alfa 0,025 = 0.19
+efeito padronizado 0.75: poder com alfa 0,05 = 0.55; alfa 0,025 = 0.40
+efeito padronizado 1.0: poder com alfa 0,05 = 0.79; alfa 0,025 = 0.66
+efeito padronizado 1.17: poder com alfa 0,05 = 0.90; alfa 0,025 = 0.80
+efeito padronizado 1.4: poder com alfa 0,05 = 0.97; alfa 0,025 = 0.92
+cobertura real do intervalo nominal de 95%: bootstrap percentil = 0.898; t = 0.947
+
+== 3. Referência humana entre variantes x valor esperado sem efeito de apresentação ==
+observado = 0.0436; esperado sem efeito = 0.0449; p (permutação, unilateral) = 0.647
+
+== 4. Colapso na opção mais escolhida do próprio estado (usa os dados humanos) ==
+JSD: 0.259 [0.198; 0.324] | cobertura (= parcela da moda): 0.582 [0.496; 0.667]
+
+== 5. Erros do B0 por tarefa, contra os humanos agregados nas seis variantes ==
+  t2: humanos Entertainment (0.85); B0 Hobbies (0.51); B0 na moda humana 0.24; entropia humana 0.30, B0 0.68; diferença de JSD -0.149
+  t3: humanos Entertainment (0.75); B0 Entertainment (0.35); B0 na moda humana 0.35; entropia humana 0.46, B0 0.85; diferença de JSD -0.214
+  t4: humanos Entertainment (0.63); B0 Science (0.26); B0 na moda humana 0.21; entropia humana 0.56, B0 0.90; diferença de JSD -0.043
+  t5: humanos Lifestyle (0.36); B0 Culture (0.21); B0 na moda humana 0.20; entropia humana 0.63, B0 0.92; diferença de JSD -0.145
+  t6: humanos Lifestyle (0.52); B0 Lifestyle (0.69); B0 na moda humana 0.69; entropia humana 0.67, B0 0.43; diferença de JSD -0.133
+  t7: humanos Culture (0.60); B0 Lifestyle (0.48); B0 na moda humana 0.09; entropia humana 0.59, B0 0.70; diferença de JSD +0.137
+  t8: humanos Lifestyle (0.28); B0 Trending (0.37); B0 na moda humana 0.24; entropia humana 0.77, B0 0.83; diferença de JSD +0.065
+  t9: humanos Science (0.56); B0 Lifestyle (0.29); B0 na moda humana 0.21; entropia humana 0.57, B0 0.89; diferença de JSD -0.097
+  t10: humanos Lifestyle (0.54); B0 Lifestyle (0.42); B0 na moda humana 0.42; entropia humana 0.48, B0 0.79; diferença de JSD -0.166
+  t11: humanos Lifestyle (0.64); B0 Lifestyle (0.25); B0 na moda humana 0.25; entropia humana 0.51, B0 0.93; diferença de JSD -0.122
+B0 acerta a opção mais escolhida em 4/10 tarefas; é mais disperso que os humanos em 9/10; entropia média: humanos 0.553, B0 0.792
+
+== 6. Entropia humana do estado x JSD (exploratória) ==
+Spearman, entropia x JSD do UNIFORM: -0.965 [-0.986; -0.922] (IC por bootstrap de tarefas)
+Spearman, entropia x JSD do B0: -0.424 [-0.780; -0.136] (IC por bootstrap de tarefas)
+Spearman, entropia x B0 - UNIFORM: +0.481 [+0.186; +0.687] (IC por bootstrap de tarefas)
+  tercil baixo: entropia 0.07 a 0.46; UNIFORM 0.473; B0 0.326; diferença -0.147; B0 pior que UNIFORM em 1/20; top-1 0.50
+  tercil médio: entropia 0.46 a 0.58; UNIFORM 0.382; B0 0.297; diferença -0.084; B0 pior que UNIFORM em 3/20; top-1 0.45
+  tercil alto: entropia 0.59 a 0.80; UNIFORM 0.269; B0 0.241; diferença -0.028; B0 pior que UNIFORM em 8/20; top-1 0.30
+B0 pior que UNIFORM em 12/60 estados; tarefas: [4, 7, 8]
+pontos (entropia humana, JSD do B0): (0.225,0.419) (0.448,0.175) (0.539,0.330) (0.558,0.243) (0.657,0.236) (0.594,0.412) (0.699,0.231) (0.522,0.238) (0.487,0.321) (0.462,0.292) (0.070,0.474) (0.457,0.167) (0.417,0.343) (0.523,0.249) (0.619,0.132) (0.392,0.596) (0.735,0.242) (0.481,0.342) (0.392,0.227) (0.539,0.265) (0.187,0.425) (0.391,0.178) (0.482,0.364) (0.577,0.230) (0.610,0.083) (0.475,0.561) (0.678,0.432) (0.370,0.367) (0.390,0.348) (0.472,0.303) (0.448,0.223) (0.338,0.258) (0.644,0.299) (0.729,0.109) (0.585,0.140) (0.521,0.512) (0.793,0.219) (0.556,0.247) (0.503,0.244) (0.338,0.348) (0.225,0.461) (0.525,0.139) (0.351,0.381) (0.588,0.189) (0.708,0.178) (0.625,0.525) (0.580,0.478) (0.655,0.183) (0.511,0.212) (0.591,0.182) (0.423,0.262) (0.374,0.269) (0.665,0.214) (0.577,0.234) (0.623,0.154) (0.683,0.297) (0.803,0.262) (0.634,0.244) (0.450,0.272) (0.394,0.330)
+pontos (entropia humana, JSD do UNIFORM): (0.225,0.559) (0.448,0.394) (0.539,0.349) (0.558,0.377) (0.657,0.274) (0.594,0.318) (0.699,0.263) (0.522,0.362) (0.487,0.418) (0.462,0.426) (0.070,0.661) (0.457,0.379) (0.417,0.423) (0.523,0.421) (0.619,0.305) (0.392,0.462) (0.735,0.222) (0.481,0.409) (0.392,0.462) (0.539,0.355) (0.187,0.578) (0.391,0.411) (0.482,0.412) (0.577,0.369) (0.610,0.314) (0.475,0.403) (0.678,0.282) (0.370,0.503) (0.390,0.496) (0.472,0.422) (0.448,0.394) (0.338,0.476) (0.644,0.275) (0.729,0.228) (0.585,0.307) (0.521,0.365) (0.793,0.175) (0.556,0.350) (0.503,0.405) (0.338,0.476) (0.225,0.559) (0.525,0.349) (0.351,0.478) (0.588,0.356) (0.708,0.235) (0.625,0.311) (0.580,0.368) (0.655,0.271) (0.511,0.397) (0.591,0.324) (0.423,0.407) (0.374,0.458) (0.665,0.251) (0.577,0.369) (0.623,0.285) (0.683,0.223) (0.803,0.169) (0.634,0.306) (0.450,0.443) (0.394,0.451)
+
+== 7. Variantes textuais agregadas (mesma entrada do modelo) ==
+JSD do B0: média dos três estados = 0.308; contra o agregado = 0.285
+
+== 8. Piloto: reamostragem de 30 escolhas e probabilidades iguais ao limiar ==
+  B1 claude-opus-5-5: JSD declarada 0.131; aumento médio ao reamostrar 30 escolhas = +0.032; probabilidades iguais a 0,05: 2 de 32
+  B1_CW claude-opus-5-5: JSD declarada 0.119; aumento médio ao reamostrar 30 escolhas = +0.033; probabilidades iguais a 0,05: 2 de 32
+  B1 gpt-4.1: JSD declarada 0.195; aumento médio ao reamostrar 30 escolhas = +0.035; probabilidades iguais a 0,05: 2 de 32
+  B1_CW gpt-4.1: JSD declarada 0.248; aumento médio ao reamostrar 30 escolhas = +0.035; probabilidades iguais a 0,05: 0 de 32
