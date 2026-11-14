@@ -10,11 +10,11 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{longtable}
+\usepackage[table]{xcolor}
 \usepackage{tikz}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{enumitem}
-\usepackage[table]{xcolor}
 \usepackage{multirow}
 \usepackage{pgfgantt}
 \usepackage{pgfplots}
@@ -67,11 +67,11 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
-Predicting where first-time visitors will click requires estimating how choices are distributed across visible options. We present AI-CogWalk-NAV, a method that adapts three cognitive walkthrough questions to each option and compares predicted distributions with observed first clicks. Across 1,796 clicks, ten tasks and six interface variants, a semantic baseline achieved a mean Jensen--Shannon divergence of 0.288, compared with 0.375 for a uniform distribution. The semantic baseline was closer to human choices on eight tasks. In a four-state pilot, adding walkthrough questions lowered mean divergence for one language model and raised it for the other. In follow-up tests on two text menus, the prompt closest to human choices varied by task within each model. A prospective study at IFPB will evaluate the method as a basis for a first-click prediction agent.
+Predicting where first-time visitors will click requires estimating how choices are distributed across visible options. We model the first click as a categorical choice. AI-CogWalk-NAV compares predicted distributions with observed frequencies and tests three cognitive walkthrough questions in its language-model conditions. Across 1,796 clicks, ten tasks and six interface variants, a semantic baseline achieved a mean Jensen--Shannon divergence of 0.288, compared with 0.375 for a uniform distribution. The semantic baseline was closer to human choices on eight tasks. In a four-state pilot, adding walkthrough questions lowered mean divergence for one language model and raised it for the other. In follow-up tests on two text menus, the prompt closest to human choices varied by task within each model. A prospective study at IFPB will evaluate the method as a basis for a first-click prediction agent.
 \end{abstract}
 
 \begin{resumo}
-No benchmark estudado, a opção mais popular de uma tela recebe, em média, 58\% dos primeiros cliques. Prever como as escolhas restantes se distribuem pode ajudar a identificar rótulos que competem pela atenção do visitante. Apresentamos o AI-CogWalk-NAV, método para estimar a distribuição dessas escolhas a partir da tarefa e das opções disponíveis no primeiro acesso. O método adapta três perguntas do percurso cognitivo a cada opção visível e permite comparar as previsões com escolhas humanas. Em um benchmark com 1.796 primeiros cliques, dez tarefas e seis variantes de apresentação, uma baseline baseada na semelhança entre tarefa e rótulo obteve divergência média de Jensen–Shannon de 0,288, frente a 0,375 da referência uniforme. A baseline teve menor divergência em oito tarefas. Em um piloto com quatro estados, acrescentar as perguntas do percurso cognitivo reduziu a divergência média em um modelo e a elevou no outro. Em testes adicionais com dois menus textuais, a estratégia mais próxima das escolhas humanas variou entre tarefas em cada modelo. A avaliação prospectiva no IFPB investigará a aplicação do método em um agente de previsão do primeiro clique.
+No benchmark estudado, a opção mais popular de uma tela recebe, em média, 58\% dos primeiros cliques. Prever como as escolhas restantes se distribuem pode ajudar a identificar rótulos que competem pela atenção do visitante. Apresentamos o AI-CogWalk-NAV, método para estimar a distribuição dessas escolhas a partir da tarefa e das opções disponíveis no primeiro acesso. Tratamos o primeiro clique como uma escolha categórica e avaliamos as distribuições previstas frente às frequências humanas. Para as condições com modelos de linguagem, adaptamos três perguntas do percurso cognitivo a cada opção visível. Em um benchmark com 1.796 primeiros cliques, dez tarefas e seis variantes de apresentação, uma baseline baseada na semelhança entre tarefa e rótulo obteve divergência média de Jensen–Shannon de 0,288, frente a 0,375 da referência uniforme. A baseline teve menor divergência em oito tarefas. Em um piloto com quatro estados, acrescentar as perguntas do percurso cognitivo reduziu a divergência média em um modelo e a elevou no outro. Em testes adicionais com dois menus textuais, a estratégia mais próxima das escolhas humanas variou entre tarefas em cada modelo. A avaliação prospectiva no IFPB investigará a aplicação do método em um agente de previsão do primeiro clique.
 \end{resumo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -85,7 +85,7 @@ Portais institucionais concentram serviços que estudantes e cidadãos precisam 
 
 Testes com usuários revelam esses desvios, mas são caros e chegam tarde. Métodos de inspeção, como o percurso cognitivo (\textit{cognitive walkthrough}, CW), antecipam dificuldades sem usuários, perguntando, a cada passo, se o iniciante vai querer fazer a ação certa, se vai perceber o controle, se vai associá-lo ao objetivo e se vai entender o retorno \cite{polson1992cw,wharton1994cw}. Modelos de \textit{information scent} vão além e preveem quais links serão escolhidos a partir da semelhança entre o objetivo e os rótulos \cite{pirolli1999foraging,blackmon2002cww,fu2007snifact}.
 
-Modelos de linguagem de grande escala (LLMs) multimodais trouxeram uma nova possibilidade: ler a tela como uma pessoa lê e estimar o que um iniciante faria. Trabalhos recentes já usam LLMs para conduzir percursos cognitivos \cite{bisante2024cwgpt,zhong2025syntheticcw}, simular usuários \cite{lu2025uxagent,tan2026avenirux,chowdhury2026amuser} e prever o primeiro clique de participantes \cite{kuric2026wwgc,hu2025uitransition}. O resultado mais próximo deste trabalho, \textit{What Would GPT Click} \cite{kuric2026wwgc}, mostra o limite atual. O LLM acerta a opção mais escolhida em 71\% das tarefas, mas a distribuição prevista difere da humana na maioria delas: é concentrada demais, com menos opções e menos dispersão do que a de pessoas reais.
+Modelos de linguagem de grande escala (LLMs) multimodais trouxeram uma nova possibilidade: usar uma representação da tela para estimar o que um iniciante faria. Trabalhos recentes já usam LLMs para conduzir percursos cognitivos \cite{bisante2024cwgpt,zhong2025syntheticcw}, simular usuários \cite{lu2025uxagent,tan2026avenirux,chowdhury2026amuser} e prever o primeiro clique de participantes \cite{kuric2026wwgc,hu2025uitransition}. O resultado mais próximo deste trabalho, \textit{What Would GPT Click} \cite{kuric2026wwgc}, mostra o limite atual. O LLM acerta a opção mais escolhida em 71\% das tarefas, mas a distribuição prevista difere da humana na maioria delas: é concentrada demais, com menos opções e menos dispersão do que a de pessoas reais.
 
 Esse é o ponto de partida do \proj. Não basta acertar a opção mais provável: num portal, o que importa ao projetista é \emph{quantos} iniciantes vão para cada lado, e em particular quantos vão para o lado errado. O objeto de previsão deste trabalho é, portanto, a distribuição das primeiras escolhas,
 \begin{equation}
@@ -95,7 +95,7 @@ em que $s$ é o estado da interface (a tela), $t$ é a tarefa e $A(s)$ é o conj
 
 \subsection{Pergunta central e hipótese}
 
-\textbf{Objetivo geral.} Avaliar com que fidelidade modelos de linguagem preveem a distribuição dos primeiros cliques de visitantes em uma interface desconhecida e em que condições o uso de perguntas do percurso cognitivo melhora essa previsão. O produto tecnológico pretendido é um agente de apoio à avaliação de navegação. O benchmark fornece as escolhas humanas para testar o método; o estudo no IFPB avaliará sua aplicação em um portal real, com previsões registradas antes da coleta.
+\textbf{Objetivo geral.} Investigar como os primeiros cliques de visitantes se distribuem entre as opções de uma interface desconhecida e avaliar com que fidelidade essa distribuição pode ser prevista a partir da tarefa, dos rótulos e da apresentação do menu. A comparação entre referências probabilísticas, semelhança semântica e modelos de linguagem permite medir o ganho de cada estratégia nas mesmas tarefas. O produto tecnológico pretendido é um agente de apoio à avaliação de navegação. O benchmark fornece as escolhas humanas para testar o método; o estudo no IFPB avaliará sua aplicação em um portal real, com previsões registradas antes da coleta.
 
 \begin{nota}[Hipótese central]
 A incorporação controlada de princípios cognitivos e de estratégias de amostragem modifica a fidelidade das distribuições de escolhas previstas por LLMs em relação às escolhas humanas de primeiro clique, quando comparada a uma \textit{baseline} semântica convencional.
@@ -206,11 +206,18 @@ Os quatro diferenciais abaixo são a hipótese de contribuição, ainda não um 
 
 \subsection{Estados, opções e distribuições}
 
-Um \textbf{estado} $s$ é uma tela vista por um participante no início de uma tarefa $t$. O conjunto $A(s)=\{a_1,\dots,a_K\}$ reúne as opções de navegação visíveis (no \textit{benchmark}, as $K=8$ categorias do primeiro nível do menu). Para cada estado há $n_s$ participantes. A contagem de quem escolheu primeiro a opção $a$ é $c_s(a)$, e a distribuição humana empírica é
+Um \textbf{estado} $s$ é uma tela vista por um participante no início de uma tarefa $t$. O conjunto $A(s)=\{a_1,\dots,a_K\}$ reúne as opções de navegação visíveis (no \textit{benchmark}, as $K=8$ categorias do primeiro nível do menu). Para cada estado, $n_s$ é o número de primeiros cliques válidos. A contagem de quem escolheu primeiro a opção $a$ é $c_s(a)$, e a distribuição humana empírica é
 \begin{equation}
 \Ph(a \mid s,t) = \frac{c_s(a)}{n_s}.
 \end{equation}
 Um preditor $M$ recebe $(t, s, A(s))$ e devolve uma distribuição $\Pp_M(a \mid s,t)$ com $\sum_a \Pp_M(a)=1$. Para métodos que devolvem valores não normalizados (por exemplo, probabilidades declaradas pelo LLM que não somam 1), a distribuição é renormalizada. O protótipo registra falhas e contabiliza os estados sem previsão utilizável. A normalização pode devolver uma distribuição uniforme se a soma dos pesos válidos for zero; por isso, a auditoria deve considerar também a resposta registrada.
+
+\subsection{Escolha humana como variável aleatória}
+Seja $\pi_a(s,t)$ a probabilidade de um visitante da população de interesse escolher a opção $a$. Uma observação é uma escolha categórica. Sob a hipótese de escolhas independentes entre participantes na mesma condição, o vetor de contagens segue um modelo multinomial com $n_s$ observações e probabilidades $(\pi_1,\ldots,\pi_K)$. As frequências $\Ph$ estimam essas probabilidades com incerteza amostral. No caso do notebook, $12/30=0{,}40$ estima a proporção de visitantes que escolheriam \emph{Lifestyle}. Outra amostra da mesma população pode produzir uma proporção diferente. Essa hipótese dentro de um estado não torna independentes as seis apresentações de uma mesma tarefa; as comparações pareadas mantêm essas apresentações agrupadas.
+
+\paragraph{Que informação melhora a previsão?} A distribuição uniforme atribui $1/K$ a cada opção. O B0 acrescenta a associação semântica entre tarefa e rótulo por meio de embeddings. Para uma comparação exploratória inteiramente baseada em contagens, estimamos a popularidade de cada categoria por validação cruzada nas duas metades do benchmark. Somam-se os cliques das cinco tarefas da metade de ajuste por categoria ($m_a$) e calcula-se $q_a=(m_a+1)/(\sum_j m_j+K)$. A adição de uma observação por categoria evita atribuir probabilidade zero a opções ausentes na amostra de ajuste. Essa referência requer categorias compartilhadas e cliques históricos de outras tarefas. Ela responde quanto é possível prever conhecendo a popularidade do menu antes de ler o objetivo do visitante. Para um portal novo sem histórico, a referência uniforme permanece aplicável.
+
+A comparação exploratória usa JSD com reamostragem por tarefa. A perda logarítmica por clique pode complementar a avaliação. O contraste entre a referência de popularidade e B0 ajuda a examinar o valor preditivo da tarefa; os contrastes entre B1, B1-R e B1-CW examinam a forma de consultar o modelo. Como esses métodos também diferem nos dados e nas representações que utilizam, suas diferenças medem desempenho preditivo. Atribuir efeitos causais a um rótulo ou à sua posição exigiria manipulações controladas da interface. A referência de popularidade foi calculada após os pilotos, a partir das exportações existentes.
 
 \subsection{Métricas}
 \label{sec:metricas}
@@ -569,6 +576,8 @@ Tarefa & B0 & Uniforme & Diferença B0 $-$ uniforme \\ \midrule
 11. Cuidados com filhos & 0,287 & 0,409 & $-$0,122 \\
 \textbf{Média} & \textbf{0,288} & \textbf{0,375} & \textbf{$-$0,087} \\\bottomrule\end{tabularx}\end{table}
 
+\paragraph{Referência baseada apenas em contagens.} Nas dez tarefas, a previsão por popularidade obteve JSD média de 0,334 (IC de 95\% de 0,269 a 0,398), frente a 0,375 da referência uniforme e 0,288 do B0 semântico. A diferença pareada popularidade menos uniforme foi de $-0{,}041$ (IC de 95\% de $-0{,}090$ a $+0{,}014$). A estimativa sugere que parte das escolhas pode ser antecipada pela popularidade das categorias, mas o intervalo inclui zero. Cada previsão utilizou exclusivamente contagens das cinco tarefas da metade oposta. Trata-se de uma análise exploratória posterior ao desenho inicial, com um único menu em inglês.
+
 A Figura~\ref{fig:variantes} mostra a JSD por variante. Como o B0 só usa texto, ele prevê a mesma distribuição para as seis variantes de uma tarefa; as diferenças entre variantes vêm só dos humanos.
 
 \begin{figure}[ht]
@@ -787,6 +796,15 @@ A captura independente já foi executada no portal fictício que acompanha o pro
 \textbf{Cuidados éticos.} A navegação automatizada só faz requisições GET em páginas públicas, sem cadastro, sem formulários e com intervalo entre ações. A coleta com pessoas só começa após aprovação do CEP \cite{cns2016res510}, com consentimento, anonimização e tratamento conforme a LGPD \cite{brasil2018lgpd}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Extensões propostas para a revisão no navegador}
+A aplicação principal permanece a previsão de primeiros cliques. Propomos três extensões com avaliações distintas. A comparação principal do benchmark mantém as condições descritas na Seção~\ref{sec:condicoes}.
+
+\paragraph{Extensão de navegador.} O avaliador abriria a página, descreveria a tarefa e acionaria a captura da aba atual. Antes de enviar a tarefa ao agente, revisaria a imagem da área visível e os rótulos identificados. O painel lateral mostraria a proporção prevista por opção e permitiria exportar a rodada. O backend manteria as credenciais e registraria a versão da tela e do modelo. Avaliaríamos a extensão pelo tempo de preparação de uma tarefa, pelas correções necessárias nas opções capturadas e pela capacidade da equipe de interpretar a previsão. Essa interface é uma proposta de acesso ao agente; a aplicação web já permite executar o fluxo de revisão.
+
+\paragraph{Modelos especializados em interfaces.} Uma comparação futura incluiria um modelo multimodal treinado para relacionar instruções a elementos da tela. Haveria duas avaliações: identificar corretamente as opções visíveis e prever a distribuição de escolhas entre essas opções. Para a segunda, todos os modelos receberiam as mesmas alternativas. Isso permite identificar um sistema que localiza bem os botões, mas concentra a previsão em uma única escolha. O trabalho de Lu et al. sobre o OmniParser exemplifica a primeira capacidade, ao estruturar elementos interativos de capturas de tela (\url{https://arxiv.org/abs/2408.00203}). A comparação incluiria JSD por tarefa, omissões, latência e custo, incluindo infraestrutura de inferência para modelos locais.
+
+\paragraph{Recuperação de evidências (RAG).} A geração aumentada por recuperação incorpora trechos selecionados de uma coleção externa à entrada do modelo (Lewis et al., \url{https://arxiv.org/abs/2005.11401}). Propomos começar pela explicação ao avaliador: após congelar a previsão, recuperar princípios de IHC e casos documentados de outras interfaces para justificar quais rótulos merecem inspeção. A equipe avaliaria a pertinência das fontes e a utilidade da explicação. Em um experimento posterior, o mesmo modelo poderia prever com e sem recuperação, mantendo as tarefas e o orçamento comparáveis. O acervo seria versionado, com exclusão das respostas, rotas e contagens humanas do portal avaliado. Registraríamos os trechos recuperados e verificaríamos se o contexto adicional melhora a JSD ou induz o agente a responder como especialista. Essas extensões ainda não integram os resultados experimentais apresentados.
+
 \section{Cronograma}
 \label{sec:cronograma}
 
@@ -905,6 +923,7 @@ cd analysis
 D=resultados-2026-11-13
 python3 nav_kuric_analysis.py "$D/kuric-uniform.json" "$D/kuric-b0.json"
 python3 nav_b0_crossfit.py "$D/kuric-b0.json"
+python3 nav_popularidade.py "$D/kuric-uniform.json"
 python3 piloto_gpt.py
 \end{lstlisting}
 

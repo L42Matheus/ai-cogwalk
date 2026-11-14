@@ -1,4 +1,5 @@
 "use client";
+import { NavGuide } from "@/lib/NavGuide";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { api, fmtDate } from "@/lib/api";
@@ -31,11 +32,8 @@ export default function NavHome() {
 
   return (
     <>
-      <h1>Modo NAV · previsão de escolhas de navegação</h1>
-      <p className="muted">
-        Prevê a distribuição do primeiro clique de iniciantes, P(a | tela, tarefa), e compara com escolhas humanas observadas.
-        O preditor recebe só a tarefa, a tela e as opções visíveis; nunca a rota correta.
-      </p>
+      <h1>Revisão do primeiro clique</h1>
+      <NavGuide step={1} message={busy ? "Importando tarefas, menus e telas. O conjunto aparecerá aqui ao terminar." : !status ? "Consultando os conjuntos disponíveis…" : datasets.length ? "Abra um conjunto abaixo para escolher as tarefas e o método de previsão." : "Para experimentar com cliques já observados, importe o conjunto Kuric 2025."} />
       <ErrorBox error={error} />
       {status && (
         <div className="card row small">
