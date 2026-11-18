@@ -1,0 +1,150 @@
+\documentclass[12pt]{article}
+\usepackage{sbc-template}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\makeatletter\let\normalsfcodes\relax\makeatother
+\usepackage[english,brazil]{babel}
+\AtBeginDocument{\providecommand{\normalsfcodes}{}}
+\usepackage{graphicx,url,booktabs,tabularx,amsmath}
+\def\UrlBreaks{\do\/\do-\do_}
+\renewcommand{\refname}{Referências}
+\setlength{\emergencystretch}{1em}
+\title{AI-CogWalk-NAV: previsão da distribuição de primeiros cliques em um site desconhecido}
+\author{Lucas Matheus Silva\inst{1}}
+\address{Instituto Federal da Paraíba (IFPB)\\Programa de Pós-Graduação em Tecnologia da Informação (PPGTI)}
+
+\begin{document}
+\maketitle
+\raggedbottom
+\begin{otherlanguage}{english}\begin{abstract}
+Predicting where first-time visitors will click requires estimating how choices are distributed across visible options. We present AI-CogWalk-NAV, a method that adapts three cognitive walkthrough questions to each option and compares predicted distributions with observed first clicks. Across 1,796 clicks, ten tasks and six interface variants, a semantic baseline achieved a mean Jensen--Shannon divergence of 0.288, compared with 0.375 for a uniform distribution. The semantic baseline was closer to human choices on eight tasks. In a four-state pilot, adding walkthrough questions lowered mean divergence for one language model and raised it for the other. In follow-up tests on two text menus, the prompt closest to human choices varied by task within each model. A prospective study at IFPB will evaluate the method as a basis for a first-click prediction agent.
+\end{abstract}\end{otherlanguage}
+\begin{resumo}
+No benchmark estudado, a opção mais popular de uma tela recebe, em média, 58\% dos primeiros cliques. Prever como as escolhas restantes se distribuem pode ajudar a identificar rótulos que competem pela atenção do visitante. Apresentamos o AI-CogWalk-NAV, método para estimar a distribuição dessas escolhas a partir da tarefa e das opções disponíveis no primeiro acesso. O método adapta três perguntas do percurso cognitivo a cada opção visível e permite comparar as previsões com escolhas humanas. Em um benchmark com 1.796 primeiros cliques, dez tarefas e seis variantes de apresentação, uma baseline baseada na semelhança entre tarefa e rótulo obteve divergência média de Jensen–Shannon de 0,288, frente a 0,375 da referência uniforme. A baseline teve menor divergência em oito tarefas. Em um piloto com quatro estados, acrescentar as perguntas do percurso cognitivo reduziu a divergência média em um modelo e a elevou no outro. Em testes adicionais com dois menus textuais, a estratégia mais próxima das escolhas humanas variou entre tarefas em cada modelo. A avaliação prospectiva no IFPB investigará a aplicação do método em um agente de previsão do primeiro clique.
+\end{resumo}
+
+\section{Introdução}
+
+Um visitante que procura informações sobre a vida na Idade Média pode hesitar entre as categorias \emph{Culture} e \emph{Lifestyle}. Em uma variante textual do benchmark, 17 das 30 pessoas escolheram \emph{Culture}, enquanto o modelo baseado na semelhança entre tarefa e rótulo atribuiu maior probabilidade a \emph{Lifestyle}. Para quem projeta o menu, importa saber tanto qual categoria atrai mais pessoas quanto quantas se distribuem pelas alternativas.
+
+O objetivo geral é avaliar com que fidelidade modelos de linguagem preveem a distribuição dos primeiros cliques de visitantes em uma interface desconhecida e em que condições perguntas do percurso cognitivo sobre objetivo, visibilidade e associação entre tarefa e rótulo melhoram essa previsão. A forma de obter a previsão também é uma pergunta experimental: o modelo descreve as proporções do grupo ou escolhe uma opção em nome de um visitante por chamada? Comparamos ainda as previsões com uma referência semântica e examinamos a variação entre menus textuais e visuais. A avaliação atual estabelece referências quantitativas para essa pergunta e verifica as condições de execução em um piloto. O contraste central será feito nos mesmos estados de interface, com e sem as perguntas do percurso cognitivo.
+
+\section{Fundamentação e contribuição}
+
+O percurso cognitivo examina as dificuldades de quem aprende a usar uma interface por exploração \cite{polson1992cw,wharton1994cw}. A literatura de \emph{information scent} explica por que a relação percebida entre um objetivo e um rótulo pode orientar a escolha de um link \cite{pirolli1999foraging,fu2007snifact}. Estudos de primeiro clique \cite{kuric2026wwgc} já compararam distribuições de primeiros cliques produzidas por modelos de linguagem com as observadas em pessoas. O estudo aqui proposto investiga uma intervenção específica sobre essa previsão.
+
+No AI-CogWalk-NAV, o modelo considera, para cada alternativa, se um visitante com aquela tarefa procuraria ali, se perceberia a opção e se associaria o rótulo ao objetivo. Aplicar as perguntas também às alternativas concorrentes permite atribuir probabilidade a desvios plausíveis. A pergunta clássica sobre o feedback após a ação fica fora da previsão do primeiro clique.
+
+Dois resultados orientam o protocolo. Em experimentos de busca em menus, as pessoas examinaram mais opções quando vários rótulos pareciam pertinentes ao objetivo \cite{brumby2008}. Exigir que um modelo analise cada alternativa pode mudar sua previsão mesmo quando a instrução omite o percurso cognitivo. Por isso, o controle B1-R solicita uma análise livre de cada opção. Em pesquisas de opinião, modelos descreveram proporções populacionais com maior fidelidade do que as reproduziram por simulação individual \cite{meister2025}. Investigamos se essa diferença também aparece na previsão de uma ação observada em uma interface.
+
+\section{Método}
+
+A Tabela~\ref{tab:metodo} apresenta as condições experimentais. Cada estado combina uma tarefa com uma apresentação da interface. O alvo é a proporção de escolhas humanas por opção. A entrada das condições com modelo de linguagem contém o enunciado e a lista de opções. Nos protótipos visuais inclui também uma captura e as coordenadas dos elementos. Para cada tela $s$ e tarefa $t$, o preditor estima uma probabilidade $\hat P(a\mid s,t)$ para cada opção $a$ visível, com soma igual a um. O caminho esperado, o destino e as contagens humanas ficam fora da entrada. As três variantes textuais fornecem ao modelo a mesma lista para cada tarefa. Nesse caso, a ordem está disponível, mas tamanho e contraste visuais não são observáveis.
+
+\begin{table}[!htb]\centering\small\caption{Condições e estágio da avaliação.}\label{tab:metodo}\begin{tabularx}{\linewidth}{@{}lXX@{}}\toprule
+Condição & Como produz a previsão & Evidência disponível \\ \midrule
+UNIFORM & Distribui a probabilidade igualmente entre as opções & 60 estados \\
+B0 & Converte a similaridade entre os embeddings da tarefa e dos rótulos em probabilidades por softmax & 60 estados e avaliação cruzada por tarefa \\
+B1 & Declara diretamente a distribuição esperada de visitantes & Piloto de quatro estados em dois modelos e repetição de dois estados \\
+B1-CW & Responde às três perguntas para cada opção e declara a distribuição & Mesmos estados e modelos de B1 \\
+B1-R & Analisa livremente cada opção antes de declarar a distribuição & Teste adicional em dois estados nos dois modelos \\
+B1-S e B1-CW-S & Agrega escolhas individuais simuladas, sem ou com as perguntas & Comparação com 30 escolhas por entrada planejada. B1-S teve testes de funcionamento com 3 ou 5 amostras \\\bottomrule\end{tabularx}\end{table}
+
+\section{Desenho da avaliação}
+
+O conjunto público de Kuric e colaboradores \cite{kuric2025ia,kuric2025dataset} contém dez tarefas de navegação em um site fictício de revista em inglês, apresentadas em três variantes textuais e três visuais. Das 1.800 execuções, 1.796 têm primeiro clique registrado. As previsões são avaliadas pela divergência de Jensen–Shannon (JSD, logaritmo de base 2) em relação à distribuição empírica de cada estado. Valores menores indicam maior proximidade. Para as distribuições humana $H$ e prevista $P$ no mesmo estado, usamos $M=(H+P)/2$ e $\mathrm{JSD}(H,P)=[D_{KL}(H\Vert M)+D_{KL}(P\Vert M)]/2$ \cite{lin1991jsd}. Como medidas secundárias, registramos a entropia normalizada e a cobertura, fração de escolhas humanas que recaem em opções às quais o método atribuiu pelo menos 5\% de probabilidade.
+
+Para o B0, a temperatura da softmax é ajustada nas cinco tarefas pares e aplicada às cinco ímpares, e vice-versa. O B0 utiliza o modelo \texttt{all-MiniLM-L6-v2} para representar o texto. A temperatura escolhida minimiza a JSD média da metade de ajuste. A média das seis variantes resume cada tarefa. A avaliação pareada usa a tarefa como unidade de reamostragem, preservando as seis variantes juntas. Para os intervalos de 95\%, usamos 2.000 réplicas por \emph{bootstrap} de tarefas, com semente 20261113. A versão inicial do protocolo reservava as cinco tarefas ímpares para teste. A análise com as dez tarefas foi acrescentada depois. Ambas são apresentadas para tornar essa sequência explícita.
+
+\begin{figure}[!htb]\centering
+\includegraphics[width=0.66\textwidth]{figuras/kuric-wtc.png}\hfill
+\includegraphics[width=0.22\textwidth]{figuras/kuric-wm.png}
+\caption{Telas renderizadas pelo protótipo a partir dos HTML originais do \textit{benchmark}: \textit{desktop} (WTC, à esquerda) e celular com o menu aberto (WM, à direita). Fonte das páginas: \cite{kuric2025dataset}.}
+\label{fig:telas}
+\end{figure}
+
+\section{Resultados preliminares}
+
+\subsection{O que os rótulos permitem prever}
+
+\begin{table}[!htb]\centering\small\caption{JSD média por tarefa, com temperatura do B0 ajustada na outra metade.}\label{tab:b0}\begin{tabularx}{\linewidth}{@{}Xrrr@{}}\toprule
+Tarefa & B0 & Uniforme & Diferença B0 $-$ uniforme \\ \midrule
+2. Recomendação de comédia & 0,377 & 0,526 & $-$0,149 \\
+3. Cinema próximo & 0,198 & 0,411 & $-$0,214 \\
+4. Resultado de boxe & 0,322 & 0,365 & $-$0,043 \\
+5. Receita mesoamericana & 0,209 & 0,353 & $-$0,145 \\
+6. Moda da estação & 0,154 & 0,287 & $-$0,133 \\
+7. Vida na Idade Média & 0,484 & 0,347 & +0,137 \\
+8. Compra de notebook & 0,311 & 0,246 & +0,065 \\
+9. Espécies de aves & 0,270 & 0,367 & $-$0,097 \\
+10. Informações sobre doenças & 0,271 & 0,437 & $-$0,166 \\
+11. Cuidados com filhos & 0,287 & 0,409 & $-$0,122 \\
+\textbf{Média} & \textbf{0,288} & \textbf{0,375} & \textbf{$-$0,087} \\\bottomrule\end{tabularx}\end{table}
+
+A Tabela~\ref{tab:b0} apresenta a média das seis variantes de cada tarefa. Calculamos as diferenças antes do arredondamento.
+
+A maior vantagem da baseline ocorreu na procura por um cinema próximo. Já nas tarefas sobre a Idade Média e a compra de notebook, atribuir pesos aos rótulos pela similaridade semântica afastou a previsão da distribuição humana. No conjunto das dez tarefas, a diferença média foi $-$0,087 (IC de 95\% por bootstrap de tarefas de $-$0,145 a $-$0,017). O teste bilateral de troca de sinal aplicado às diferenças médias por tarefa produziu p = 0,041. Quando se consideram apenas as cinco tarefas ímpares da divisão original, a diferença média é semelhante ($-$0,088), com intervalo mais amplo ($-$0,172 a +0,029).
+
+\subsection{Piloto com modelos de linguagem}
+
+Foram escolhidos dois estados textuais (TP-t2 e TP-t8), um de desktop (WTC-t4) e um de celular (WM-t8). B1 e B1-CW utilizaram os prompts em inglês da versão nav-1.1. Cada chamada recebeu um esquema de saída com os identificadores válidos das alternativas.
+
+\begin{table}[!htb]\centering\small\caption{Piloto em quatro estados de desenvolvimento. JSD menor indica maior proximidade.}\label{tab:piloto}\begin{tabularx}{\linewidth}{@{}Xrrr@{}}\toprule
+Modelo & B1 & B1-CW & Mudança média de JSD \\ \midrule
+Claude Opus 5.5 & 0,131 & 0,119 & $-$0,012 \\
+GPT-4.1 & 0,195 & 0,248 & +0,053 \\\bottomrule\end{tabularx}\end{table}
+
+A Tabela~\ref{tab:piloto} resume os quatro estados de desenvolvimento, que correspondem a três tarefas distintas.
+
+Na tarefa de recomendar uma comédia (TP-t2), 26 de 30 pessoas clicaram em \emph{Entertainment}. O GPT-4.1 atribuiu a essa opção 60\% na resposta direta e 70\% com as perguntas do percurso cognitivo. Nos dois casos, reservou 20\% para \emph{Trending}, opção sem cliques nesse grupo. A JSD passou de 0,187 para 0,173. O exemplo ilustra por que avaliamos a distribuição completa mesmo quando o modelo acerta a categoria mais popular.\par
+
+Os quatro estados geraram 16 previsões nas duas condições e nos dois modelos. A mudança de direção motiva estimar o efeito por modelo. Como exemplo, no estado móvel da tarefa de compra de notebook, a JSD passou de 0,170 para 0,261 no GPT-4.1 e de 0,148 para 0,118 no Claude. Ainda falta observar se esse padrão persiste em outras tarefas e quanto da diferença permanece diante de um controle que também exige examinar cada opção.
+
+\subsection{Dois casos no mesmo menu textual}
+Repetimos duas tarefas de desenvolvimento na mesma variante textual de oito categorias: recomendar uma comédia (TP-t2) e escolher um notebook (TP-t8). Mantivemos os modelos e as instruções e incluímos a análise livre por opção (B1-R). Cada combinação de tarefa, modelo e condição gerou uma nova previsão, totalizando 12 chamadas sem reutilização do cache. As frequências humanas do benchmark serviram para avaliar as previsões após sua geração. A Tabela~\ref{tab:comedia} apresenta a probabilidade atribuída a \emph{Entertainment}, escolhida por 26 de 30 pessoas (86,7\%), e a distância entre a previsão completa e as oito proporções humanas.
+
+\begin{table}[!htb]\centering\small\caption{Teste adicional em TP-t2. Porcentagem prevista para \emph{Entertainment} e JSD das oito opções.}\label{tab:comedia}
+\begin{tabular}{lrrrr}\toprule
+ & \multicolumn{2}{c}{GPT-4.1} & \multicolumn{2}{c}{Claude Opus 5.5} \\
+Condição & Previsão & JSD & Previsão & JSD \\ \midrule
+Direta & 62\% & 0,164 & 72\% & 0,088 \\
+Percurso cognitivo & 60\% & 0,198 & 72\% & 0,086 \\
+Análise livre por opção & 55\% & 0,186 & 75\% & 0,069 \\
+\bottomrule\end{tabular}\end{table}
+
+Na tarefa do notebook, os cliques se distribuíram entre \emph{Lifestyle} (12), \emph{Hobbies} (7), \emph{Entertainment} (5), \emph{Science} (4) e \emph{Trending} (2). Com o prompt direto, o GPT atribuiu 50\% a \emph{Trending}, que recebeu apenas 2 de 30 cliques. Com a análise livre, atribuiu 40\% a \emph{Lifestyle}, exatamente a proporção observada, e também aproximou a distribuição completa da humana (Tabela~\ref{tab:notebook}).
+
+\begin{table}[!htb]\centering\small\caption{Notebook (TP-t8). Previsão para \emph{Lifestyle} (40\% dos cliques humanos) e JSD calculada sobre as oito opções.}\label{tab:notebook}
+\begin{tabular}{lrrrr}\toprule
+ & \multicolumn{2}{c}{GPT-4.1} & \multicolumn{2}{c}{Claude Opus 5.5} \\
+Condição & Previsão & JSD & Previsão & JSD \\ \midrule
+Direta & 20\% & 0,295 & 30\% & 0,160 \\
+Percurso cognitivo & 55\% & 0,222 & 29\% & 0,145 \\
+Análise livre por opção & 40\% & 0,131 & 35\% & 0,154 \\
+\bottomrule\end{tabular}\end{table}
+
+Considerando as oito opções, o GPT teve menor JSD com a resposta direta na comédia e com a análise livre no notebook. Para o Claude, a menor JSD ocorreu com a análise livre na comédia e com o percurso cognitivo no notebook. Uma execução por condição em dois estados já conhecidos permite descrever essa variação. Avaliar sua estabilidade exige repetir as chamadas e comparar os métodos nas demais tarefas.
+
+\section{Discussão e limites}
+
+A baseline estabelece uma referência de baixo custo para a avaliação dos modelos de linguagem. As duas tarefas com diferença positiva mostram por que a média deve vir acompanhada de resultados por tarefa. O estudo cobre uma arquitetura de informação em inglês. A divisão por tarefa avalia a transferência para outros objetivos dentro dessa mesma arquitetura. A transferência para visitantes de um portal institucional em português requer dados próprios.
+
+A variação humana fornece dois pontos de comparação. A reamostragem a partir das proporções observadas no TEST produziu JSD de 0,027. Usar as escolhas humanas das outras variantes da mesma tarefa como referência produziu 0,043. O primeiro valor depende do tamanho da amostra e de sua distribuição empírica. O segundo incorpora diferenças entre apresentações. Interpretá-los separadamente preserva o significado de cada comparação.
+
+O benchmark é público e pode ter integrado o treinamento dos modelos. As capturas usam dimensões fixas, enquanto os participantes utilizaram dispositivos próprios. Além disso, os quatro estados do piloto foram escolhidos para incluir casos contrastantes. Esses fatores limitam a interpretação das diferenças observadas entre modelos.
+
+A incerteza reportada para B0 decorre da reamostragem das tarefas depois do ajuste das temperaturas. O script mantém fixas as previsões em cada réplica. Com dez tarefas e uma única arquitetura, a interpretação do intervalo e do teste deve levar em conta o desenho específico e o caráter adicional da análise cruzada.
+
+\section{Conclusão e avaliação planejada}
+
+Em oito das dez tarefas, os rótulos forneceram informação suficiente para que a previsão semântica se aproximasse mais das escolhas humanas que a referência uniforme. O piloto mostrou que é viável obter e avaliar distribuições antes da comparação com os registros humanos de cada estado. O efeito das perguntas do percurso cognitivo continua em aberto.
+
+A avaliação completa prevê cinco condições em dois modelos. B1-CW versus B1 estima a mudança produzida pelo pacote de perguntas e respostas estruturadas. B1-CW versus B1-R investiga o que muda quando uma análise livre por opção é substituída pelas perguntas do percurso cognitivo. B1-S versus B1 compara estimativas obtidas de indivíduos simulados com estimativas declaradas para uma população. A reamostragem de 30 escolhas a partir de B1 ajuda a quantificar o componente devido ao tamanho finito da amostra. A previsão e a configuração de cada rodada são registradas com um hash antes da análise comparativa. No portal do IFPB, prevê-se mapear previamente as opções que levam ao destino, registrar as previsões e iniciar a coleta com ingressantes após aprovação ética e consentimento. O estudo prospectivo no IFPB acrescentará um contexto em português e previsões registradas antes da coleta com pessoas.
+
+\paragraph{Agente proposto para o portal.} O produto tecnológico previsto é um agente de apoio à avaliação de navegação. Para uma tarefa como encontrar o calendário acadêmico, ele receberia o enunciado e a tela inicial, identificaria as opções visíveis e devolveria a proporção estimada de primeiros cliques em cada uma. Se duas categorias atraíssem parcelas expressivas, a equipe do portal poderia priorizar esses rótulos para um teste com ingressantes. A previsão de cliques divididos, por si só, não demonstra um problema de usabilidade: dois caminhos podem levar ao mesmo destino. O protótipo atual implementa o fluxo de previsão e comparação. A validação do agente em português depende de registrar as previsões antes da coleta e confrontá-las com os primeiros cliques observados no IFPB.
+
+\paragraph{Disponibilidade.} O código, os prompts e as exportações estão no repositório \url{https://github.com/L42Matheus/ai-cogwalk}. As exportações dos testes adicionais estão nos diretórios de comédia e notebook em \texttt{analysis/}. A versão que acompanha este artigo inclui o script \texttt{analysis/piloto\_gpt.py} para reler essas rodadas e executar a comparação em um estado de desenvolvimento.
+
+\bibliographystyle{sbc}
+\bibliography{references}
+\end{document}

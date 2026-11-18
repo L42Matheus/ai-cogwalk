@@ -1,4 +1,5 @@
 "use client";
+import { NavGuide } from "@/lib/NavGuide";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { Fragment, useEffect, useMemo, useState } from "react";
@@ -72,6 +73,7 @@ export default function NavDatasetPage() {
     <>
       <div className="small"><Link href="/nav">Modo NAV</Link> › conjunto</div>
       <h1>{ds.name}</h1>
+      <NavGuide step={2} message={busy ? "Enviando a configuração da rodada…" : "Escolha o método e os filtros. Confira quantos estados serão avaliados antes de iniciar."} />
       <ErrorBox error={error} />
       <div className="card">
         <div className="kv">
@@ -140,7 +142,7 @@ export default function NavDatasetPage() {
                   <td className="small">{methodLabel[r.method]}<div className="muted">{r.model || ""}</div></td>
                   <td><StatusChip status={r.status} /></td>
                   {metricInfo.slice(0, 5).map((m) => <td key={m.key} className="small">{fmtAgg(r.headline?.[m.key])}</td>)}
-                  <td className="small">{c === null ? "?" : `US$ ${fmt(c, 2)}`}<div className="muted">{r.llmCalls} chamadas</div></td>
+                  <td className="small">{c === null ? "?" : `US$ ${fmt(c, 4)}`}<div className="muted">{r.llmCalls} chamadas</div></td>
                   <td className="small" title={r.frozenHash || ""}>{r.frozenHash ? r.frozenHash.slice(0, 12) : "–"}<div className="muted">{fmtDate(r.createdAt)}</div></td>
                 </tr>
               );

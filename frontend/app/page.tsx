@@ -32,10 +32,12 @@ export default function Dashboard() {
   return (
     <>
       <h1>Projetos e tarefas</h1>
-      <p className="muted">
-        Cadastre o portal e as tarefas de navegação. Em cada tarefa, use “Capturar página inicial para o NAV” para congelar
-        previsões do primeiro clique no <Link href="/nav">modo NAV</Link>.
-      </p>
+      <section className="nav-entry">
+        <div><h2>Revisar o primeiro clique</h2>
+          <p className="muted">Explore os menus do benchmark ou analise a página inicial de uma tarefa cadastrada.</p></div>
+        <Link className="btn" href="/nav">Abrir revisão guiada →</Link>
+      </section>
+      <p className="muted">Para revisar seu portal, abra um projeto, escolha uma tarefa e use “Capturar página inicial para o NAV”.</p>
       <ErrorBox error={error} />
 
       <div className="row"><h2>Projetos</h2><span className="spacer" />

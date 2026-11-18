@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "AI-CogWalk · Revisar menu",
+  "version": "0.1.0",
+  "description": "Confira as opções visíveis de um menu e exporte uma captura textual para revisão.",
+  "permissions": ["activeTab", "scripting"],
+  "action": {"default_popup": "popup.html"}
+}

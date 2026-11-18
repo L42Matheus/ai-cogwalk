@@ -21,6 +21,7 @@ services:
       PGDATABASE: aicogwalk
       PGUSER: aicogwalk
       PGPASSWORD: aicogwalk
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       AICOGWALK_EVALUATOR: ${AICOGWALK_EVALUATOR:-offline}
     volumes: [capturas:/data]

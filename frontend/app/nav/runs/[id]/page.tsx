@@ -1,4 +1,5 @@
 "use client";
+import { NavGuide } from "@/lib/NavGuide";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -18,7 +19,7 @@ export default function NavRunPage() {
   const { id } = useParams<{ id: string }>();
   const [run, setRun] = useState<NavRunDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState("TEST");
+  const [filter, setFilter] = useState("ALL");
   const [prompt, setPrompt] = useState<Record<number, PromptDetail>>({});
 
   const load = () => api<NavRunDetail>(`/api/nav/runs/${id}`).then((r) => { setRun(r); setError(null); }).catch((e) => setError(e.message));
@@ -45,15 +46,17 @@ export default function NavRunPage() {
     <>
       <div className="small"><Link href="/nav">Modo NAV</Link> › <Link href={`/nav/datasets/${run.datasetId}`}>{run.datasetName}</Link> › rodada #{run.id}</div>
       <h1>{methodLabel[run.method]} {run.model ? <span className="muted">· {run.model}</span> : null}</h1>
+      <NavGuide step={3} message={run.status === "FALHOU" ? "A execução falhou. Consulte o erro e volte ao conjunto para revisar a configuração." : run.status !== "CONCLUIDA" ? `Processando a rodada. ${run.statesDone} de ${run.statesTotal} estados concluídos.` : run.predictions.some(p => p.metrics) ? "Compare as porcentagens observadas e previstas em cada opção. Uma JSD mais próxima de zero indica maior semelhança." : run.predictions.some(p => p.error) ? "Confira os erros de previsão registrados nos estados abaixo." : "Previsões registradas. A comparação ficará disponível quando houver cliques humanos para avaliar."} />
       <ErrorBox error={error || run.error} />
       <div className="card">
         <div className="kv">
           <span className="muted">Status</span><span><StatusChip status={run.status} /> {run.statesDone}/{run.statesTotal} estados</span>
           <span className="muted">Hash das previsões congeladas</span><span className="small" style={{ wordBreak: "break-all" }}>{run.frozenHash || "–"}</span>
-          <span className="muted">Uso</span><span className="small">{run.llmCalls} chamadas · {run.inputTokens} tokens de entrada · {run.outputTokens} de saída{c !== null && run.model ? ` · ≈ US$ ${fmt(c, 2)}` : ""}</span>
+          <span className="muted">Uso</span><span className="small">{run.llmCalls} chamadas · {run.inputTokens} tokens de entrada · {run.outputTokens} de saída{c !== null && run.model ? ` · ≈ US$ ${fmt(c, 4)}` : ""}</span>
           <span className="muted">Criada / concluída</span><span className="small">{fmtDate(run.createdAt)} / {fmtDate(run.finishedAt)}</span>
-          {extra.map(([k, v]) => (<span key={k} style={{ display: "contents" }}><span className="muted">{k}</span><span className="small">{typeof v === "number" ? fmt(v, Number.isInteger(v) ? 0 : 4) : String(v)}</span></span>))}
+
         </div>
+        {extra.length > 0 && <details className="secondary"><summary>Detalhes técnicos da rodada</summary><div className="kv">          {extra.map(([k, v]) => (<span key={k} style={{ display: "contents" }}><span className="muted">{k}</span><span className="small">{typeof v === "number" ? fmt(v, Number.isInteger(v) ? 0 : 4) : String(v)}</span></span>))}</div></details>}
         <div className="row" style={{ marginTop: 10 }}>
           <a className="btn ghost" href={`/api/nav/runs/${run.id}/export.json`}>Exportar JSON</a>
           <a className="btn ghost" href={`/api/nav/runs/${run.id}/export.csv`}>Exportar CSV</a>
@@ -92,7 +95,7 @@ export default function NavRunPage() {
             {p.error && <div className="error">{p.error}</div>}
             <div className="split">
               <div>
-                <NavBars options={p.state.options} human={p.state.humanCounts} humanN={p.state.humanN} predicted={p.distribution} />
+                {!p.error && <NavBars options={p.state.options} human={p.state.humanCounts} humanN={p.state.humanN} predicted={p.distribution} />}
                 {p.samples && p.samples.length > 0 && <p className="small muted">Escolhas simuladas: {p.samples.join(", ")}</p>}
               </div>
               <div>
@@ -100,7 +103,7 @@ export default function NavRunPage() {
                   <div className="kv small">
                     {metricInfo.map((m) => (<span key={m.key} style={{ display: "contents" }}><span className="muted" title={m.hint}>{m.label}</span><span>{fmt((p.metrics as unknown as Record<string, number>)[m.key])}</span></span>))}
                   </div>
-                ) : <p className="small muted">Sem dados humanos para este estado: previsão congelada.</p>}
+                ) : !p.error && <p className="small muted">Previsão registrada para comparação futura com cliques humanos.</p>}
                 {p.state.screenshot && (
                   <div className="shot" style={{ marginTop: 10 }}>
                     <img src={`/api/files/${p.state.screenshot}`} alt={`Tela do estado ${p.state.key}`} />
